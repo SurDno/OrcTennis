@@ -28,7 +28,11 @@ public class PlayerHolder : MonoBehaviour {
 	void Update() {
 		foreach(Player player in players)
 			if(player != null)
-				player.UpdateCursorPosition();
+				player.GetCursor().UpdateCursorPosition();
+	}
+	
+	public Player[] GetPlayers() {
+		return players;
 	}
 	
 	// Ensures we get updated about new gamepad connections.
@@ -60,7 +64,7 @@ public class PlayerHolder : MonoBehaviour {
 		// Find if there is a player who used that gamepad before.
 		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == connectedGamepad);
 		
-		// If there was, simply unhide their cursor.
+		// If there was, reconnect them.
 		if(playerForGamepad != null) {
 			playerForGamepad.Reconnect();
 			return;
@@ -72,7 +76,7 @@ public class PlayerHolder : MonoBehaviour {
 	}
 	
 	void OnGamepadDisconnected(Gamepad disconnectedGamepad) {
-		// Find if there is a player who used that gamepad before, and hide their cursor.
+		// Find if there is a player who used that gamepad before, and disconnect them.
 		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == disconnectedGamepad);
 		playerForGamepad.Disconnect();
 	}

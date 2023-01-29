@@ -6,58 +6,45 @@ using UnityEngine.InputSystem;
 public class Player {
 	private string gameName;
 	private Gamepad controlledGamepad;
-	private GameObject cursor;
+	private PlayerCursor controlledCursor;
 	private Color color;
 	private bool disconnected;
 	
-	private float cursorSensitivity;
-	
 	public Player(Gamepad controlledGamepad, GameObject cursorPrefab, Color color, float cursorSensitivity) {
-		this.gameName = "";
+		// Get values from constructor where necessary.
 		this.controlledGamepad = controlledGamepad;
-		this.cursor = InstantiateCursor(cursorPrefab);
 		this.color = color;
-		this.cursorSensitivity = cursorSensitivity;
+		
+		// Create a new cursor instance and pass the necessary values straight to it.
+		this.controlledCursor = new PlayerCursor(cursorPrefab, cursorSensitivity, this);
 	}
 	
+	// Returns the controlled gamepad.
 	public Gamepad GetGamepad() {
 		return controlledGamepad;
 	}
-		
-	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.
-	private GameObject InstantiateCursor(GameObject cursorPrefab) {
-		GameObject newInst = Object.Instantiate(cursorPrefab);
-		newInst.transform.SetParent(GameObject.Find("Canvas").transform);
-		newInst.transform.position = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
-		return newInst;
-	}
-		
 	
-	public void UpdateCursorPosition() {
-		Vector3 tempPos = cursor.transform.position;
-		
-		// Calculate position change from gamepad input and cursor sensitivity value. Make it FPS and screen width independent.
-		Vector3 positionChange = (Vector3)GamepadExtensions.GetRightStick(controlledGamepad) * Time.deltaTime * cursorSensitivity * Screen.width;
-		tempPos += positionChange;
-			
-		// Limit cursor position within screen boundaries.
-		tempPos.x = Mathf.Clamp(tempPos.x, 0, Screen.width);
-		tempPos.y = Mathf.Clamp(tempPos.y, 0, Screen.height);
-		cursor.transform.position = tempPos;
+	// Returns the controlled cursor.
+	public PlayerCursor GetCursor() {
+		return controlledCursor;
+	}
+	
+	// Returns the player cursor.
+	public Color GetColor() {
+		return color;
 	}
 	
 	public void Disconnect() {
 		disconnected = true; 
 		
 		// Hide cursor, making it invisible.
-		cursor.SetActive(false);
+		controlledCursor.HideCursor();
 	}
 	
 	public void Reconnect() {
 		disconnected = false; 
 		
 		// Unhide cursor and set it to the center of the screen.
-		cursor.SetActive(true);
-		cursor.transform.position = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
+		controlledCursor.UnhideCursor();
 	}
 }
