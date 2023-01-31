@@ -4,11 +4,16 @@ using UnityEngine.InputSystem;
 // Class for player that holds their name, associated color, attached cursor, and gamepad they use for controlling the game.
 // Also features function for handling cursor movement and hiding.
 public class Player {
-	private string gameName;
+	[Header("Unique Properties")]
 	private Gamepad controlledGamepad;
 	private PlayerCursor controlledCursor;
 	private Color color;
+	
+	[Header("Current Values")]
 	private bool disconnected;
+	private bool ready;
+	private bool teamGreen;
+	private bool teamRed;
 	
 	public Player(Gamepad controlledGamepad, GameObject cursorPrefab, Color color, float cursorSensitivity) {
 		// Get values from constructor where necessary.
@@ -32,6 +37,16 @@ public class Player {
 	// Returns the player cursor.
 	public Color GetColor() {
 		return color;
+	}
+	
+	// Returns if the player is disconnected.
+	public bool GetDisconnected() {
+		return disconnected;
+	}
+	
+	// Returns if the player is ready.
+	public bool GetReady() {
+		return ready;
 	}
 	
 	public void Disconnect() {

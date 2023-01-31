@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Adds a new player every time a new gamepad is connected.
+// Adds a new player every time a new gamepad is connected. Updates their cursors.
 public class PlayerHolder : MonoBehaviour {
 	[Header("Settings and Prefabs")]
 	[SerializeField] private Color[] playerColors;
@@ -49,8 +50,9 @@ public class PlayerHolder : MonoBehaviour {
 			lowestAvailablePlayerIndex = index;
 	}
 	
+	// Returns an array of non-null player entries.
 	public Player[] GetPlayers() {
-		return players;
+		return players.Where(player => player != null).ToArray();
 	}
 	
 	// Looks through the players array, find the first null value and returns it as earliest player slot that can be occupied by a new connection.

@@ -1,7 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PlayerCursor {
+	[Header("Prefabs and Cached Objects")]
+	private EventSystem eventSystem;
+	private GraphicRaycaster graphicRaycaster;
+	
+	[Header("Unique Properties")]
 	private Player owner;
 	private GameObject cursorObject;
 	private float cursorSensitivity;
@@ -14,6 +22,15 @@ public class PlayerCursor {
 		// Spawn a cursor from the given prefab.
 		this.cursorObject = InstantiateCursor(cursorPrefab);
 		SetCursorToTheCenterOfTheScreen();
+		
+		// Cash references we're gonna use latter.
+		CacheReferences();
+	}
+	
+	// Caches EventSystem and GraphicRaycaster for UI raycast.
+	void CacheReferences() {
+		eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+		graphicRaycaster = GameObject.Find("Canvas").GetComponent<GraphicRaycaster>();
 	}
 	
 	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.
@@ -51,9 +68,13 @@ public class PlayerCursor {
 		return (Vector2)cursorObject.transform.position;
 	}
 	
-	// Checks if this fake cursor is currently on given object.
+	// Checks if this fake cursor is currently on given 3D mesh.
 	public bool CursorOverObject(GameObject obj) {
-		// Shoot a raycast
+		//If we're disconnected, always return false.
+		if(owner.GetDisconnected())
+			return false;
+		
+		// Shoot a raycast from cursor position.
 		Ray cursorRay = Camera.main.ScreenPointToRay(GetCursorPosition());
         Debug.DrawRay(cursorRay.origin, cursorRay.direction * 10f, owner.GetColor());
 		RaycastHit hit; 
@@ -63,6 +84,31 @@ public class PlayerCursor {
 			return hit.transform.gameObject == obj;
 		
 		// Otherwise, simply return false.
+		return false;
+	}
+	
+	// Checks if this fake cursor is currently on given UI object.
+	public bool CursorOverUI(GameObject obj) {
+		//If we're disconnected, always return false.
+		if(owner.GetDisconnected())
+			return false;
+		
+		// Check if we need to recache references.
+		if(graphicRaycaster == null || eventSystem == null)
+			CacheReferences();
+		
+		// Shoot a UI raycast from cursor position.
+		PointerEventData cursorData = new PointerEventData(eventSystem);
+		cursorData.position = GetCursorPosition();
+        List<RaycastResult> results = new List<RaycastResult>();
+		graphicRaycaster.Raycast(cursorData, results);
+		
+		// Check if at least one UI Raycast hits is for the right object. Return true if so.
+		foreach (RaycastResult result in results)
+			if(result.gameObject == obj)
+				return true;
+		
+		// Otherwise, return false.
 		return false;
 	}
 	
