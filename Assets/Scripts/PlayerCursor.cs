@@ -76,4 +76,9 @@ public class PlayerCursor {
 		cursorObject.SetActive(true);
 		SetCursorToTheCenterOfTheScreen();
 	}
+	
+	// Destroys the cursor, removing it from the game.
+	public void DestroyCursor() {
+		Object.Destroy(cursorObject);
+	}
 }

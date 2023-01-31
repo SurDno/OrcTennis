@@ -47,4 +47,9 @@ public class Player {
 		// Unhide cursor and set it to the center of the screen.
 		controlledCursor.UnhideCursor();
 	}
+	
+	// Destroys the cursor, removing the only player-associated gameobject.
+	public void DeletePlayerInstance() {
+		controlledCursor.DestroyCursor();
+	}
 }
