@@ -35,6 +35,7 @@ public class PlayerSetup : MonoBehaviour {
 			playerColorBlocks[i].color = players[i].GetColor();
 			playerReadyStatuses[i].text = players[i].GetReady() ? "Ready" : "Not Ready";
 			playerConnectionStatuses[i].text = players[i].GetDisconnected() ? "Disconnected" : "Connected";
+			playerDisconnectButtons[i].enabled = players[i].GetDisconnected();
 		}
     }
 	

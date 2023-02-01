@@ -2697,42 +2697,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f2fa7dc08a3f641982ca7976154475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumbers: []
-  playerColorBlocks: []
-  playerReadyStatus: []
-  playerConnectionStatus: []
+  playerNumbers:
+  - {fileID: 267795316}
+  - {fileID: 47590009}
+  - {fileID: 958299014}
+  - {fileID: 1892523489}
+  - {fileID: 2144487459}
+  - {fileID: 78788189}
+  playerColorBlocks:
+  - {fileID: 2142468178}
+  - {fileID: 720245565}
+  - {fileID: 591812910}
+  - {fileID: 234138117}
+  - {fileID: 296799015}
+  - {fileID: 1539226761}
+  playerReadyStatuses:
+  - {fileID: 1019230993}
+  - {fileID: 1617336042}
+  - {fileID: 1064896635}
+  - {fileID: 1611298149}
+  - {fileID: 77931782}
+  - {fileID: 24988748}
+  playerConnectionStatuses:
+  - {fileID: 1718455092}
+  - {fileID: 1903701716}
+  - {fileID: 393550888}
+  - {fileID: 2004115789}
+  - {fileID: 710012495}
+  - {fileID: 689805813}
+  playerDisconnectButtons:
+  - {fileID: 845716035}
+  - {fileID: 619173046}
+  - {fileID: 1523905042}
+  - {fileID: 1093006657}
+  - {fileID: 2063899387}
+  - {fileID: 104191151}
   holder: {fileID: 0}
-  temp:
-  - {fileID: 267795314}
-  - {fileID: 2142468176}
-  - {fileID: 1019230991}
-  - {fileID: 1718455090}
-  - {fileID: 845716033}
-  - {fileID: 47590007}
-  - {fileID: 720245563}
-  - {fileID: 1617336040}
-  - {fileID: 1903701714}
-  - {fileID: 104191149}
-  - {fileID: 958299012}
-  - {fileID: 591812908}
-  - {fileID: 1064896633}
-  - {fileID: 393550886}
-  - {fileID: 619173044}
-  - {fileID: 1892523487}
-  - {fileID: 234138115}
-  - {fileID: 1611298147}
-  - {fileID: 2004115787}
-  - {fileID: 1523905040}
-  - {fileID: 2144487457}
-  - {fileID: 296799013}
-  - {fileID: 77931780}
-  - {fileID: 710012493}
-  - {fileID: 1093006655}
-  - {fileID: 78788187}
-  - {fileID: 1539226759}
-  - {fileID: 24988746}
-  - {fileID: 689805811}
-  - {fileID: 2063899385}
 --- !u!4 &1938039363
 Transform:
   m_ObjectHideFlags: 0
@@ -2778,12 +2778,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerColors:
-  - {r: 0.38039216, g: 0.5058824, b: 0.8862745, a: 0}
-  - {r: 0.8980392, g: 0.38431373, b: 0.38431373, a: 0}
-  - {r: 0.47058824, g: 0.8980392, b: 0.38431373, a: 0}
-  - {r: 0.8980392, g: 0.79607844, b: 0.38431373, a: 0}
-  - {r: 0.627451, g: 0.38039216, b: 0.8862745, a: 0}
-  - {r: 0.38039216, g: 0.8862745, b: 0.7882353, a: 0}
+  - {r: 0.38039216, g: 0.5058824, b: 0.8862745, a: 1}
+  - {r: 0.8980392, g: 0.38431373, b: 0.38431373, a: 1}
+  - {r: 0.47058824, g: 0.8980392, b: 0.38431373, a: 1}
+  - {r: 0.8980392, g: 0.79607844, b: 0.38431373, a: 1}
+  - {r: 0.627451, g: 0.38039216, b: 0.8862745, a: 1}
+  - {r: 0.38039216, g: 0.8862745, b: 0.7882353, a: 1}
   playerCursors:
   - {fileID: 8335850266475458745, guid: 69d9d154994638c4f81c3e914095372c, type: 3}
   - {fileID: 3797474496423530080, guid: 1f2400f3b3804f4488fa54b15a5f455f, type: 3}
@@ -2923,7 +2923,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 209.9737, y: -54.00006}
+  m_AnchoredPosition: {x: 209.97363, y: -54}
   m_SizeDelta: {x: 350, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2042237537
