@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 // Also features function for handling cursor movement and hiding.
 public class Player {
 	[Header("Unique Properties")]
-	private Gamepad controlledGamepad;
+	private InputDevice controlledGamepad;
 	private PlayerCursor controlledCursor;
 	private Color color;
 	
@@ -15,7 +15,7 @@ public class Player {
 	private bool teamGreen;
 	private bool teamRed;
 	
-	public Player(Gamepad controlledGamepad, GameObject cursorPrefab, Color color, float cursorSensitivity) {
+	public Player(InputDevice controlledGamepad, GameObject cursorPrefab, Color color, float cursorSensitivity) {
 		// Get values from constructor where necessary.
 		this.controlledGamepad = controlledGamepad;
 		this.color = color;
@@ -25,7 +25,7 @@ public class Player {
 	}
 	
 	// Returns the controlled gamepad.
-	public Gamepad GetGamepad() {
+	public InputDevice GetGamepad() {
 		return controlledGamepad;
 	}
 	

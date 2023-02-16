@@ -20,8 +20,8 @@ public class PlayerHolder : MonoBehaviour {
 		// Get amount of gamepads, and generate a player instance for each connected gamepad.
         IEnumerable<InputDevice> devices = InputSystem.devices;
 		foreach(InputDevice device in devices)
-			if(device is Gamepad) {
-				CreateNewPlayer((Gamepad)device);
+			if(device is Gamepad || device is Joystick) {
+				CreateNewPlayer(device);
 				lowestAvailablePlayerIndex++;
 			}
     }
@@ -33,7 +33,7 @@ public class PlayerHolder : MonoBehaviour {
 				player.GetCursor().UpdateCursorPosition();
 	}
 	
-	void CreateNewPlayer(Gamepad controlledGamepad) {
+	void CreateNewPlayer(InputDevice controlledGamepad) {
 		GameObject cursorToUse = playerCursors[lowestAvailablePlayerIndex];
 		Color colorToUse = playerColors[lowestAvailablePlayerIndex];
 		
@@ -76,21 +76,21 @@ public class PlayerHolder : MonoBehaviour {
 	
 	void OnDeviceChange(InputDevice device, InputDeviceChange change) {
 		// We're not interested in any non-gamepad related changes.
-		if(!(device is Gamepad))
+		if(!(device is Gamepad || device is Joystick))
 			return;
 		
 		// Call more specific functions depending on what the change is.
         switch (change) {
             case InputDeviceChange.Added:
-                OnGamepadConnected((Gamepad)device);
+                OnGamepadConnected(device);
                 break;
             case InputDeviceChange.Disconnected:
-                OnGamepadDisconnected((Gamepad)device);
+                OnGamepadDisconnected(device);
                 break;
 		}
     }
 	
-	void OnGamepadConnected(Gamepad connectedGamepad) {
+	void OnGamepadConnected(InputDevice connectedGamepad) {
 		// Find if there is a player who used that gamepad before.
 		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == connectedGamepad);
 		
@@ -107,7 +107,7 @@ public class PlayerHolder : MonoBehaviour {
 		GetNewLowestAvailableIndexValue();
 	}
 	
-	void OnGamepadDisconnected(Gamepad disconnectedGamepad) {
+	void OnGamepadDisconnected(InputDevice disconnectedGamepad) {
 		// Find if there is a player who used that gamepad before, and disconnect them.
 		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == disconnectedGamepad);
 		playerForGamepad.Disconnect();
