@@ -30,13 +30,14 @@ public class PlayerCursor {
 	// Caches EventSystem and GraphicRaycaster for UI raycast.
 	void CacheReferences() {
 		eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
-		graphicRaycaster = GameObject.Find("Canvas").GetComponent<GraphicRaycaster>();
+		graphicRaycaster = GameObject.Find("UICanvas").GetComponent<GraphicRaycaster>();
 	}
 	
 	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.
 	private GameObject InstantiateCursor(GameObject cursorPrefab) {
 		GameObject newInst = Object.Instantiate(cursorPrefab);
-		newInst.transform.SetParent(GameObject.Find("Canvas").transform);
+		newInst.transform.SetParent(GameObject.Find("CursorCanvas").transform);
+		Object.DontDestroyOnLoad(newInst.transform.root.gameObject);
 		return newInst;
 	}
 	
@@ -110,17 +111,6 @@ public class PlayerCursor {
 		
 		// Otherwise, return false.
 		return false;
-	}
-	
-	// Hides cursor, making it invisible.
-	public void HideCursor() {
-		cursorObject.SetActive(false);
-	}
-	
-	// Unhides cursor and sets it to the center of the screen.
-	public void UnhideCursor() {
-		cursorObject.SetActive(true);
-		SetCursorToTheCenterOfTheScreen();
 	}
 	
 	// Destroys the cursor, removing it from the game.

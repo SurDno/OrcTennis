@@ -16,6 +16,16 @@ public class PlayerHolder : MonoBehaviour {
     [SerializeField] private int lowestAvailablePlayerIndex;
 	[SerializeField] private Player[] players = new Player[6];
 	
+	// Singleton pattern.
+    void Awake() {
+        PlayerHolder[] objs = GameObject.FindObjectsOfType<PlayerHolder>();
+
+        if (objs.Length > 1)
+            Destroy(this.gameObject);
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+	
     void Start() {
 		// Get amount of gamepads, and generate a player instance for each connected gamepad.
         IEnumerable<InputDevice> devices = InputSystem.devices;
@@ -91,16 +101,12 @@ public class PlayerHolder : MonoBehaviour {
     }
 	
 	void OnGamepadConnected(InputDevice connectedGamepad) {
-		// Find if there is a player who used that gamepad before.
-		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == connectedGamepad);
-		
-		// If there was, reconnect them.
-		if(playerForGamepad != null) {
-			playerForGamepad.Reconnect();
+		if(connectedGamepad == null) {
+			Debug.Log("Received gamepad ID is null. Reconnect gamepad.");
 			return;
 		}
 		
-		// If there was not, create a new player instance for that gamepad.
+		// Create a new player instance for that gamepad.
 		CreateNewPlayer(connectedGamepad);
 		
 		// Find new lowest available player index value.
@@ -108,8 +114,20 @@ public class PlayerHolder : MonoBehaviour {
 	}
 	
 	void OnGamepadDisconnected(InputDevice disconnectedGamepad) {
-		// Find if there is a player who used that gamepad before, and disconnect them.
-		Player playerForGamepad = Array.Find(players, player => player != null && player.GetGamepad() == disconnectedGamepad);
-		playerForGamepad.Disconnect();
+		if(disconnectedGamepad != null) {
+			// Find if there is a player who used that gamepad before, and delete them.
+			for(int i = 0; i < players.Length; i++)
+				if(players[i] != null && players[i].GetGamepad() == disconnectedGamepad)
+					DeletePlayer(i);
+		} else {
+			// If there's no player who used that gamepad (should be impossible but hey it's Unity!) we should just iterate through all players and remove those who don't have gamepads.
+			for(int i = 0; i < players.Length; i++)
+				foreach(InputDevice device in InputSystem.devices) {
+					if(players[i] != null && players[i].GetGamepad() == device)
+						continue;
+					// If we have not found a single device that fits the description, player entity shouldn't exist anymore.
+					DeletePlayer(i);
+				}
+		}
 	}
 }

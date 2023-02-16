@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 // Class for player that holds their name, associated color, attached cursor, and gamepad they use for controlling the game.
 // Also features function for handling cursor movement and hiding.
 public class Player {
+	public enum Team {Unselected, Green, Red};
+	
 	[Header("Unique Properties")]
 	private InputDevice controlledGamepad;
 	private PlayerCursor controlledCursor;
@@ -12,8 +14,7 @@ public class Player {
 	[Header("Current Values")]
 	private bool disconnected;
 	private bool ready;
-	private bool teamGreen;
-	private bool teamRed;
+	private Team chosenTeam;
 	
 	public Player(InputDevice controlledGamepad, GameObject cursorPrefab, Color color, float cursorSensitivity) {
 		// Get values from constructor where necessary.
@@ -49,22 +50,25 @@ public class Player {
 		return ready;
 	}
 	
-	public void Disconnect() {
-		disconnected = true; 
-		
-		// Hide cursor, making it invisible.
-		controlledCursor.HideCursor();
+	public void SetReady(bool newValue) {
+		ready = newValue;
 	}
 	
-	public void Reconnect() {
-		disconnected = false; 
-		
-		// Unhide cursor and set it to the center of the screen.
-		controlledCursor.UnhideCursor();
+	// Returns what team the player is in.
+	public Team GetTeam() {
+		return chosenTeam;
+	}
+	
+	public void SetTeam(Team newValue) {
+		chosenTeam = newValue;
 	}
 	
 	// Destroys the cursor, removing the only player-associated gameobject.
+	// Sets disconnected to true so that all referencing scripts can remove the reference.
 	public void DeletePlayerInstance() {
+		disconnected = true;
+		
 		controlledCursor.DestroyCursor();
+		controlledCursor = null;
 	}
 }

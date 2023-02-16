@@ -38,10 +38,6 @@ public class CharacterControls : MonoBehaviour {
 	// Used to give ownership of the unit to any specific player.
 	public void TransferOwnership(Player newOwner) {
 		owner = newOwner;
-		
-		if(owner != null)
-			ownerCursor = owner.GetCursor();
-		else 
-			ownerCursor = null;
+		ownerCursor = owner != null ? owner.GetCursor() : null;
 	}
 }
