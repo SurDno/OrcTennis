@@ -13,9 +13,8 @@ public class GamepadExtensions {
 				return new Vector2(((Gamepad)gamepadInstance).leftStick.x.ReadValue(), ((Gamepad)gamepadInstance).leftStick.y.ReadValue());
 			else
 				return new Vector2(((Joystick)gamepadInstance).leftStick.x.ReadValue(), ((Joystick)gamepadInstance).leftStick.y.ReadValue());
-		} else {
+		} else
 			return Vector2.zero;
-		}
 	}
 	
 	// Gets whether the left stick is currently pressed.
@@ -25,9 +24,8 @@ public class GamepadExtensions {
 				return ((Gamepad)gamepadInstance).leftStickButton.isPressed;
 			else
 				return ((Joystick)gamepadInstance).leftStickButton.isPressed;
-		} else { 
+		} else
 			return false;
-		}
 	}
 
 	// Gets input values of right stick.
@@ -37,9 +35,8 @@ public class GamepadExtensions {
 				return new Vector2(((Gamepad)gamepadInstance).rightStick.x.ReadValue(), ((Gamepad)gamepadInstance).rightStick.y.ReadValue());
 			else
 				return new Vector2(((Joystick)gamepadInstance).rightStickX.ReadValue(), -((Joystick)gamepadInstance).reversedRightStickY.ReadValue());
-		} else { 
+		} else
 			return Vector2.zero;
-		}
 	}
 	
 	// Gets whether the right stick is currently pressed.
@@ -49,9 +46,8 @@ public class GamepadExtensions {
 				return ((Gamepad)gamepadInstance).rightStickButton.isPressed;
 			else
 				return ((Joystick)gamepadInstance).rightStickButton.isPressed;
-		} else { 
+		} else
 			return false;
-		}
 	}
 	
 	// Checks if the device is connected by checking if it shares the id with any of the connected devices.

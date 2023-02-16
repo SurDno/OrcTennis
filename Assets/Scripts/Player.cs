@@ -9,6 +9,7 @@ public class Player {
 	[Header("Unique Properties")]
 	private InputDevice controlledGamepad;
 	private PlayerCursor controlledCursor;
+	private CharacterOwner controlledCharacter;
 	private Color color;
 	
 	[Header("Current Values")]
@@ -33,6 +34,14 @@ public class Player {
 	// Returns the controlled cursor.
 	public PlayerCursor GetCursor() {
 		return controlledCursor;
+	}
+	
+	public CharacterOwner GetCharacter() {
+		return controlledCharacter;
+	}
+	
+	public void SetCharacter(CharacterOwner newValue) {
+		controlledCharacter = newValue;
 	}
 	
 	// Returns the player cursor.
