@@ -5,8 +5,8 @@ using System.Linq;
 
 // Holds some extension functions for gamepads that allow to more easily get control values, and prevents error messages if gamepad gets disconnected.
 // Also allows to use devices not labeled as gamepads (such as DualShock controllers that are registered as joysticks) as gamepads by accessing properties on a lower level.
-// TODO: Add support for shoulders, triggers and D-Pad.
 public static class GamepadExtensions {
+	
 	// Gets input values of left stick.
 	public static Vector2 GetLeftStick(InputDevice gamepadInstance) {
 		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
@@ -14,6 +14,29 @@ public static class GamepadExtensions {
 				return new Vector2(((Gamepad)gamepadInstance).leftStick.x.ReadValue(), ((Gamepad)gamepadInstance).leftStick.y.ReadValue());
 			else
 				return new Vector2(((Joystick)gamepadInstance).GetChildControl<StickControl>("stick").x.ReadValue(), ((Joystick)gamepadInstance).GetChildControl<StickControl>("stick").y.ReadValue());
+		} else
+			return Vector2.zero;
+	}
+
+	// Gets input values of right stick.
+	public static Vector2 GetRightStick(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return new Vector2(((Gamepad)gamepadInstance).rightStick.x.ReadValue(), ((Gamepad)gamepadInstance).rightStick.y.ReadValue());
+			else
+				// For reasons unknown to me, "rz" returns -1 when the stick is in top position and 1 when it's in bottom position, so we need to multuply Y value by -1
+				return new Vector2(((Joystick)gamepadInstance).GetChildControl<AxisControl>("z").ReadValue(), -((Joystick)gamepadInstance).GetChildControl<AxisControl>("rz").ReadValue());
+		} else
+			return Vector2.zero;
+	}
+
+	// Gets input values of D-Pad
+	public static Vector2 GetDPad(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return new Vector2(((Gamepad)gamepadInstance).dpad.x.ReadValue(), ((Gamepad)gamepadInstance).dpad.y.ReadValue());
+			else
+				return new Vector2(((Joystick)gamepadInstance).GetChildControl<DpadControl>("hat").x.ReadValue(), ((Joystick)gamepadInstance).GetChildControl<DpadControl>("hat").y.ReadValue());
 		} else
 			return Vector2.zero;
 	}
@@ -27,18 +50,6 @@ public static class GamepadExtensions {
 				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("button11").isPressed;
 		} else
 			return false;
-	}
-
-	// Gets input values of right stick.
-	public static Vector2 GetRightStick(InputDevice gamepadInstance) {
-		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
-			if(gamepadInstance is Gamepad)
-				return new Vector2(((Gamepad)gamepadInstance).rightStick.x.ReadValue(), ((Gamepad)gamepadInstance).rightStick.y.ReadValue());
-			else
-				// For reasons unknown to me, "rz" returns -1 when the stick is in top position and 1 when it's in bottom position, so we need to multuply Y value by -1
-				return new Vector2(((Joystick)gamepadInstance).GetChildControl<AxisControl>("z").ReadValue(), -((Joystick)gamepadInstance).GetChildControl<AxisControl>("rz").ReadValue());
-		} else
-			return Vector2.zero;
 	}
 	
 	// Gets whether the right stick is currently pressed.
@@ -95,6 +106,53 @@ public static class GamepadExtensions {
 				return ((Gamepad)gamepadInstance).buttonEast.isPressed;
 			else
 				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("trigger").isPressed;
+		} else
+			return false;
+	}
+	
+	
+	// Gets whether the left trigger is currently pressed.
+	public static bool GetLeftTrigger(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return ((Gamepad)gamepadInstance).leftTrigger.isPressed;
+			else
+				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("button7").isPressed;
+		} else
+			return false;
+	}
+	
+	
+	// Gets whether the right trigger is currently pressed.
+	public static bool GetRightTrigger(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return ((Gamepad)gamepadInstance).rightTrigger.isPressed;
+			else
+				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("button8").isPressed;
+		} else
+			return false;
+	}
+	
+	// Gets whether the left shoulder is currently pressed.
+	public static bool GetLeftShoulder(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return ((Gamepad)gamepadInstance).leftShoulder.isPressed;
+			else
+				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("button5").isPressed;
+		} else
+			return false;
+	}
+	
+	
+	// Gets whether the right shoulder is currently pressed.
+	public static bool GetRightShoulder(InputDevice gamepadInstance) {
+		if(GamepadExtensions.IsGamepadConnected(gamepadInstance)) {
+			if(gamepadInstance is Gamepad)
+				return ((Gamepad)gamepadInstance).rightShoulder.isPressed;
+			else
+				return ((Joystick)gamepadInstance).GetChildControl<ButtonControl>("button6").isPressed;
 		} else
 			return false;
 	}
