@@ -13,10 +13,8 @@ public class CharacterOwner : MonoBehaviour {
 	
 	// Finds a player instance to be the owner.
 	void Awake() {
-		PlayerHolder holder = GameObject.FindObjectOfType<PlayerHolder>();
-		
 		// Get active players for current frame.
-		Player[] players = holder.GetPlayers();
+		Player[] players = PlayerHolder.GetPlayers();
 		
 		// Find a player of needed team with no character assigned yet and give them ownership of this unit.
 		foreach(Player player in players)

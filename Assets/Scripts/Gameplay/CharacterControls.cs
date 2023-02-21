@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterOwner))]
 public class CharacterControls : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private GameObject walkableGround;
@@ -30,22 +31,18 @@ public class CharacterControls : MonoBehaviour {
 		// If we use the right stick, start rotating.
 		Vector2 rightStickInput = GamepadExtensions.GetRightStick(characterOwner.GetOwner().GetGamepad());
 		if(Mathf.Abs(rightStickInput.x) > 0.2f || Mathf.Abs(rightStickInput.y) > 0.2f) {
-			// Stop any earlier movement coroutines;
-			if(movementCoroutine != null)
-				StopCoroutine(movementCoroutine);
+			StopMovement();
 			
 			// Get the rotationg angle from input.
 			float rotationAngle = Mathf.Atan2(rightStickInput.x, rightStickInput.y) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, rotationAngle, transform.rotation.eulerAngles.z);
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
 		}
 		
     }
 	
 	// Gets world position from cursor position and walks there.
-	public void MoveToSpot(Vector2 cursorPosition) {
-		// Stop any earlier movement coroutines;
-		if(movementCoroutine != null)
-			StopCoroutine(movementCoroutine);
+	void MoveToSpot(Vector2 cursorPosition) {
+		StopMovement();
 		
 		// Get new point from cursor position.
 		Vector3 worldCursorPosition = cursorPosition;
@@ -53,12 +50,15 @@ public class CharacterControls : MonoBehaviour {
 		Vector3 targetPos = sharedCamera.ScreenToWorldPoint(worldCursorPosition);
 		
 		// Face a direction we're going.
-		Vector3 lookVector = targetPos - transform.position;
-		lookVector.y = 0;
 		transform.LookAt(targetPos);
-		transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 		
 		movementCoroutine = StartCoroutine(SlowlyMoveToPoint(targetPos));
+	}
+	
+	void StopMovement() {
+		if(movementCoroutine != null)
+			StopCoroutine(movementCoroutine);
 	}
 	
 	IEnumerator SlowlyMoveToPoint(Vector3 targetPoint) {

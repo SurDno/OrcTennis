@@ -11,7 +11,7 @@ public class PlayerCursor {
 	
 	[Header("Unique Properties")]
 	private Player owner;
-	private GameObject cursorObject;
+	private Image cursorImage;
 	private float cursorSensitivity;
 	
 	public PlayerCursor(GameObject cursorPrefab, float cursorSensitivity, Player owner) {
@@ -20,7 +20,7 @@ public class PlayerCursor {
 		this.owner = owner;
 		
 		// Spawn a cursor from the given prefab.
-		this.cursorObject = InstantiateCursor(cursorPrefab);
+		this.cursorImage = InstantiateCursor(cursorPrefab);
 		SetCursorToTheCenterOfTheScreen();
 		
 		// Cash references we're gonna use latter.
@@ -34,21 +34,24 @@ public class PlayerCursor {
 	}
 	
 	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.
-	private GameObject InstantiateCursor(GameObject cursorPrefab) {
+	private Image InstantiateCursor(GameObject cursorPrefab) {
 		GameObject newInst = Object.Instantiate(cursorPrefab);
 		newInst.transform.SetParent(GameObject.Find("CursorCanvas").transform);
-		newInst.GetComponent<Image>().color = owner.GetColor();
 		Object.DontDestroyOnLoad(newInst.transform.root.gameObject);
-		return newInst;
+		
+		Image newInstImage = newInst.GetComponent<Image>();
+		newInstImage.color = owner.GetColor();
+		
+		return newInstImage;
 	}
 	
 	private void SetCursorToTheCenterOfTheScreen() {
-		cursorObject.transform.position = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
+		cursorImage.gameObject.transform.position = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
 	}
 	
 	// Controls the cursor position.
 	public void UpdateCursorPosition() {
-		Vector3 tempPos = cursorObject.transform.position;
+		Vector3 tempPos = cursorImage.gameObject.transform.position;
 		
 		// Calculate position change from gamepad input and cursor sensitivity value. Make it FPS and screen width independent.
 		Vector3 positionChange = (Vector3)GamepadExtensions.GetLeftStick(owner.GetGamepad()) * Time.deltaTime * cursorSensitivity * Screen.width;
@@ -57,7 +60,7 @@ public class PlayerCursor {
 		// Limit cursor position within screen boundaries.
 		tempPos.x = Mathf.Clamp(tempPos.x, 0, Screen.width);
 		tempPos.y = Mathf.Clamp(tempPos.y, 0, Screen.height);
-		cursorObject.transform.position = tempPos;
+		cursorImage.gameObject.transform.position = tempPos;
 	}
 	
 	// Returns whether cursor is currently pressed.
@@ -67,7 +70,7 @@ public class PlayerCursor {
 	
 	// Returns the current position of cursor in pixels.
 	public Vector2 GetCursorPosition() {
-		return (Vector2)cursorObject.transform.position;
+		return (Vector2)cursorImage.gameObject.transform.position;
 	}
 	
 	// Checks if this fake cursor is currently on given 3D mesh.
@@ -116,6 +119,18 @@ public class PlayerCursor {
 	
 	// Destroys the cursor, removing it from the game.
 	public void DestroyCursor() {
-		Object.Destroy(cursorObject);
+		Object.Destroy(cursorImage.gameObject);
+	}
+	
+	public void HideCursor() {
+		cursorImage.enabled = false;
+	}
+	
+	public void ShowCursor() {
+		cursorImage.enabled = true;
+	}
+	
+	public bool GetCursorHidden() {
+		return cursorImage.enabled;
 	}
 }

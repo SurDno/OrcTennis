@@ -72,8 +72,16 @@ public class Player {
 		chosenTeam = newValue;
 	}
 	
+	public void Disconnect() {
+		controlledCursor.HideCursor();
+	}
+	
+	public void Reconnect() {
+		controlledCursor.ShowCursor();
+	}
+	
 	// Destroys the cursor, removing the only player-associated gameobject.
-	// Sets disconnected to true so that all referencing scripts can remove the reference.
+	// Sets disconnected to true so that all PlayerSetup.cs can remove the reference.
 	public void DeletePlayerInstance() {
 		disconnected = true;
 		

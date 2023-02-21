@@ -14,7 +14,7 @@ public class PlayerHolder : MonoBehaviour {
 	
 	[Header("Currrent Player Information")]
     [SerializeField] private int lowestAvailablePlayerIndex;
-	[SerializeField] private Player[] players = new Player[6];
+	[SerializeField] private static Player[] players = new Player[6];
 	
 	// Singleton pattern.
     void Awake() {
@@ -60,7 +60,7 @@ public class PlayerHolder : MonoBehaviour {
 	}
 	
 	// Returns an array of non-null player entries.
-	public Player[] GetPlayers() {
+	public static Player[] GetPlayers() {
 		return players.Where(player => player != null).ToArray();
 	}
 	
@@ -101,7 +101,7 @@ public class PlayerHolder : MonoBehaviour {
 	
 	void OnGamepadConnected(InputDevice connectedGamepad) {
 		if(connectedGamepad == null) {
-			Debug.Log("Received gamepad ID is null. Reconnect gamepad.");
+			Debug.LogError("Received gamepad ID is null. Reconnect gamepad.");
 			return;
 		}
 		
@@ -119,14 +119,10 @@ public class PlayerHolder : MonoBehaviour {
 				if(players[i] != null && players[i].GetGamepad() == disconnectedGamepad)
 					DeletePlayer(i);
 		} else {
-			// If there's no player who used that gamepad (should be impossible but hey it's Unity!) we should just iterate through all players and remove those who don't have gamepads.
+			// If gamepad instnace is null (should be impossible but hey it's Unity!) we should just iterate through all players and remove those who don't have gamepads.
 			for(int i = 0; i < players.Length; i++)
-				foreach(InputDevice device in InputSystem.devices) {
-					if(players[i] != null && players[i].GetGamepad() == device)
-						continue;
-					// If we have not found a single device that fits the description, player entity shouldn't exist anymore.
+				if(players[i] != null && (players[i].GetGamepad() == null || !GamepadExtensions.IsGamepadConnected(players[i].GetGamepad())))
 					DeletePlayer(i);
-				}
 		}
 	}
 }
