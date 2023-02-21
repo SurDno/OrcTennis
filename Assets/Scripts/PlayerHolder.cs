@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerHolder : MonoBehaviour {
 	[Header("Settings and Prefabs")]
 	[SerializeField] private Color[] playerColors;
-	[SerializeField] private GameObject[] playerCursors; 
+	[SerializeField] private GameObject playerCursor; 
 	[SerializeField] public float cursorSensitivity = 1.0f;
 	
 	[Header("Currrent Player Information")]
@@ -44,10 +44,9 @@ public class PlayerHolder : MonoBehaviour {
 	}
 	
 	void CreateNewPlayer(InputDevice controlledGamepad) {
-		GameObject cursorToUse = playerCursors[lowestAvailablePlayerIndex];
 		Color colorToUse = playerColors[lowestAvailablePlayerIndex];
 		
-		players[lowestAvailablePlayerIndex] = new Player(controlledGamepad, cursorToUse, colorToUse, cursorSensitivity);
+		players[lowestAvailablePlayerIndex] = new Player(controlledGamepad, playerCursor, colorToUse, cursorSensitivity);
 
 	}
 	

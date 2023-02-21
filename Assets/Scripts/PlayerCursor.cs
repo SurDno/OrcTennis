@@ -37,6 +37,7 @@ public class PlayerCursor {
 	private GameObject InstantiateCursor(GameObject cursorPrefab) {
 		GameObject newInst = Object.Instantiate(cursorPrefab);
 		newInst.transform.SetParent(GameObject.Find("CursorCanvas").transform);
+		newInst.GetComponent<Image>().color = owner.GetColor();
 		Object.DontDestroyOnLoad(newInst.transform.root.gameObject);
 		return newInst;
 	}
