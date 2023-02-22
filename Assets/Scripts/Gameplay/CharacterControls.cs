@@ -29,13 +29,20 @@ public class CharacterControls : MonoBehaviour {
 		}
 		
 		// If we use the right stick, start rotating.
-		Vector2 rightStickInput = GamepadExtensions.GetRightStick(characterOwner.GetOwner().GetGamepad());
+		Vector2 rightStickInput = GamepadInput.GetRightStick(characterOwner.GetOwner().GetGamepad());
 		if(Mathf.Abs(rightStickInput.x) > 0.2f || Mathf.Abs(rightStickInput.y) > 0.2f) {
 			StopMovement();
 			
 			// Get the rotationg angle from input.
 			float rotationAngle = Mathf.Atan2(rightStickInput.x, rightStickInput.y) * Mathf.Rad2Deg;
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
+		}
+		
+		if(GamepadInput.GetLeftShoulderDown(characterOwner.GetOwner().GetGamepad())) {
+			if(characterOwner.GetOwner().GetCursor().GetCursorHidden())
+				characterOwner.GetOwner().GetCursor().ShowCursor();
+			else
+				characterOwner.GetOwner().GetCursor().HideCursor();
 		}
 		
     }
@@ -67,7 +74,6 @@ public class CharacterControls : MonoBehaviour {
 		Vector3 movementVector = (targetPoint - startPos);
 		movementVector.y = 0;
 		movementVector = movementVector.normalized;
-		Debug.Log(Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPoint.x, 0, targetPoint.z)) + " " + (speedInUnitsPerSec / 100) * 2);
 		while(Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPoint.x, 0, targetPoint.z)) > (speedInUnitsPerSec / 100) * 2) {
 			transform.position += movementVector * (speedInUnitsPerSec / 100);
 			yield return new WaitForSeconds(0.01f);

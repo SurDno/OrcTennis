@@ -112,6 +112,7 @@ public class PlayerHolder : MonoBehaviour {
 		GetNewLowestAvailableIndexValue();
 	}
 	
+	// TODO: Do not delete player instance if the game is already going. Instead, leave it without a gamepad and wait for the first new connected gamepad to take that player.
 	void OnGamepadDisconnected(InputDevice disconnectedGamepad) {
 		if(disconnectedGamepad != null) {
 			// Find if there is a player who used that gamepad before, and delete them.

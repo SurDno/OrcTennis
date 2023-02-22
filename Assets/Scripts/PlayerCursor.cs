@@ -54,7 +54,7 @@ public class PlayerCursor {
 		Vector3 tempPos = cursorImage.gameObject.transform.position;
 		
 		// Calculate position change from gamepad input and cursor sensitivity value. Make it FPS and screen width independent.
-		Vector3 positionChange = (Vector3)GamepadExtensions.GetLeftStick(owner.GetGamepad()) * Time.deltaTime * cursorSensitivity * Screen.width;
+		Vector3 positionChange = (Vector3)GamepadInput.GetLeftStick(owner.GetGamepad()) * Time.deltaTime * cursorSensitivity * Screen.width;
 		tempPos += positionChange;
 			
 		// Limit cursor position within screen boundaries.
@@ -65,7 +65,7 @@ public class PlayerCursor {
 	
 	// Returns whether cursor is currently pressed.
 	public bool IsCursorPressed() {
-		return GamepadExtensions.GetLeftStickButton(owner.GetGamepad());
+		return GamepadInput.GetLeftStickButton(owner.GetGamepad());
 	}
 	
 	// Returns the current position of cursor in pixels.
@@ -131,6 +131,6 @@ public class PlayerCursor {
 	}
 	
 	public bool GetCursorHidden() {
-		return cursorImage.enabled;
+		return !cursorImage.enabled;
 	}
 }
