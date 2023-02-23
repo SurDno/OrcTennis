@@ -7,12 +7,13 @@ using System.Collections.Generic;
 // Holds some extension functions for gamepads that allow to more easily get necessary control values and whether gamepad is connected.
 // Also allows to use devices not labeled as gamepads (such as DualShock controllers that are registered as joysticks) as gamepads by accessing properties on a lower level.
 public static class GamepadExtensions {
-	// A dictionary of dictionaries to get a dictionary of input values by device ID, and then last frame value by button name.
+	// A dictionary of dictionaries to get a dictionary of input values by device ID, and then current frame value by button name, last frame value by button name and frame stamp to check if data is up-to-date.
+	static Dictionary<int, Dictionary<string, bool>> currentFramePresses = new Dictionary<int, Dictionary<string, bool>>();
 	static Dictionary<int, Dictionary<string, bool>> lastFramePresses = new Dictionary<int, Dictionary<string, bool>>();
-	static int prevFrameCount;
+	static Dictionary<int, Dictionary<string, int>> frameCountForCurrent = new Dictionary<int, Dictionary<string, int>>();
 	
 	// A value under which input from sticks may be ignored.
-	const float deadzone = 0.2f;
+	const float deadzone = 0.05f;
 	
 	// Common function for getting buttons.
 	public static bool GetButton(InputDevice gamepadInstance, string gamepadName, string joystickName) {
@@ -31,22 +32,40 @@ public static class GamepadExtensions {
 	
 	// Gets whether the button is currently pressed but was not pressed before or is currently not pressed but was pressed before.
 	public static bool GetButtonChange(InputDevice gamepadInstance, string gamepadName, string joystickName, bool onDown) {
-		bool currentlyPressed = GetButton(gamepadInstance, gamepadName, joystickName);
-		bool pressedBefore;
-		if(lastFramePresses.ContainsKey(gamepadInstance.deviceId) && lastFramePresses[gamepadInstance.deviceId].ContainsKey(gamepadName))
-			pressedBefore = lastFramePresses[gamepadInstance.deviceId][gamepadName];
-		else
-			pressedBefore = false;
+		if (!IsGamepadConnected(gamepadInstance))
+			return false;
 		
-		// Only update the last frame value if we have not updated it this frame.
-		// TODO: Replace one integer with a dictionary of dictionaries.
-		int currentFrameCount = Time.frameCount;
-		if (currentFrameCount != prevFrameCount) {
+		// Check if there already are entires for the current frame of that key.
+		if (frameCountForCurrent.ContainsKey(gamepadInstance.deviceId) &&
+			frameCountForCurrent[gamepadInstance.deviceId].ContainsKey(gamepadName)) {
+			
+			// Check if our current frame data for that key is outdated.
+			if(frameCountForCurrent[gamepadInstance.deviceId][gamepadName] != Time.frameCount) {
+				// Move presses to last frame dictionary.
+				lastFramePresses[gamepadInstance.deviceId][gamepadName] = currentFramePresses[gamepadInstance.deviceId][gamepadName];
+				
+				// Populate dictionaries with current presses and frame amounts.
+				currentFramePresses[gamepadInstance.deviceId][gamepadName] = GetButton(gamepadInstance, gamepadName, joystickName);
+				frameCountForCurrent[gamepadInstance.deviceId][gamepadName] = Time.frameCount;
+			}
+			
+		} else {
+			// If there is no information for that gamepad, populate that data for the first time.
+			if(!currentFramePresses.ContainsKey(gamepadInstance.deviceId))
+				currentFramePresses[gamepadInstance.deviceId] = new Dictionary<string, bool>();
+			if(!frameCountForCurrent.ContainsKey(gamepadInstance.deviceId))
+				frameCountForCurrent[gamepadInstance.deviceId] = new Dictionary<string, int>();
 			if(!lastFramePresses.ContainsKey(gamepadInstance.deviceId))
 				lastFramePresses[gamepadInstance.deviceId] = new Dictionary<string, bool>();
-			lastFramePresses[gamepadInstance.deviceId][gamepadName] = currentlyPressed;
-		    prevFrameCount = currentFrameCount;
+			
+			// If there is no information for that gamepad key, populate that data for the first time.
+			currentFramePresses[gamepadInstance.deviceId][gamepadName] = GetButton(gamepadInstance, gamepadName, joystickName);
+			frameCountForCurrent[gamepadInstance.deviceId][gamepadName] = Time.frameCount;
+			lastFramePresses[gamepadInstance.deviceId][gamepadName] = false;
 		}
+		
+		bool currentlyPressed = currentFramePresses[gamepadInstance.deviceId][gamepadName];
+		bool pressedBefore = lastFramePresses[gamepadInstance.deviceId][gamepadName];
 		
 		if(onDown)
 			return currentlyPressed && !pressedBefore;
