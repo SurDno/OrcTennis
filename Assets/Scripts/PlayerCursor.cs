@@ -65,7 +65,7 @@ public class PlayerCursor {
 	
 	// Returns whether cursor is currently pressed.
 	public bool IsCursorPressed() {
-		return GamepadInput.GetLeftStickButton(owner.GetGamepad());
+		return GamepadInput.GetLeftStickButton(owner.GetGamepad()) && !GetCursorHidden();
 	}
 	
 	// Returns the current position of cursor in pixels.
@@ -110,8 +110,10 @@ public class PlayerCursor {
 		
 		// Check if at least one UI Raycast hits is for the right object. Return true if so.
 		foreach (RaycastResult result in results)
-			if(result.gameObject == obj)
+			if(result.gameObject == obj) {
+				Debug.Log("OVER UI");
 				return true;
+			}
 		
 		// Otherwise, return false.
 		return false;
@@ -128,6 +130,7 @@ public class PlayerCursor {
 	
 	public void ShowCursor() {
 		cursorImage.enabled = true;
+		SetCursorToTheCenterOfTheScreen();
 	}
 	
 	public bool GetCursorHidden() {

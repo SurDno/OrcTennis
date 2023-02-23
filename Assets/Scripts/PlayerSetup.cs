@@ -37,7 +37,7 @@ public class PlayerSetup : MonoBehaviour {
 				readyPlayers++;
 
 		// If all players are ready and there are more than one in the game, start.
-		if (readyPlayers == players.Length && players.Length > 1)
+		if (readyPlayers == players.Length && players.Length > 0)
 			StartMatch();
     }
 	
@@ -54,6 +54,7 @@ public class PlayerSetup : MonoBehaviour {
 		foreach(Player player in players)
 			for(int i = 0; i < teamColorBlocks.Length; i++) {
 				if(player.GetCursor().IsCursorPressed()) {
+					
 					// Assign new team if a player clicks on an empty square.
 					if(player.GetCursor().CursorOverUI(teamColorBlocks[i].gameObject))
 						if(playerByTeamBlockIndex[i] == null)

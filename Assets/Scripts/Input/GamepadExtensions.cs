@@ -8,7 +8,11 @@ using System.Collections.Generic;
 // Also allows to use devices not labeled as gamepads (such as DualShock controllers that are registered as joysticks) as gamepads by accessing properties on a lower level.
 public static class GamepadExtensions {
 	// A dictionary of dictionaries to get a dictionary of input values by device ID, and then last frame value by button name.
-	public static Dictionary<int, Dictionary<string, bool>> lastFramePresses = new Dictionary<int, Dictionary<string, bool>>();
+	static Dictionary<int, Dictionary<string, bool>> lastFramePresses = new Dictionary<int, Dictionary<string, bool>>();
+	static int prevFrameCount;
+	
+	// A value under which input from sticks may be ignored.
+	const float deadzone = 0.2f;
 	
 	// Common function for getting buttons.
 	public static bool GetButton(InputDevice gamepadInstance, string gamepadName, string joystickName) {
@@ -34,9 +38,15 @@ public static class GamepadExtensions {
 		else
 			pressedBefore = false;
 		
-		if(!lastFramePresses.ContainsKey(gamepadInstance.deviceId))
-			lastFramePresses[gamepadInstance.deviceId] = new Dictionary<string, bool>();
-		lastFramePresses[gamepadInstance.deviceId][gamepadName] = currentlyPressed;
+		// Only update the last frame value if we have not updated it this frame.
+		// TODO: Replace one integer with a dictionary of dictionaries.
+		int currentFrameCount = Time.frameCount;
+		if (currentFrameCount != prevFrameCount) {
+			if(!lastFramePresses.ContainsKey(gamepadInstance.deviceId))
+				lastFramePresses[gamepadInstance.deviceId] = new Dictionary<string, bool>();
+			lastFramePresses[gamepadInstance.deviceId][gamepadName] = currentlyPressed;
+		    prevFrameCount = currentFrameCount;
+		}
 		
 		if(onDown)
 			return currentlyPressed && !pressedBefore;
@@ -60,6 +70,11 @@ public static class GamepadExtensions {
 			default:
 				return new Vector2(0, 0);
 		}
+	}
+	
+	// Checks if the input values are higher than deadzone constant. If they are not, usually input can be ignored.
+	public static bool InputMoreThanDeadzone(Vector2 normalizedVector) {
+		return Mathf.Abs(normalizedVector.x) >= deadzone || Mathf.Abs(normalizedVector.y) >= deadzone;
 	}
 	
 	// Checks if the device is connected by checking if it shares the id with any of the connected devices.
