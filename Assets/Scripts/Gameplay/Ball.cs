@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour{
-    [SerializeField]private float speed = 2f;
-	[SerializeField]private float angle = 45f;
 	[SerializeField]private Vector2 velocity;
-
-	// 
-	void Start() {
-        velocity.x = Mathf.Cos(angle * Mathf.Deg2Rad) * speed;
-		velocity.y = Mathf.Sin(angle * Mathf.Deg2Rad) * speed;	
-	}
 	
     void FixedUpdate() {
 		GetComponent<Rigidbody>().velocity = new Vector3(velocity.x, 0, velocity.y);
@@ -24,9 +16,46 @@ public class Ball : MonoBehaviour{
 	
 	// Reflects the angle of the ball upon wall collision, based on collision normal.
 	void Reflect(Vector2 normal) {
-		if(Mathf.Abs(normal.x) > Mathf.Abs(normal.y))
-			velocity.x = -velocity.x;
-		else
+		if(Mathf.Abs(normal.x) < Mathf.Abs(normal.y)) {
 			velocity.y = -velocity.y;
+			return;
+		}
+		
+		if(normal.x > 0)
+			print("LEFT GOAL");
+		else
+			print("RIGHT GOAL");
+		
+		SetVelocity(Vector2.zero);
+		transform.position = new Vector3(0, -2.5f, 0);
+		
+		foreach(Object player in FindObjectsOfType(typeof(CharacterControls))) {
+			((CharacterControls)player).Respawn();
+		}
+	}
+	
+	// Changed direction and speed.
+	public void SetVelocity(Vector2 movementVector) {
+		velocity = movementVector;
+	}
+	
+	// Changes direction, maintains speed.
+	public void SetDirection(Vector2 movementVector) {
+		if(velocity == Vector2.zero)
+			velocity = Vector2.up;
+		
+		velocity = movementVector.normalized * velocity.magnitude;
+	}
+	
+	public void SetDirection(float degrees) {
+        velocity = new Vector2(Mathf.Cos(degrees * Mathf.Deg2Rad), -Mathf.Sin(degrees * Mathf.Deg2Rad)) * velocity.magnitude;
+	}
+	
+	// Changes speed, maintains direction.
+	public void SetSpeed(float speed) {
+		if(velocity == Vector2.zero)
+			velocity = Vector2.up;
+		
+		velocity = velocity.normalized * speed;
 	}
 }

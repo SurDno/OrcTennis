@@ -12,22 +12,18 @@ public class CharacterControls : MonoBehaviour {
 	[SerializeField]private float speedInUnitsPerSec;
 	
 	[Header("Current Values")]
+	[SerializeField]private bool moving;
+	private Vector3 initPosition;
 	private Coroutine movementCoroutine;
 	
 	// Initializing cached GameObjects and Components.
     void Start() {
         sharedCamera = Camera.main;
 		characterOwner = GetComponent<CharacterOwner>();
+		initPosition = transform.position;
     }
 	
     void FixedUpdate() {
-		
-		// When a new command is being issued, analyze what the cursor is looking at.
-		if(characterOwner.GetCursor().IsCursorPressed()) {
-			// If we're looking at walkableGround, walk there.
-			if(characterOwner.GetCursor().CursorOverObject(walkableGround))
-				MoveToSpot(characterOwner.GetCursor().GetCursorPosition());
-		}
 		
 		// If we use the right stick, start rotating.
 		Vector2 rightStickInput = GamepadInput.GetRightStick(characterOwner.GetOwner().GetGamepad());
@@ -39,12 +35,17 @@ public class CharacterControls : MonoBehaviour {
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
 		}
 		
+		// When a new command is being issued, analyze what the cursor is looking at.
+		if(characterOwner.GetCursor().IsCursorPressed()) {
+			// If we're looking at walkableGround, walk there.
+			if(characterOwner.GetCursor().CursorOverObject(walkableGround) && !GamepadExtensions.InputMoreThanDeadzone(rightStickInput))
+				MoveToSpot(characterOwner.GetCursor().GetCursorPosition());
+		}
+		
 		// If we use left stick and the cursor is hidden, use that for controls.
 		Vector2 leftStickInput = GamepadInput.GetLeftStick(characterOwner.GetOwner().GetGamepad()).normalized;
-		Debug.Log(leftStickInput);
 		if(characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput)) {
 			StopMovement();
-			
 		
 			Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (speedInUnitsPerSec * Time.fixedDeltaTime);
 			
@@ -60,6 +61,8 @@ public class CharacterControls : MonoBehaviour {
 			
 			transform.position = targetPos;
 		}
+		
+		moving = (movementCoroutine != null) || (characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput));
 		
 		// If we press left shoulder, hide cursor.
 		if(GamepadInput.GetLeftShoulderDown(characterOwner.GetOwner().GetGamepad())) {
@@ -88,7 +91,10 @@ public class CharacterControls : MonoBehaviour {
 	}
 	
 	void StopMovement() {
-		StopAllCoroutines();
+		if(movementCoroutine != null) {
+			StopCoroutine(movementCoroutine);
+			movementCoroutine = null;
+		}
 	}
 	
 	IEnumerator SlowlyMoveToPoint(Vector3 targetPoint) {
@@ -103,5 +109,15 @@ public class CharacterControls : MonoBehaviour {
 		}
 		
 		transform.position = new Vector3(targetPoint.x, transform.position.y, targetPoint.z);
+		movementCoroutine = null;
+	}
+	
+	public void Respawn() {
+		StopMovement();
+		transform.position = initPosition;
+	}
+	
+	public bool GetMoving() {
+		return moving;
 	}
 }
