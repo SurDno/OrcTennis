@@ -51,6 +51,9 @@ public class PlayerCursor {
 	
 	// Controls the cursor position.
 	public void UpdateCursorPosition() {
+		if(GetCursorHidden())
+			return;
+		
 		Vector3 tempPos = cursorImage.gameObject.transform.position;
 		
 		// Calculate position change from gamepad input and cursor sensitivity value. Make it FPS and screen width independent.
@@ -65,7 +68,7 @@ public class PlayerCursor {
 	
 	// Returns whether cursor is currently pressed.
 	public bool IsCursorPressed() {
-		return GamepadInput.GetLeftStickButton(owner.GetGamepad()) && !GetCursorHidden();
+		return GamepadInput.GetLeftStickButtonDown(owner.GetGamepad()) && !GetCursorHidden();
 	}
 	
 	// Returns the current position of cursor in pixels.
@@ -110,10 +113,8 @@ public class PlayerCursor {
 		
 		// Check if at least one UI Raycast hits is for the right object. Return true if so.
 		foreach (RaycastResult result in results)
-			if(result.gameObject == obj) {
-				Debug.Log("OVER UI");
+			if(result.gameObject == obj)
 				return true;
-			}
 		
 		// Otherwise, return false.
 		return false;
