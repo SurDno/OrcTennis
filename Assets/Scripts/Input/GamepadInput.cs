@@ -14,8 +14,8 @@ public static class GamepadInput {
 	// Gets input values of right stick.
 	public static Vector2 GetRightStick(InputDevice gamepadInstance) {
 		// For reasons beyond me, "rz" returns -1 when the stick is in top position and 1 when it's in bottom position.
-		// So for that specific scenario we'll need to multiply value by -1.
-		return GamepadExtensions.GetAxes(gamepadInstance, "leftStick/x", "leftStick/y", "z", "rz", true);
+		// So for that specific scenario we'll need to multiply value by -1 for joysticks.
+		return GamepadExtensions.GetAxes(gamepadInstance, "rightStick/x", "rightStick/y", "z", "rz", true);
 	}
 
 	// Gets input values of D-Pad
