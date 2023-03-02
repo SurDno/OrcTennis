@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterHit))]
 public class CharacterOwner : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private ColorObject teamColor;

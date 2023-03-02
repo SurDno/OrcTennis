@@ -2,10 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(CharacterOwner))]
+[RequireComponent(typeof(CharacterHit))]
 public class CharacterControls : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private GameObject walkableGround;
 	private CharacterOwner characterOwner;
+	private CharacterHit characterHit;
 	private Camera sharedCamera;
 	
 	[Header("Settings")]
@@ -20,6 +22,7 @@ public class CharacterControls : MonoBehaviour {
     void Start() {
         sharedCamera = Camera.main;
 		characterOwner = GetComponent<CharacterOwner>();
+		characterHit = GetComponent<CharacterHit>();
 		initPosition = transform.position;
     }
 	
@@ -27,41 +30,39 @@ public class CharacterControls : MonoBehaviour {
         if(characterOwner.GetOwner() == null)
 			return;
 		
-		// If we use the right stick, start rotating.
-		Vector2 rightStickInput = GamepadInput.GetRightStick(characterOwner.GetOwner().GetGamepad()).normalized;
-		if(GamepadExtensions.InputMoreThanDeadzone(rightStickInput)) {
-			StopMovement();
-			
-			// Get the rotationg angle from input.
-			float rotationAngle = Mathf.Atan2(rightStickInput.x, rightStickInput.y) * Mathf.Rad2Deg;
-			transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
-		}
-		
 		// When a new command is being issued, analyze what the cursor is looking at.
 		if(characterOwner.GetCursor().IsCursorPressed()) {
 			// If we're looking at walkableGround, walk there.
-			if(characterOwner.GetCursor().CursorOverObject(walkableGround) && !GamepadExtensions.InputMoreThanDeadzone(rightStickInput))
-				MoveToSpot(characterOwner.GetCursor().GetCursorPosition());
+			if(characterOwner.GetCursor().CursorOverObject(walkableGround))
+				if(!characterHit.GetCharging())
+					MoveToSpot(characterOwner.GetCursor().GetCursorPosition());
 		}
 		
 		// If we use left stick and the cursor is hidden, use that for controls.
 		Vector2 leftStickInput = GamepadInput.GetLeftStick(characterOwner.GetOwner().GetGamepad()).normalized;
 		if(characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput)) {
-			StopMovement();
-		
-			Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (speedInUnitsPerSec * Time.fixedDeltaTime);
+			if(!characterHit.GetCharging()) {
+				// If we're not charging, left stick is used for movement.
+				StopMovement();
 			
-			//Set max position values.
-			targetPos.x = Mathf.Min(targetPos.x, 14f);
-			targetPos.x = Mathf.Max(targetPos.x, -14f);
-			targetPos.z = Mathf.Min(targetPos.z, 6.5f);
-			targetPos.z = Mathf.Max(targetPos.z, -6.5f);
+				Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (speedInUnitsPerSec * Time.fixedDeltaTime);
 				
-			// Face a direction we're going.
-			transform.LookAt(targetPos);
-			transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-			
-			transform.position = targetPos;
+				//Set max position values.
+				targetPos.x = Mathf.Min(targetPos.x, 14f);
+				targetPos.x = Mathf.Max(targetPos.x, -14f);
+				targetPos.z = Mathf.Min(targetPos.z, 6.5f);
+				targetPos.z = Mathf.Max(targetPos.z, -6.5f);
+					
+				// Face a direction we're going.
+				transform.LookAt(targetPos);
+				transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+				
+				transform.position = targetPos;
+			} else {
+				// Otherwise, it is used for rotation.
+				float rotationAngle = Mathf.Atan2(leftStickInput.x, leftStickInput.y) * Mathf.Rad2Deg;
+				transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
+			}
 		}
 		
 		moving = (movementCoroutine != null) || (characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput));
@@ -106,6 +107,12 @@ public class CharacterControls : MonoBehaviour {
 		movementVector.y = 0;
 		movementVector = movementVector.normalized;
 		while(Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPoint.x, 0, targetPoint.z)) > (speedInUnitsPerSec / 100) * 2) {
+	
+			if(characterHit.GetCharging()) {
+				movementCoroutine = null;
+				yield break;
+			}
+			
 			transform.position += movementVector * (speedInUnitsPerSec * Time.fixedDeltaTime);
 			yield return new WaitForFixedUpdate();
 		}
