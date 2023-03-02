@@ -24,9 +24,11 @@ public class CharacterControls : MonoBehaviour {
     }
 	
     void FixedUpdate() {
+        if(characterOwner.GetOwner() == null)
+			return;
 		
 		// If we use the right stick, start rotating.
-		Vector2 rightStickInput = GamepadInput.GetRightStick(characterOwner.GetOwner().GetGamepad());
+		Vector2 rightStickInput = GamepadInput.GetRightStick(characterOwner.GetOwner().GetGamepad()).normalized;
 		if(GamepadExtensions.InputMoreThanDeadzone(rightStickInput)) {
 			StopMovement();
 			

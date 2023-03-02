@@ -34,14 +34,10 @@ public static class GamepadExtensions {
 				return false;
 			
 			// Check if there already are entires for the current frame of that key.
-			if (buttonStates.ContainsKey(gamepadInstance.deviceId) &&
-				buttonStates[gamepadInstance.deviceId].ContainsKey(gamepadName)) {
-				
+			if (buttonStates.ContainsKey(gamepadInstance.deviceId) && buttonStates[gamepadInstance.deviceId].ContainsKey(gamepadName)) {
 				// If our current frame data for that key is outdated, move currentFramePresses to lastFramePresses and populare rest of dictionary with new data.
 				if(buttonStates[gamepadInstance.deviceId][gamepadName].frameCountForCurrent != Time.frameCount)
 					buttonStates[gamepadInstance.deviceId][gamepadName] = (GetButton(gamepadInstance, gamepadName, joystickName), buttonStates[gamepadInstance.deviceId][gamepadName].currentFramePresses, Time.frameCount);
-
-				
 			} else {
 				// If there is no information for that gamepad, populate that data for the first time.
 				if(!buttonStates.ContainsKey(gamepadInstance.deviceId))

@@ -29,8 +29,13 @@ public class PlayerCursor {
 	
 	// Caches EventSystem and GraphicRaycaster for UI raycast.
 	void CacheReferences() {
-		eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
-		graphicRaycaster = GameObject.Find("UICanvas").GetComponent<GraphicRaycaster>();
+		GameObject eventSystemGO = GameObject.Find("EventSystem");
+		if(eventSystemGO != null)
+			eventSystem = eventSystemGO.GetComponent<EventSystem>();
+		
+		GameObject graphicRaycasterGO = GameObject.Find("UICanvas");
+		if(graphicRaycasterGO != null)
+			graphicRaycaster = graphicRaycasterGO.GetComponent<GraphicRaycaster>();
 	}
 	
 	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.

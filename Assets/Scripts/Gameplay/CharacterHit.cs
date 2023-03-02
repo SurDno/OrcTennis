@@ -20,7 +20,9 @@ public class CharacterHit : MonoBehaviour {
     }
 	
     void Update() {
-        
+        if(characterOwner.GetOwner() == null)
+			return;
+		
 		// If we press right trigger..
 		if(GamepadInput.GetRightTriggerDown(characterOwner.GetOwner().GetGamepad())) {
 			// Only hit when we're standing still.

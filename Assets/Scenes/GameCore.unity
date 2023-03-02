@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 3649862}
   - component: {fileID: 3649861}
   - component: {fileID: 3649859}
-  - component: {fileID: 3649858}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -142,19 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3649858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3649857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.21960784, g: 0.21960784, b: 0.32941177, a: 0}
 --- !u!64 &3649859
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -456,7 +442,6 @@ GameObject:
   - component: {fileID: 243396244}
   - component: {fileID: 243396243}
   - component: {fileID: 243396241}
-  - component: {fileID: 243396240}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -464,19 +449,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &243396240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243396239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.21960784, g: 0.21960784, b: 0.32941177, a: 0}
 --- !u!65 &243396241
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -523,7 +495,6 @@ GameObject:
   m_Component:
   - component: {fileID: 416120471}
   - component: {fileID: 416120470}
-  - component: {fileID: 416120467}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
@@ -531,19 +502,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &416120467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416120466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.5377358, g: 0.48896533, b: 0.15557134, a: 0}
 --- !u!33 &416120470
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1136,7 +1094,6 @@ GameObject:
   - component: {fileID: 686290951}
   - component: {fileID: 686290950}
   - component: {fileID: 686290948}
-  - component: {fileID: 686290947}
   m_Layer: 0
   m_Name: Wall (1)
   m_TagString: Untagged
@@ -1144,19 +1101,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &686290947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686290946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.21960784, g: 0.21960784, b: 0.32941177, a: 0}
 --- !u!65 &686290948
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1925,7 +1869,6 @@ GameObject:
   - component: {fileID: 1436258222}
   - component: {fileID: 1436258226}
   - component: {fileID: 1436258224}
-  - component: {fileID: 1436258223}
   m_Layer: 0
   m_Name: Wall (4)
   m_TagString: Untagged
@@ -1948,19 +1891,6 @@ Transform:
   m_Father: {fileID: 834618406}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1436258223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436258221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.21960784, g: 0.21960784, b: 0.32941177, a: 0}
 --- !u!65 &1436258224
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2419,7 +2349,6 @@ GameObject:
   - component: {fileID: 1784509688}
   - component: {fileID: 1784509687}
   - component: {fileID: 1784509685}
-  - component: {fileID: 1784509684}
   m_Layer: 0
   m_Name: Wall (3)
   m_TagString: Untagged
@@ -2427,19 +2356,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1784509684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784509683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8fdb2eec445d242bd0b9e9084757e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objColor: {r: 0.21960784, g: 0.21960784, b: 0.32941177, a: 0}
 --- !u!65 &1784509685
 BoxCollider:
   m_ObjectHideFlags: 0
