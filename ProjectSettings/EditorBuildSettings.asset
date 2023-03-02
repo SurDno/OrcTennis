@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Setup.unity
     guid: 6ac56faef6e8f8c49b6fa51ea842c66a
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/GameCore.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Forest.unity
+    guid: 435635a15c763884682b7f546eef3181
+  - enabled: 1
+    path: Assets/Scenes/Graveyard.unity
+    guid: 6762fe4a8756dab4d8bd67a60cecfd18
   m_configObjects: {}
