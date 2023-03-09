@@ -72,7 +72,7 @@ public class CharacterHit : MonoBehaviour {
 			chargeValue = minBallSpeed + (maxBallSpeed - minBallSpeed) * (chargeTime / chargeMaxTime);
 			
 			// Update visual representation.
-			float multiplier = 0.5f;
+			float multiplier = 0.35f;
 			chargingObj.transform.localScale = new Vector3(1, (chargeTime / chargeMaxTime) * multiplier, 1);
 			chargingObjHead.transform.localScale = new Vector3(1, 1 / chargingObj.transform.localScale.y, 1);
 			
