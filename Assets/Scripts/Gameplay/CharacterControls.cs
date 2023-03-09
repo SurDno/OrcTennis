@@ -5,7 +5,6 @@ using System.Collections;
 [RequireComponent(typeof(CharacterHit))]
 public class CharacterControls : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
-	[SerializeField]private GameObject walkableGround;
 	private CharacterOwner characterOwner;
 	private CharacterHit characterHit;
 	private Camera sharedCamera;
@@ -16,7 +15,6 @@ public class CharacterControls : MonoBehaviour {
 	[Header("Current Values")]
 	[SerializeField]private bool moving;
 	private Vector3 initPosition;
-	private Coroutine movementCoroutine;
 	
 	// Initializing cached GameObjects and Components.
     void Start() {
@@ -30,21 +28,11 @@ public class CharacterControls : MonoBehaviour {
         if(characterOwner.GetOwner() == null)
 			return;
 		
-		// When a new command is being issued, analyze what the cursor is looking at.
-		if(characterOwner.GetCursor().IsCursorPressed()) {
-			// If we're looking at walkableGround, walk there.
-			if(characterOwner.GetCursor().CursorOverObject(walkableGround))
-				if(!characterHit.GetCharging())
-					MoveToSpot(characterOwner.GetCursor().GetCursorPosition());
-		}
-		
 		// If we use left stick and the cursor is hidden, use that for controls.
 		Vector2 leftStickInput = GamepadInput.GetLeftStick(characterOwner.GetOwner().GetGamepad()).normalized;
 		if(characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput)) {
 			if(!characterHit.GetCharging()) {
 				// If we're not charging, left stick is used for movement.
-				StopMovement();
-			
 				Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (speedInUnitsPerSec * Time.fixedDeltaTime);
 				
 				//Set max position values.
@@ -65,64 +53,14 @@ public class CharacterControls : MonoBehaviour {
 			}
 		}
 		
-		moving = (movementCoroutine != null) || (characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput));
+		moving = GamepadExtensions.InputMoreThanDeadzone(leftStickInput);
 		
-		// If we press left shoulder, hide cursor.
-		if(GamepadInput.GetLeftShoulderDown(characterOwner.GetOwner().GetGamepad())) {
-			if(characterOwner.GetOwner().GetCursor().GetCursorHidden())
-				characterOwner.GetOwner().GetCursor().ShowCursor();
-			else
-				characterOwner.GetOwner().GetCursor().HideCursor();
-		}
+		// TODO: Move that to player start.
+		characterOwner.GetOwner().GetCursor().HideCursor();
 		
     }
 	
-	// Gets world position from cursor position and walks there.
-	void MoveToSpot(Vector2 cursorPosition) {
-		StopMovement();
-		
-		// Get new point from cursor position.
-		Vector3 worldCursorPosition = cursorPosition;
-		worldCursorPosition.z = Vector3.Distance(sharedCamera.gameObject.transform.position, walkableGround.transform.position);
-		Vector3 targetPos = sharedCamera.ScreenToWorldPoint(worldCursorPosition);
-		
-		// Face a direction we're going.
-		transform.LookAt(targetPos);
-		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-		
-		movementCoroutine = StartCoroutine(SlowlyMoveToPoint(targetPos));
-	}
-	
-	void StopMovement() {
-		if(movementCoroutine != null) {
-			StopCoroutine(movementCoroutine);
-			movementCoroutine = null;
-		}
-	}
-	
-	IEnumerator SlowlyMoveToPoint(Vector3 targetPoint) {
-		Vector3 startPos = transform.position;
-		
-		Vector3 movementVector = (targetPoint - startPos);
-		movementVector.y = 0;
-		movementVector = movementVector.normalized;
-		while(Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPoint.x, 0, targetPoint.z)) > (speedInUnitsPerSec / 100) * 2) {
-	
-			if(characterHit.GetCharging()) {
-				movementCoroutine = null;
-				yield break;
-			}
-			
-			transform.position += movementVector * (speedInUnitsPerSec * Time.fixedDeltaTime);
-			yield return new WaitForFixedUpdate();
-		}
-		
-		transform.position = new Vector3(targetPoint.x, transform.position.y, targetPoint.z);
-		movementCoroutine = null;
-	}
-	
 	public void Respawn() {
-		StopMovement();
 		transform.position = initPosition;
 	}
 	
