@@ -408,7 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &142782408
@@ -443,9 +442,10 @@ MonoBehaviour:
   - {fileID: 1561823704}
   - {fileID: 139312832}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1 &236460054
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &236460061
@@ -530,9 +529,10 @@ MonoBehaviour:
   - {fileID: 9139898797279363205}
   - {fileID: 707992615}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1 &243396239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,7 +1548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &768066091
@@ -1583,9 +1582,10 @@ MonoBehaviour:
   - {fileID: 1425627547}
   - {fileID: 1156944658}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1001 &814838358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2153,7 +2153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &1021935576
@@ -2188,9 +2187,10 @@ MonoBehaviour:
   - {fileID: 1266125554}
   - {fileID: 1117187469}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1 &1117187467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,7 +2993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &1520904541
@@ -3028,9 +3027,10 @@ MonoBehaviour:
   - {fileID: 1189479384}
   - {fileID: 1274144191}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1001 &1561823701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3192,7 +3192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dcbb1353fe558438ec4acddd11b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableGround: {fileID: 3649857}
   speedInUnitsPerSec: 5
   moving: 0
 --- !u!114 &1652874981
@@ -3227,9 +3226,10 @@ MonoBehaviour:
   - {fileID: 590254365}
   - {fileID: 1911149940}
   maxHitDistance: 3
-  minBallSpeed: 3
-  maxBallSpeed: 9
-  chargeMaxTime: 1
+  minBallSpeed: 4
+  maxBallSpeed: 7
+  chargeMaxTime: 0.12
+  hitCooldown: 0.4
 --- !u!1 &1665689538
 GameObject:
   m_ObjectHideFlags: 0
