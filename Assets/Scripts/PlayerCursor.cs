@@ -73,7 +73,7 @@ public class PlayerCursor {
 	
 	// Returns whether cursor is currently pressed.
 	public bool IsCursorPressed() {
-		return GamepadInput.GetLeftStickButtonDown(owner.GetGamepad()) && !GetCursorHidden();
+		return GamepadInput.GetSouthButtonDown(owner.GetGamepad()) && !GetCursorHidden();
 	}
 	
 	// Returns the current position of cursor in pixels.
