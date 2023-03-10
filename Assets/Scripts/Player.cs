@@ -88,4 +88,11 @@ public class Player {
 		controlledCursor.DestroyCursor();
 		controlledCursor = null;
 	}
+	
+	// Resets player data after the match.
+	public void ResetPlayerData() {
+		SetCharacter(null);
+		SetReady(false);
+		SetTeam(Player.Team.Unselected);
+	}
 }

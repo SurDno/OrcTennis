@@ -134,4 +134,10 @@ public class PlayerSetup : MonoBehaviour {
 	public static Player[] GetPlayerByTeamBlockIndex() {
 		return playerByTeamBlockIndex;
 	}
+	
+	public static void ResetSetupData() {
+		playerByTeamBlockIndex = new Player[6];
+		amountOfPlayersInLeftTeam = 0;
+		amountOfPlayersInRightTeam = 0;
+	}
 }
