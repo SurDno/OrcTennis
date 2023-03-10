@@ -22,9 +22,9 @@ public class Ball : MonoBehaviour{
 		}
 		
 		if(normal.x > 0)
-			print("LEFT GOAL");
+			ScoreManager.GoalLeft();
 		else
-			print("RIGHT GOAL");
+			ScoreManager.GoalRight();
 		
 		SetVelocity(Vector2.zero);
 		transform.position = new Vector3(0, -2.5f, 0);
