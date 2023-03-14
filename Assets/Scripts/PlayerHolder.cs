@@ -15,8 +15,10 @@ public class PlayerHolder : MonoBehaviour {
 	[Header("Currrent Player Information")]
     [SerializeField] private int lowestAvailablePlayerIndex;
 	[SerializeField] private static Player[] players = new Player[6];
-	
-	// Singleton pattern.
+
+    public int teamColor { get; internal set; }
+
+    // Singleton pattern.
     void Awake() {
         PlayerHolder[] objs = GameObject.FindObjectsOfType<PlayerHolder>();
 
