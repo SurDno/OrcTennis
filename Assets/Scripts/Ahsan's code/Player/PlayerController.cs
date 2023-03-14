@@ -23,10 +23,6 @@ public class PlayerController : MonoBehaviour
     private bool canCastInstantFreeze = false;
     private GameObject collectedOrb;
 
-    void Start()
-    {
-        teamColor = GetComponent<PlayerHolder>().teamColor;
-    }
 
     void Update()
     {

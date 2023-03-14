@@ -73,3 +73,6 @@ crashlytics-build.properties
 # Orc Tennis specifics
 /[Aa]ssets/CLEANUP.meta
 /[Aa]ssets/CLEANUP/*
+Assets/Scripts/Ahsan's code/Player/PlayerController.cs
+*.cs
+*.cs
