@@ -76,3 +76,4 @@ crashlytics-build.properties
 Assets/Scripts/Ahsan's code/Player/PlayerController.cs
 *.cs
 *.cs
+*.meta
