@@ -9,7 +9,21 @@ ModelImporter:
   - first:
       74: 8348087522692605204
     second: Orc_rig|Walk
-  externalObjects: {}
+  - first:
+      74: -7388992763036441900
+    second: Orc_rig|Hit
+  - first:
+      74: 5719386356952350069
+    second: Orc_rig|HitCharge
+  - first:
+      74: -1603763686174237528
+    second: Orc_rig|HitIdle
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Orc_Standard_Units
+    second: {fileID: 2100000, guid: 20d58ed5d4b11024696104eca050d3c2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
