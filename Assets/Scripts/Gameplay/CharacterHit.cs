@@ -105,8 +105,10 @@ public class CharacterHit : MonoBehaviour {
 		float dist = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(ball.gameObject.transform.position.x, 0, ball.gameObject.transform.position.z));
 			
 		// If we're too far, ignore hit.
-		if(dist > maxHitDistance)
+		if(dist > maxHitDistance) {
+			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.2f);
 			return;
+		}
 			
         // Check if we're facing the ball.
         Vector3 toBall = ball.gameObject.transform.position - transform.position;
@@ -114,8 +116,10 @@ public class CharacterHit : MonoBehaviour {
 
         // If we're not facing the ball, ignore hit.
 		// With 1 for same direction and -1 for opposite direction, 0.5f value effectively gives us a 120 degree window (cos 60 = 0.5)
-        if (dot < 0.5f)
+        if (dot < 0.5f) {
+			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.2f);
 			return;
+		}
 		
 		// Apply knockback to the player.
 		Vector2 knockbackDirection = new Vector2(Mathf.Cos((transform.eulerAngles.y - 270) * Mathf.Deg2Rad), -Mathf.Sin((transform.eulerAngles.y - 270) * Mathf.Deg2Rad));

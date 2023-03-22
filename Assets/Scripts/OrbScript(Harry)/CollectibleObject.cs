@@ -6,7 +6,9 @@ public class CollectibleObject : MonoBehaviour {
 	private Spell[] abilities = {
 		new SuperKnockback(),
 		new BeastHaste(),
-		new Telekinesis()
+		new Telekinesis(),
+		new EarthSlam(),
+		new RandomBlink()
 	};
 
 	private void OnTriggerEnter(Collider other) {

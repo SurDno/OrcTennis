@@ -24,6 +24,7 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityChanged += UpdateAbilityNames;
 		characterAbilities.OnAbilityChanged += UpdateAbilityHighlight;
 		characterAbilities.OnAbilityAddedOrRemoved += UpdateAbilityIcons;
+		characterAbilities.OnAbilityAddedOrRemoved += UpdateAbilityHighlight;
 		
 		// Call functions once before events are called.
 		UpdateAbilityIcons();
@@ -35,6 +36,7 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityChanged -= UpdateAbilityNames;
 		characterAbilities.OnAbilityChanged -= UpdateAbilityHighlight;
 		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityIcons;
+		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityHighlight;
 	}
 	
 	// Called once when an ability is acquired or lost.

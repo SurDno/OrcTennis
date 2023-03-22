@@ -11,6 +11,7 @@ public class Telekinesis : Spell {
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.SetSpeed(0);
+		SoundManager.PlaySound("Telekinesis");
 		
 		yield break;
 	}

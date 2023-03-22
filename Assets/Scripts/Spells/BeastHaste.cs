@@ -14,6 +14,7 @@ public class BeastHaste : Spell {
 		CharacterControls characterControls = casterRef.gameObject.GetComponent<CharacterControls>();
 		
 		characterControls.SetSpeedHaste();
+		SoundManager.PlaySound("BeastHaste", 0.5f);
 		
 		yield return new WaitForSeconds(duration);
 		
