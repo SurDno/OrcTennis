@@ -2,7 +2,13 @@ fileFormatVersion: 2
 guid: 6abe44aaa8eb0e348a92ce78a1fb3a1a
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 6815045946810216888
+    second: Orc_rig|Idle
+  - first:
+      74: 8348087522692605204
+    second: Orc_rig|Walk
   externalObjects: {}
   materials:
     materialImportMode: 2

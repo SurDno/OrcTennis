@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterOwner))]
 [RequireComponent(typeof(CharacterControls))]
+[RequireComponent(typeof(CharacterAbilities))]
 public class CharacterHit : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private GameObject chargingObj;
@@ -12,16 +13,18 @@ public class CharacterHit : MonoBehaviour {
 	
 	private CharacterOwner characterOwner;
 	private CharacterControls characterControls;
+	private CharacterAbilities characterAbilities;
 	private Ball ball;
 	
 	[Header("Settings")]
 	[SerializeField]private float maxHitDistance = 3.0f;
-	[SerializeField]private float minBallSpeed = 5.0f;
-	[SerializeField]private float maxBallSpeed = 12.0f;
-	[SerializeField]private float chargeMaxTime = 1.5f;
 	[SerializeField]private float hitCooldown = 0.4f;
 	
 	[Header("Current Values")]
+	[SerializeField]private float minBallSpeed;
+	[SerializeField]private float maxBallSpeed;
+	[SerializeField]private float chargeMaxTime;
+	[SerializeField]private float knockbackValue;
 	private bool charging;
 	private bool onCooldown;
 	private float chargeValue;
@@ -30,6 +33,8 @@ public class CharacterHit : MonoBehaviour {
     void Start() {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterControls = GetComponent<CharacterControls>();
+		characterAbilities = GetComponent<CharacterAbilities>();
+		
 		ball = FindObjectOfType(typeof(Ball)) as Ball;
     }
 	
@@ -40,7 +45,7 @@ public class CharacterHit : MonoBehaviour {
 		// If we press right trigger..
 		if(GamepadInput.GetRightTriggerDown(characterOwner.GetOwner().GetGamepad())) {
 			// Check if we can hit right now.
-			if(!charging && !onCooldown)
+			if(!charging && !onCooldown && characterAbilities.GetSelectedAbility().GetCastType() == Spell.CastType.Hit)
 				StartCharge();
 		}
 	
@@ -52,10 +57,17 @@ public class CharacterHit : MonoBehaviour {
     }
 	
 	void StartCharge() {
+		// Enable charging object.
 		charging = true;
 		chargingObj.SetActive(true);
 		foreach(SpriteRenderer sprite in chargingSprites)
 			sprite.color = characterOwner.GetOwner().GetColor();
+			
+		// Get charging information from selected spell.
+		minBallSpeed = characterAbilities.GetSelectedAbility().minBallSpeed;
+		maxBallSpeed = characterAbilities.GetSelectedAbility().maxBallSpeed;
+		chargeMaxTime = characterAbilities.GetSelectedAbility().chargeMaxTime;
+		knockbackValue = characterAbilities.GetSelectedAbility().knockbackValue;
 		
 		StartCoroutine(Charge());
 	}
@@ -82,6 +94,7 @@ public class CharacterHit : MonoBehaviour {
 	}
 	
 	void EndCharge() {
+		characterAbilities.DestroySelectedAbility();
 		charging = false;
 		chargingObj.SetActive(false);
 		
@@ -104,9 +117,16 @@ public class CharacterHit : MonoBehaviour {
         if (dot < 0.5f)
 			return;
 		
-        // Otherwise, change ball direction with random speed.
+		// Apply knockback to the player.
+		Vector2 knockbackDirection = new Vector2(Mathf.Cos((transform.eulerAngles.y - 270) * Mathf.Deg2Rad), -Mathf.Sin((transform.eulerAngles.y - 270) * Mathf.Deg2Rad));
+		Vector2 knockbackVector = ball.GetKnockbackForce() * knockbackDirection;
+		characterControls.SetKnockback(knockbackVector);
+		
+        // Hit the ball, apply the new knockback settings, "cast" the hit.
         ball.SetSpeed(chargeValue);
         ball.SetDirection(transform.eulerAngles.y - 90);
+		ball.SetKnockbackForce(knockbackValue);
+		StartCoroutine(characterAbilities.GetSelectedAbility().Cast(this.gameObject.GetComponent<CharacterAbilities>()));
 	}
 	
 	IEnumerator Cooldown() {
@@ -119,5 +139,17 @@ public class CharacterHit : MonoBehaviour {
 	
 	public bool GetCharging() {
 		return charging;
+	}
+	
+	public GameObject GegChargingObj() {
+		return chargingObj;
+	}
+	
+	public GameObject GegChargingObjHead() {
+		return chargingObjHead;
+	}
+	
+	public SpriteRenderer[] GetChargingSprites() {
+		return chargingSprites;
 	}
 }

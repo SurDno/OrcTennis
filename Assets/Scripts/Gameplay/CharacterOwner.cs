@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterAbilities))]
+[RequireComponent(typeof(CharacterUI))]
 public class CharacterOwner : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private ColorObject teamColor;
@@ -17,7 +17,7 @@ public class CharacterOwner : MonoBehaviour {
 		
 		// If we haven't found a potential owner, disable ability UI and destroy gameobject.
 		if(owner == null) {
-			GetComponent<CharacterAbilities>().DisableAbilityShowing();
+			GetComponent<CharacterUI>().DisableAbilityShowing();
 			Destroy(this.gameObject);
 			
 		}

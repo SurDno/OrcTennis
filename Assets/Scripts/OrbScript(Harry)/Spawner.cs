@@ -1,21 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
-public class Spawner : MonoBehaviour
-{
-   public GameObject objectToSpawn;
-    public float spawnDelay = 1f;
-    public float spawnRadius = 5f;
-    public float spawnY = 0f; // Set the desired Y-axis value
-
+public class Spawner : MonoBehaviour {
+	[Header("Settings")]
+	[SerializeField] private GameObject objectToSpawn;
+    [SerializeField] private float spawnDelay = 1f;
+	
     void Start () {
-        InvokeRepeating("SpawnObject", spawnDelay, spawnDelay);
+        SpawnObject();
     }
 
     void SpawnObject () {
-        Vector3 randomPosition = transform.position + Random.insideUnitSphere * spawnRadius;
-        randomPosition.y = spawnY; // Set the Y-axis value
-        Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
+		// Find a random point within collider bounds.
+		Collider collider = GetComponent<Collider>();
+		Vector3 randomPoint = new Vector3(
+			Random.Range(collider.bounds.min.x, collider.bounds.max.x),
+			-3f,
+			Random.Range(collider.bounds.min.z, collider.bounds.max.z)
+		);
+
+        GameObject newInst = Instantiate(objectToSpawn, randomPoint, Quaternion.identity);
+		newInst.GetComponent<CollectibleObject>().AssignSpawner(this);
     }
+	
+	public IEnumerator RespawnAfterDelay() {
+		yield return new WaitForSeconds(spawnDelay);
+		
+		SpawnObject();
+	}
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour{
+	[Header("Current Values")]
 	[SerializeField]private Vector2 velocity;
+	private float knockbackForce = 0f;
 	
     void FixedUpdate() {
 		GetComponent<Rigidbody>().velocity = new Vector3(velocity.x, 0, velocity.y);
@@ -21,12 +23,15 @@ public class Ball : MonoBehaviour{
 			return;
 		}
 		
+		// TODO: Move that restart level code away from the ball.
 		if(normal.x > 0)
 			ScoreManager.GoalLeft();
 		else
 			ScoreManager.GoalRight();
 		
 		SetVelocity(Vector2.zero);
+		SetKnockbackForce(0);
+		GetComponent<ColorObject>().objColor = Color.black;
 		transform.position = new Vector3(0, -2.5f, 0);
 		
 		foreach(Object player in FindObjectsOfType(typeof(CharacterControls))) {
@@ -34,7 +39,7 @@ public class Ball : MonoBehaviour{
 		}
 	}
 	
-	// Changed direction and speed.
+	// Changes direction and speed.
 	public void SetVelocity(Vector2 movementVector) {
 		velocity = movementVector;
 	}
@@ -57,5 +62,13 @@ public class Ball : MonoBehaviour{
 			velocity = Vector2.up;
 		
 		velocity = velocity.normalized * speed;
+	}
+	
+	public void SetKnockbackForce(float newValue) {
+		knockbackForce = newValue;
+	}
+	
+	public float GetKnockbackForce() {
+		return knockbackForce;
 	}
 }
