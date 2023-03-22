@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour
 {
-    public GetMoving();
+    //public GetMoving();
 
     // Start is called before the first frame update
     void Start()
