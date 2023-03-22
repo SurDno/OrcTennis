@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterUI))]
 public class CharacterOwner : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
-	[SerializeField]private ColorObject teamColor;
+	[SerializeField]private SkinnedMeshRenderer skinnedMeshRenderer;
 	
 	[Header("Settings")]
     [SerializeField]private Player owner;
@@ -52,7 +52,18 @@ public class CharacterOwner : MonoBehaviour {
 	public void TransferOwnership(Player newOwner) {
 		owner = newOwner;
 		ownerCursor = owner != null ? owner.GetCursor() : null;
-		teamColor.objColor = newOwner.GetColor();
+		
+		// Apply new color.
+		Color32 newColor;
+		if(owner == null)
+			newColor = Color.black;
+		else {
+			// Get color, preserve hue, max the saturation and value.
+			float hue;
+			Color.RGBToHSV(owner.GetColor(), out hue, out _, out  _);
+			newColor = Color.HSVToRGB(hue, 1, 1);
+		}
+		skinnedMeshRenderer.material.SetColor("_EmissionColor", newColor);
 	}
 	
 	public PlayerCursor GetCursor() {
