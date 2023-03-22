@@ -9,6 +9,9 @@ public abstract class Spell {
 	// Path to icon from Resources folder without an extension.
 	protected abstract string pathToIcon { get; }
 	
+	// Name of the spell to display in UI.
+	protected abstract string name { get; }
+	
 	// Type of the spell.
 	protected abstract CastType type { get; }
 
@@ -29,6 +32,10 @@ public abstract class Spell {
 
 	public Sprite GetIcon() {
 		return Resources.Load<Sprite>(pathToIcon);
+	}
+	
+	public string GetName() {
+		return name;
 	}
 
 	public CastType GetCastType() {

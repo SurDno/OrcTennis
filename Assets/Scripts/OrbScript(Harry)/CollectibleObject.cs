@@ -3,24 +3,23 @@ using UnityEngine;
 // Gives a random ability upon pickup.
 public class CollectibleObject : MonoBehaviour {
 	private Spawner spawner;
-	
+	private Spell[] abilities = {
+		new SuperKnockback(),
+		new BeastHaste(),
+		new Telekinesis(),
+		new EarthSlam(),
+		new RandomBlink()
+	};
+
 	private void OnTriggerEnter(Collider other) {
-		other.GetComponent<CharacterAbilities>().ReceiveAbility(GenerateSpell());
+		Spell newAbility = GenerateSpell();
+		other.GetComponent<CharacterAbilities>().ReceiveAbility(newAbility);
 		spawner.StartCoroutine(spawner.RespawnAfterDelay());
 		Destroy(this.gameObject);
 	}
 	
 	Spell GenerateSpell() {
-		int i = Random.Range(0, 2);
-		
-		switch(i) {
-			case 0:
-				return new SuperKnockback();
-			case 1:
-				return new BeastHaste();
-		}
-		
-		return null;
+		return abilities[Random.Range(0, abilities.Length)];
 	}
 	
 	public void AssignSpawner(Spawner newSpawner) {

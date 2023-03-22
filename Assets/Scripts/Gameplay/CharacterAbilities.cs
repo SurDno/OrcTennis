@@ -1,8 +1,13 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(CharacterOwner))]
 [RequireComponent(typeof(CharacterHit))]
 public class CharacterAbilities : MonoBehaviour {
+	// Events
+	public event Action OnAbilityChanged;
+	public event Action OnAbilityAddedOrRemoved;
+
 	[Header("Prefabs and Cached Objects")]
 	private CharacterOwner characterOwner;
 	private CharacterHit characterHit;
@@ -10,6 +15,7 @@ public class CharacterAbilities : MonoBehaviour {
 	[Header("Current Values")]
 	private int selectedAbilityIndex;
 	private Spell[] abilities = new Spell[4];
+	
 	
 	// Initializing cached GameObjects and Components.
     void Start() {
@@ -65,6 +71,7 @@ public class CharacterAbilities : MonoBehaviour {
 	public void DestroySelectedAbility() {
 		if(GetSelectedAbility().GetSingleUse()) {
 			abilities[selectedAbilityIndex] = null;
+			OnAbilityAddedOrRemoved?.Invoke();
 			SelectOneAbility(2);
 		}
 	}
@@ -72,6 +79,7 @@ public class CharacterAbilities : MonoBehaviour {
 	// Changes current selected ability by index.
 	void SelectOneAbility(int abilityIndex) {
 		selectedAbilityIndex = abilityIndex;
+		OnAbilityChanged?.Invoke();
 	}
 	
 	// Returns the spell that is currently selected.
@@ -96,9 +104,12 @@ public class CharacterAbilities : MonoBehaviour {
 	
 	// Puts a new ability into an empty slot if there is one.
 	public void ReceiveAbility(Spell newAbility) {
-		if(!CheckAbilitySlot(0))
+		if(!CheckAbilitySlot(0)) {
 			abilities[0] = newAbility;
-		else if(!CheckAbilitySlot(0))
+			OnAbilityAddedOrRemoved?.Invoke();
+		} else if(!CheckAbilitySlot(1)) {
 			abilities[1] = newAbility;
+			OnAbilityAddedOrRemoved?.Invoke();
+		}
 	}
 }
