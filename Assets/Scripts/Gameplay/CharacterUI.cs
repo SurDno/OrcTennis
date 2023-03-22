@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 // Controls the behaviour of individual UI elements related to each particular character.
 public class CharacterUI : MonoBehaviour {
@@ -7,6 +8,7 @@ public class CharacterUI : MonoBehaviour {
 	[SerializeField]private Image[] abilityImages;
 	[SerializeField]private Image abilityBackground;
 	[SerializeField]private Image playerColorIndicator;
+	[SerializeField]private Text abilityText;
 	private CharacterAbilities characterAbilities;
 	private CharacterOwner characterOwner;
 	
@@ -17,14 +19,25 @@ public class CharacterUI : MonoBehaviour {
 		
 		// Color ability background into player color.
 		playerColorIndicator.color = characterOwner.GetOwner().GetColor(); 
-    }
-	
-	void Update() {
+		
+		// Subscribe onto ability related events.
+		characterAbilities.OnAbilityChanged += UpdateAbilityNames;
+		characterAbilities.OnAbilityChanged += UpdateAbilityHighlight;
+		characterAbilities.OnAbilityAddedOrRemoved += UpdateAbilityIcons;
+		
+		// Call functions once before events are called.
 		UpdateAbilityIcons();
 		UpdateAbilityHighlight();
+    }
+	
+	void OnDisable() {
+		// Unsubscribe from ability related events.
+		characterAbilities.OnAbilityChanged -= UpdateAbilityNames;
+		characterAbilities.OnAbilityChanged -= UpdateAbilityHighlight;
+		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityIcons;
 	}
 	
-	// Ideally this should only be called once when an ability is acquired or lost. Right now this is called in update.
+	// Called once when an ability is acquired or lost.
 	void UpdateAbilityIcons() {
 		// Grey out all the other abilities.
 		for(int i = 0; i < abilityImages.Length; i++)
@@ -32,7 +45,7 @@ public class CharacterUI : MonoBehaviour {
 		
 	}
 	
-	// Ideally this should only be called once when the selected ability changes. Right now this is called in update.
+	// Called once when the selected ability changes.
 	void UpdateAbilityHighlight() {
 		// Grey out the inactive abilities 
 		for(int i = 0; i < abilityImages.Length; i++)
@@ -40,6 +53,27 @@ public class CharacterUI : MonoBehaviour {
 		
 		// Light the one we have selected.
 		abilityImages[characterAbilities.GetSelectedAbilityIndex()].color = Color.white;	
+	}
+	
+	// Dummy method cause we can't call coroutines from actions.
+	void UpdateAbilityNames() {
+		StopAllCoroutines();
+		StartCoroutine(ShowNewAbilityName());
+	}
+	
+	public IEnumerator ShowNewAbilityName() {
+		abilityText.text = characterAbilities.GetSelectedAbility().GetName();
+		abilityText.color = Color.white;
+		
+		yield return new WaitForSeconds(1);
+		
+		// Slowly fade the text out.
+		byte alpha = 255;
+		while(alpha > 0) {
+			alpha -= 3;
+			abilityText.color = new Color32(255, 255, 255, alpha);
+			yield return new WaitForFixedUpdate();
+		}
 	}
 	
 	public void DisableAbilityShowing() {

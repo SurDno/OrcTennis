@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SuperKnockback : Spell {
 	protected override string pathToIcon => "Sprites/Icons/SuperKnockback";
+	protected override string name => "Super Knockback";
 	protected override CastType type => Spell.CastType.Hit;
 	protected override bool singleUse => true;
 	

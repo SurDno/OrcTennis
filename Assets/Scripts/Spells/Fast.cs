@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Fast : Spell {
-	protected override string pathToIcon => "Sprites/Icons/Hunter1";
+	protected override string pathToIcon => "Sprites/Icons/Fast";
+	protected override string name => "Fast";
 	protected override CastType type => Spell.CastType.Hit;
 	protected override bool singleUse => false;
 	

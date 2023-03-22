@@ -3,7 +3,8 @@ using System.Collections;
 
 // Sets character movespeed to a higher value for a short period of time.
 public class BeastHaste : Spell {
-	protected override string pathToIcon => "Sprites/Icons/BeastMaster19";
+	protected override string pathToIcon => "Sprites/Icons/BeastHaste";
+	protected override string name => "Beast Haste";
 	protected override CastType type => Spell.CastType.Instant;
 	protected override bool singleUse => true;
 	
