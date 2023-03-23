@@ -12,31 +12,27 @@ public class Ball : MonoBehaviour{
     }
 	
 	void OnCollisionEnter(Collision col) {
-		// Right now, we treat any collision as wall collision. However, this is not ideal and checks for layers or tags should be added later.
-		Reflect(new Vector2(col.contacts[0].normal.x, col.contacts[0].normal.z));
+		// Reflect the ball.
+		if(Mathf.Abs(col.contacts[0].normal.x) < Mathf.Abs(col.contacts[0].normal.z))
+			velocity.y = -velocity.y;
+		else
+			velocity.x = -velocity.x;
+		
+		// If we hit actual wall of the other team, register a goal.
+		int walls = LayerMask.NameToLayer("Walls");
+		if(col.gameObject.layer == walls && Mathf.Abs(col.contacts[0].normal.x) > Mathf.Abs(col.contacts[0].normal.z)) {
+			if(col.contacts[0].normal.x > 0)
+				ScoreManager.GoalLeft();
+			else
+				ScoreManager.GoalRight();
+		}
 	}
 	
-	// Reflects the angle of the ball upon wall collision, based on collision normal.
-	void Reflect(Vector2 normal) {
-		if(Mathf.Abs(normal.x) < Mathf.Abs(normal.y)) {
-			velocity.y = -velocity.y;
-			return;
-		}
-		
-		// TODO: Move that restart level code away from the ball.
-		if(normal.x > 0)
-			ScoreManager.GoalLeft();
-		else
-			ScoreManager.GoalRight();
-		
+	public void ResetBall() {
 		SetVelocity(Vector2.zero);
 		SetKnockbackForce(0);
 		GetComponent<ColorObject>().objColor = Color.black;
 		transform.position = new Vector3(0, -2.5f, 0);
-		
-		foreach(Object player in FindObjectsOfType(typeof(CharacterControls))) {
-			((CharacterControls)player).Respawn();
-		}
 	}
 	
 	// Changes direction and speed.
@@ -62,6 +58,14 @@ public class Ball : MonoBehaviour{
 			velocity = Vector2.up;
 		
 		velocity = velocity.normalized * speed;
+	}
+	
+	// Adds speed to the current velocity.
+	public void AddSpeed(float speed) {
+		if(velocity == Vector2.zero)
+			velocity = Vector2.up;
+		
+		velocity = velocity.normalized * (velocity.magnitude + speed);
 	}
 	
 	public void SetKnockbackForce(float newValue) {

@@ -6,6 +6,9 @@ public class ScoreManager : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private Text leftTeamScoreText;
 	[SerializeField]private Text rightTeamScoreText;
+	
+	[Header("Prefabs and Cached Objects")]
+	private int goalsTillVictory = 15;
     
 	[Header("Current Values")]
 	private static int leftTeamScore = 0;
@@ -15,7 +18,7 @@ public class ScoreManager : MonoBehaviour {
 		leftTeamScoreText.text = leftTeamScore.ToString();
 		rightTeamScoreText.text = rightTeamScore.ToString();
 		
-		if(leftTeamScore > 2 || rightTeamScore > 2) {
+		if(leftTeamScore >= goalsTillVictory || rightTeamScore >= goalsTillVictory) {
 			foreach(Player player in PlayerHolder.GetPlayers()) {
 				player.GetCursor().ShowCursor();
 				player.ResetPlayerData();
@@ -31,10 +34,25 @@ public class ScoreManager : MonoBehaviour {
 	
 	public static void GoalLeft() {
 		leftTeamScore++;
+		Restart();
 	}
 	
 	public static void GoalRight() {
 		rightTeamScore++;
+		Restart();
+	}
+	
+	public static void Restart() {
+		// Get all players to get back to their spawn points.
+		foreach(Object player in FindObjectsOfType(typeof(CharacterControls)))
+			((CharacterControls)player).Respawn();
+		
+		// Reset the ball.
+		((Ball)FindObjectOfType(typeof(Ball))).ResetBall();
+		
+		// Remove electric shield if it's present.
+		GameObject.Find("BallWall")?.gameObject.SetActive(true);
+		
 	}
 	
 	public static void ResetScoreData() {

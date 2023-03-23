@@ -8,7 +8,9 @@ public class CollectibleObject : MonoBehaviour {
 		new BeastHaste(),
 		new Telekinesis(),
 		new EarthSlam(),
-		new RandomBlink()
+		new RandomBlink(),
+		new ElectricShield(),
+		new Dash()
 	};
 
 	private void OnTriggerEnter(Collider other) {

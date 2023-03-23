@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+// Gives you a very strong version of knockback ability.
 public class SuperKnockback : Spell {
 	protected override string pathToIcon => "Sprites/Icons/SuperKnockback";
 	protected override string name => "Super Knockback";
