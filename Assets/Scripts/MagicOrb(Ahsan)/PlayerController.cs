@@ -53,13 +53,14 @@ public class PlayerController : MonoBehaviour
                 Collider[] colliders = Physics.OverlapSphere(transform.position, freezeRadius); // get all colliders within freeze radius
                 foreach (Collider collider in colliders)
                 {
-                    if (collider.CompareTag("Player") && collider.GetComponent<PlayerHolder>().teamColor != teamColor) // check if collider is a player on the opposite team
-                    {
-                        collider.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll; // freeze the player's movement
-                        StartCoroutine(UnfreezePlayer(collider.gameObject, freezeDuration)); // start coroutine to unfreeze the player after a certain
-
-                    }
-                }
+					;
+                //    if (collider.CompareTag("Player") && collider.GetComponent<PlayerHolder>().teamColor != teamColor) // check if collider is a player on the opposite team
+                //    {
+                //       collider.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll; // freeze the player's movement
+                //        StartCoroutine(UnfreezePlayer(collider.gameObject, freezeDuration)); // start coroutine to unfreeze the player after a certain
+				//
+                //    }
+                 }
                 canCastInstantFreeze = false; // player can no longer cast instant freeze
             }
         }
