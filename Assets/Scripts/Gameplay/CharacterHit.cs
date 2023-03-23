@@ -94,7 +94,6 @@ public class CharacterHit : MonoBehaviour {
 	}
 	
 	void EndCharge() {
-		characterAbilities.DestroySelectedAbility();
 		charging = false;
 		chargingObj.SetActive(false);
 		
@@ -131,6 +130,8 @@ public class CharacterHit : MonoBehaviour {
         ball.SetDirection(transform.eulerAngles.y - 90);
 		ball.SetKnockbackForce(knockbackValue);
 		StartCoroutine(characterAbilities.GetSelectedAbility().Cast(this.gameObject.GetComponent<CharacterAbilities>()));
+		
+		characterAbilities.DestroySelectedAbility();
 	}
 	
 	IEnumerator Cooldown() {

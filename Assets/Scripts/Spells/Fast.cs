@@ -17,6 +17,9 @@ public class Fast : Spell {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(0, 50, 0, 255);
 		
+		// TODO: Replace with unique sound.
+		SoundManager.PlaySound("Knockback", 0.2f);
+		
 		yield break;
 	}
 }

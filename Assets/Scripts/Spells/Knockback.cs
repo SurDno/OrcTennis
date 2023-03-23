@@ -17,6 +17,8 @@ public class Knockback : Spell {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(50, 0, 0, 255);
 		
+		SoundManager.PlaySound("Knockback", 0.2f);
+		
 		yield break;
 	}
 }

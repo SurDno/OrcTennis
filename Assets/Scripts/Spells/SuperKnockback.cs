@@ -16,7 +16,9 @@ public class SuperKnockback : Spell {
 	// As there's no need to apply any effects or anything, the coroutine stays empty.
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
-		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(255, 0, 0, 255);
+		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(100, 0, 0, 255);
+		
+		SoundManager.PlaySound("SuperKnockback", 0.8f);
 		
 		yield break;
 	}
