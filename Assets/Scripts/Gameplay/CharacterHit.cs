@@ -133,6 +133,11 @@ public class CharacterHit : MonoBehaviour {
 		ball.SetKnockbackForce(knockbackValue);
 		StartCoroutine(characterAbilities.GetSelectedAbility().Cast(this.gameObject.GetComponent<CharacterAbilities>()));
 		
+		// Create an effect on top of the hit point.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/ImpactWhite");
+		Vector3 effectPosition = ball.gameObject.transform.position;
+		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		characterAbilities.DestroySelectedAbility();
 	}
 	

@@ -16,6 +16,13 @@ public class BeastHaste : Spell {
 		characterControls.SetSpeedHaste();
 		SoundManager.PlaySound("BeastHaste", 0.5f);
 		
+		// Create an effect on top of the player.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/BeastHaste");
+		Vector3 effectPosition = casterRef.gameObject.transform.position;
+		effectPosition.y -= 1f;
+		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		instance.transform.parent = casterRef.gameObject.transform;
+		
 		yield return new WaitForSeconds(duration);
 		
 		characterControls.SetSpeedDefault();

@@ -8,6 +8,11 @@ public class Electric : MonoBehaviour {
 		
 		SoundManager.PlaySound("ElectricShieldHit");
 		
+		// Create an effect on top of the collision point.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/ElectricityHit");
+		Vector3 effectPosition = col.gameObject.transform.position;
+		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		this.gameObject.SetActive(false);
     }
 }
