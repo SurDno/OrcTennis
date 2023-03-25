@@ -16,6 +16,12 @@ public class CollectibleObject : MonoBehaviour {
 		Spell newAbility = GenerateSpell();
 		other.GetComponent<CharacterAbilities>().ReceiveAbility(newAbility);
 		spawner.StartCoroutine(spawner.RespawnAfterDelay());
+		
+		// Create an effect on top of the pickup.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/MagicOrbPickup");
+		Vector3 effectPosition = transform.position;
+		Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		Destroy(this.gameObject);
 	}
 	

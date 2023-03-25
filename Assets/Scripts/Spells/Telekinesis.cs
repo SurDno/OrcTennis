@@ -11,6 +11,12 @@ public class Telekinesis : Spell {
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.SetSpeed(0);
+		
+		// Create an effect on top of the ball.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/TelekinesisBubble");
+		Vector3 effectPosition = ball.gameObject.transform.position;
+		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		SoundManager.PlaySound("Telekinesis");
 		
 		yield break;

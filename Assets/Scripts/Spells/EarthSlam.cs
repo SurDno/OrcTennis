@@ -18,6 +18,11 @@ public class EarthSlam : Spell {
 		
 		ball.SetVelocity(new Vector2(velocityVector.x, velocityVector.z));
 		
+		// Create an effect on top of the player.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/EarthSlam");
+		Vector3 effectPosition = casterRef.gameObject.transform.position;
+		Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		SoundManager.PlaySound("EarthSlam");
 		
 		yield break;

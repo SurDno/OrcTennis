@@ -18,6 +18,33 @@ ModelImporter:
   - first:
       74: -1603763686174237528
     second: Orc_rig|HitIdle
+  - first:
+      74: -1304387373167265313
+    second: Hit
+  - first:
+      74: 551926357088770095
+    second: HitIdle
+  - first:
+      74: 5522812681064789136
+    second: Run
+  - first:
+      74: -4894767563251719647
+    second: Orc_rig|Death
+  - first:
+      74: -7316892334041879223
+    second: Orc_rig|Emotion_Lose_1
+  - first:
+      74: -1608032986825764885
+    second: Orc_rig|Emotion_Win_1
+  - first:
+      74: 9202630239217646544
+    second: Orc_rig|Emotion_Win_2
+  - first:
+      74: -277132887047896400
+    second: Orc_rig|Emotion_Win_3
+  - first:
+      74: 8180981427524034754
+    second: Orc_rig|Run
   externalObjects:
   - first:
       type: UnityEngine:Material

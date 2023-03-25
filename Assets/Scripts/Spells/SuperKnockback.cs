@@ -18,6 +18,11 @@ public class SuperKnockback : Spell {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(100, 0, 0, 255);
 		
+		// Create an effect on top of the hit point.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/ImpactRed");
+		Vector3 effectPosition = ball.gameObject.transform.position;
+		Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		
 		SoundManager.PlaySound("SuperKnockback", 0.8f);
 		
 		yield break;
