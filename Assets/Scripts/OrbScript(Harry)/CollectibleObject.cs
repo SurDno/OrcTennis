@@ -14,15 +14,21 @@ public class CollectibleObject : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		Spell newAbility = GenerateSpell();
-		other.GetComponent<CharacterAbilities>().ReceiveAbility(newAbility);
-		spawner.StartCoroutine(spawner.RespawnAfterDelay());
 		
-		// Create an effect on top of the pickup.
-		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/MagicOrbPickup");
-		Vector3 effectPosition = transform.position;
-		Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		bool success;
+		other.GetComponent<CharacterAbilities>().ReceiveAbility(newAbility, out success);
 		
-		Destroy(this.gameObject);
+		// If we were able to find a place for the ability, destroy it. If not, leave it there.
+		if(success) {
+			spawner.StartCoroutine(spawner.RespawnAfterDelay());
+			
+			// Create an effect on top of the pickup.
+			GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/MagicOrbPickup");
+			Vector3 effectPosition = transform.position;
+			Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+			
+			Destroy(this.gameObject);
+		}
 	}
 	
 	Spell GenerateSpell() {

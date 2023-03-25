@@ -102,13 +102,16 @@ public class CharacterAbilities : MonoBehaviour {
 		return selectedAbilityIndex;
 	}
 	
-	// Puts a new ability into an empty slot if there is one.
-	public void ReceiveAbility(Spell newAbility) {
+	// Puts a new ability into an empty slot if there is one. The success variable can be read to check if there was an empty slot.
+	public void ReceiveAbility(Spell newAbility, out bool success) {
+		success = false;
 		if(!CheckAbilitySlot(0)) {
 			abilities[0] = newAbility;
+			success = true;
 			OnAbilityAddedOrRemoved?.Invoke();
 		} else if(!CheckAbilitySlot(1)) {
 			abilities[1] = newAbility;
+			success = true;
 			OnAbilityAddedOrRemoved?.Invoke();
 		}
 	}
