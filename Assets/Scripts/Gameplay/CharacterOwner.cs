@@ -63,7 +63,7 @@ public class CharacterOwner : MonoBehaviour {
 			Color.RGBToHSV(owner.GetColor(), out hue, out _, out  _);
 			newColor = Color.HSVToRGB(hue, 1, 1);
 		}
-		skinnedMeshRenderer.material.SetColor("_EmissionColor", newColor);
+		skinnedMeshRenderer.material.SetColor("_TeamColor", newColor);
 	}
 	
 	public PlayerCursor GetCursor() {
