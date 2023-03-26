@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
-public class ScoreManager : MonoBehaviour
-{
+public class ScoreManager : MonoBehaviour {
     [Header("Prefabs and Cached Objects")]
     [SerializeField] private Text leftTeamScoreText;
     [SerializeField] private Text rightTeamScoreText;
@@ -17,69 +15,37 @@ public class ScoreManager : MonoBehaviour
 
     private Coroutine timerCoroutine;
 
-    void Start()
-    {
-        // the timer coroutine.
-        timerCoroutine = StartCoroutine(TimerCoroutine());
-    }
-
-    void Update()
-    {
+    void Update() {
         leftTeamScoreText.text = leftTeamScore.ToString();
         rightTeamScoreText.text = rightTeamScore.ToString();
 
-        if (leftTeamScore >= goalsTillVictory || rightTeamScore >= goalsTillVictory)
-        {
-            foreach (Player player in PlayerHolder.GetPlayers())
-            {
-                player.GetCursor().ShowCursor();
-                player.ResetPlayerData();
-
-            }
-
-            ResetScoreData();
-            PlayerSetup.ResetSetupData();
-
-            SceneManager.LoadScene("Setup");
+        if (leftTeamScore >= goalsTillVictory || rightTeamScore >= goalsTillVictory) {
+			// Victory cutscene code should go here.
+			
+			GameController.ReturnToMenu();
         }
     }
 
-    public static void GoalLeft()
-    {
+    public static void GoalLeft() {
         leftTeamScore++;
-        Restart();
+        MatchController.Restart();
     }
 
-    public static void GoalRight()
-    {
+    public static void GoalRight() {
         rightTeamScore++;
-        Restart();
+        MatchController.Restart();
     }
 
-    public static void Restart()
-    {
-        // Get all players to get back to their spawn points.
-        foreach (Object player in FindObjectsOfType(typeof(CharacterControls)))
-            ((CharacterControls)player).Respawn();
-
-        // Reset the ball.
-        ((Ball)FindObjectOfType(typeof(Ball))).ResetBall();
-
-        // Remove electric shield if it's present.
-        GameObject.Find("BallWall")?.gameObject.SetActive(true);
-
-    }
-
-    public static void ResetScoreData()
-    {
+    public static void ResetScoreData() {
         leftTeamScore = 0;
         rightTeamScore = 0;
     }
-
-    IEnumerator TimerCoroutine()
-    {
-        yield return new WaitForSeconds(300); // Wait for 5 minutes.
-
-        SceneManager.LoadScene("Graveyard"); // Load the "Graveyard" scene.
-    }
+	
+	public static bool GetIsRedWinning() {
+		return rightTeamScore > leftTeamScore;
+	}
+	
+	public static bool GetIsGreenWinning() {
+		return leftTeamScore > rightTeamScore;
+	}
 }

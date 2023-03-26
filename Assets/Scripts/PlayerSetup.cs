@@ -105,22 +105,7 @@ public class PlayerSetup : MonoBehaviour {
 	}
 	
 	void StartMatch() {
-		// Don't destroy until all scenes are set for loading.
-		DontDestroyOnLoad(this.gameObject);
-		
-		GameController.SetGameState(GameController.GameState.Match);
-		
-		
-		// Load specific level environment first to apply lighting correctly.
-		// This should later be replaced with a check which level to load (when there are multiple).
-		SceneManager.LoadScene("Forest",  LoadSceneMode.Single);
-		//SceneManager.LoadScene("Graveyard",  LoadSceneMode.Single);
-		
-		// Load core scene for gameplay additively.
-		SceneManager.LoadScene("GameCore",  LoadSceneMode.Additive);
-		
-		// Destroy once loaded.
-		Destroy(this.gameObject);
+		GameController.LoadMatch();
 	}
 	
 	public static int GetAmountOfPlayersInLeftTeam() {
