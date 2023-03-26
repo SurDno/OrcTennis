@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 // Allows instantly playing a sound by parsing just its name in the files. Can specify volume.
-// Also allows playing looping audio, such as music.
+// Also allows playing looping audio and music.
 public static class SoundManager {
-	static AudioSource player;
+	static AudioSource soundPlayer;
+	static AudioSource musicPlayer;
 	static Dictionary<string, Coroutine> coroutineBySoundName = new Dictionary<string, Coroutine>();
 	
 	// When passed a sound, assume 100% volume.
@@ -30,15 +31,17 @@ public static class SoundManager {
 		PrepareForPlay(clip, volume);
 	}
 	
-	public static void PlaySoundLooped(string soundName, float volume) {
+	// Plays a sound once, then repeatedly again after delay.
+	public static void PlaySoundLooped(string soundName, float volume, float delay) {
 		// If this sound is already being played, ignore call.
 		if (coroutineBySoundName.ContainsKey(soundName)) 
 			return;
 		
 		AudioClip clip = GetClipByName(soundName);
-		coroutineBySoundName[soundName] = CoroutinePlayer.StartCoroutine(PrepareForPlayLooped(clip, volume));
+		coroutineBySoundName[soundName] = CoroutinePlayer.StartCoroutine(PrepareForPlayLooped(clip, volume, delay));
 	}
 	
+	// Stop sound from repeating further, but does NOT abruptly stop the currently playing sound.
 	public static void StopSoundLooped(string soundName) {
 		// If this sound is not being played, ignore call.
 		if (!coroutineBySoundName.ContainsKey(soundName)) 
@@ -47,30 +50,56 @@ public static class SoundManager {
 		CoroutinePlayer.StopCoroutine(coroutineBySoundName[soundName]);
 	}
 	
-	static void PrepareForPlay(AudioClip clip, float volume) {
-		if(!player)
-			CreatePlayer();
+	public static void PlayMusic(string soundName, float volume) {
+		if(!musicPlayer)
+			musicPlayer = CreatePlayer(true);
 		
-		player.PlayOneShot(clip, volume);
+		AudioClip clip = GetClipByName(soundName);
+
+		musicPlayer.Stop();
+		musicPlayer.volume = volume;
+		musicPlayer.clip = clip;
+		musicPlayer.Play();
 	}
 	
-	static IEnumerator PrepareForPlayLooped(AudioClip clip, float volume) {
-		if(!player)
-			CreatePlayer();
+	public static void StopMusic() {
+		musicPlayer?.Stop();
+	}
+	
+	static void PrepareForPlay(AudioClip clip, float volume) {
+		if(!soundPlayer)
+			soundPlayer = CreatePlayer(false);
+		
+		soundPlayer.PlayOneShot(clip, volume);
+	}
+	
+	static IEnumerator PrepareForPlayLooped(AudioClip clip, float volume, float delay) {
+		if(!soundPlayer)
+			soundPlayer = CreatePlayer(false);
 		
 		while(true) {
-			player.PlayOneShot(clip, volume);
+			soundPlayer.PlayOneShot(clip, volume);
 			yield return new WaitForSeconds(clip.length);
+			yield return new WaitForSeconds(delay);
 		}
 	}
 	
 	static AudioClip GetClipByName(string soundName) {
-		return Resources.Load<AudioClip>("Audio/SFX/" + soundName);
+		// First search in SFX folder. 
+		AudioClip potentialSound = Resources.Load<AudioClip>("Audio/SFX/" + soundName);
+		
+		// If not found, look in Music folder.
+		if(potentialSound == null)
+			potentialSound = Resources.Load<AudioClip>("Audio/Music/" + soundName);
+		
+		return potentialSound;
 	}
 	
-	static void CreatePlayer() {
-		player = new GameObject().AddComponent<AudioSource>();
-		player.gameObject.name = "AudioPlayer";
-		Object.DontDestroyOnLoad(player);
+	static AudioSource CreatePlayer(bool forMusic) {
+		AudioSource instance = new GameObject().AddComponent<AudioSource>();
+		instance.gameObject.name = "AudioPlayer (" + (forMusic ? "Music" : "SFX") + ")";
+		instance.loop = forMusic;
+		Object.DontDestroyOnLoad(instance.gameObject);
+		return instance;
 	}
 }

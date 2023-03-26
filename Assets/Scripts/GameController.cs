@@ -23,6 +23,9 @@ public static class GameController {
 		
 		// Load core scene for gameplay additively.
 		SceneManager.LoadScene("GameCore",  LoadSceneMode.Additive);
+		
+		// Start music.
+		SoundManager.PlayMusic("Match", 0.3f);
 	}
 	
 	// Resets all game info and goes back to game menu.
@@ -37,6 +40,9 @@ public static class GameController {
 
 		currentState = GameState.Setup;
         SceneManager.LoadScene("Setup");
+		
+		// Stop music.
+		SoundManager.StopMusic();
 	}
 	
 	private static GameState GetGameState() {
