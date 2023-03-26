@@ -8,7 +8,7 @@ public class BeastHaste : Spell {
 	protected override CastType type => Spell.CastType.Instant;
 	protected override bool singleUse => true;
 	
-	float duration = 4f;
+	float duration = 6f;
 	
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		CharacterControls characterControls = casterRef.gameObject.GetComponent<CharacterControls>();
@@ -16,14 +16,24 @@ public class BeastHaste : Spell {
 		characterControls.SetSpeedHaste();
 		SoundManager.PlaySound("BeastHaste", 0.5f);
 		
-		// Create an effect on top of the player.
-		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/BeastHaste");
+		
 		Vector3 effectPosition = casterRef.gameObject.transform.position;
 		effectPosition.y -= 1f;
-		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
-		instance.transform.parent = casterRef.gameObject.transform;
+		
+		// Create one-time on top of the player.
+		GameObject magicEffectAcquirePrefab = Resources.Load<GameObject>("Prefabs/Magic/BeastHasteAcquire");;
+		GameObject acquireInstance = Object.Instantiate(magicEffectAcquirePrefab, effectPosition, Quaternion.identity);
+		acquireInstance.transform.parent = casterRef.gameObject.transform;
+		
+		// Create a looping effect on top of the player.
+		GameObject magicEffectAuraPrefab = Resources.Load<GameObject>("Prefabs/Magic/BeastHasteAura");
+		GameObject auraInstance = Object.Instantiate(magicEffectAuraPrefab, effectPosition, Quaternion.identity);
+		auraInstance.transform.parent = casterRef.gameObject.transform;
 		
 		yield return new WaitForSeconds(duration);
+		
+		// Once the duration runs out, stop aura prefab emissions.
+		auraInstance.GetComponent<ParticleSystem>().Stop();
 		
 		characterControls.SetSpeedDefault();
 	}

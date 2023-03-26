@@ -9705,7 +9705,7 @@ GameObject:
   - component: {fileID: 7454758666212883914}
   - component: {fileID: 7832938006618895174}
   m_Layer: 0
-  m_Name: BeastHaste
+  m_Name: BeastHasteAcquire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
