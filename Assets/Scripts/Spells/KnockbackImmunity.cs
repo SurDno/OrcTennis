@@ -8,6 +8,7 @@ public class KnockbackImmunity : Spell {
 	protected override CastType type => Spell.CastType.Instant;
 	protected override bool singleUse => true;
 	
+	// If any of those are modified, particle system prefab needs to be updated to avoid mismatch.
 	float duration = 8f;
 	
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
@@ -15,14 +16,16 @@ public class KnockbackImmunity : Spell {
 		CharacterControls controls = casterRef.gameObject.GetComponent<CharacterControls>();
 		
 		// Create one-time effect on top of the player.
-		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/Heal");
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/KnockbackImmunityAcquire");
 		Vector3 effectPosition = casterRef.gameObject.transform.position;
-		effectPosition.y -= 1;
+		effectPosition.y -= 0.95f;
 		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
 		instance.transform.parent = casterRef.gameObject.transform;
 		
+		SoundManager.PlaySound("KnockbackImmunityBlessing");
+		
 		// Create a looping effect on top of the player.
-		GameObject magicEffectAuraPrefab = Resources.Load<GameObject>("Prefabs/Magic/HolyLight");
+		GameObject magicEffectAuraPrefab = Resources.Load<GameObject>("Prefabs/Magic/KnockbackImmunityAura");
 		GameObject auraInstance = Object.Instantiate(magicEffectAuraPrefab, effectPosition, Quaternion.identity);
 		auraInstance.transform.parent = casterRef.gameObject.transform;
 		
@@ -30,12 +33,9 @@ public class KnockbackImmunity : Spell {
 		float timer = 0;
 		while(timer < duration) {
 			controls.ResetKnockback(true);
-			yield return new WaitForSeconds(0.005f);
-			timer += 0.005f;
+			yield return null;
+			timer += Time.deltaTime;
 		}
-		
-		// Once the duration runs out, stop aura prefab emissions.
-		auraInstance.GetComponent<ParticleSystem>().Stop();
 		
 		yield break;
 	}
