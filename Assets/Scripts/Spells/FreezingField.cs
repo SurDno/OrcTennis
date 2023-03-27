@@ -26,7 +26,7 @@ public class FreezingField : Spell {
 		
 		List<CharacterControls> affectedPlayers = new List<CharacterControls>();
 		
-		SoundManager.PlaySound("FreezingField", 0.75f);
+		SoundManager.PlaySound("FreezingFieldEffect", 0.7f);
 		
 		float timer = 0;
 		while(timer < duration) {
@@ -45,13 +45,13 @@ public class FreezingField : Spell {
 					continue;
 
 				// Ignore all friendly players.
-				//if(collider.gameObject.GetComponent<CharacterOwner>().GetOwner().GetTeam() == casterRef.gameObject.GetComponent<CharacterOwner>().GetOwner().GetTeam())
-				//	continue;
+				if(collider.gameObject.GetComponent<CharacterOwner>().GetOwner().GetTeam() == casterRef.gameObject.GetComponent<CharacterOwner>().GetOwner().GetTeam())
+					continue;
 				
 				affectedPlayers.Add(collider.gameObject.GetComponent<CharacterControls>());
             }
 			
-			// Slow each target and create an effect on it.
+			// Slow each target and create an effect on it, play a sound.
 			foreach(CharacterControls playerToSlow in affectedPlayers) {
 				playerToSlow.TakeSpeed();
 				
@@ -59,6 +59,8 @@ public class FreezingField : Spell {
 				Vector3 effectHitPosition = playerToSlow.gameObject.transform.position;
 				GameObject instanceHit = Object.Instantiate(magicHitEffectPrefab, effectHitPosition, Quaternion.identity);
 				instanceHit.transform.parent = playerToSlow.gameObject.transform;
+		
+				SoundManager.PlaySound(new string[] {"FreezingFieldHit1", "FreezingFieldHit2", "FreezingFieldHit3"}, 0.5f);
 			}
 				 
 			// Wait for next freeze check.
