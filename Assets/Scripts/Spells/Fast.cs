@@ -10,7 +10,7 @@ public class Fast : Spell {
 	public override float minBallSpeed => 6f;
 	public override float maxBallSpeed => 9f;
 	public override float chargeMaxTime => 0.12f;
-	public override float knockbackValue => 0;
+	public override float knockbackValue => 5;
 	
 	// As there's no need to apply any effects or anything, the coroutine stays empty.
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
