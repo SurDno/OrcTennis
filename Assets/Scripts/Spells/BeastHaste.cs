@@ -13,7 +13,7 @@ public class BeastHaste : Spell {
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		CharacterControls characterControls = casterRef.gameObject.GetComponent<CharacterControls>();
 		
-		characterControls.SetSpeedHaste();
+		characterControls.GiveSpeed();
 		SoundManager.PlaySound("BeastHaste", 0.5f);
 		
 		
@@ -35,6 +35,6 @@ public class BeastHaste : Spell {
 		// Once the duration runs out, stop aura prefab emissions.
 		auraInstance.GetComponent<ParticleSystem>().Stop();
 		
-		characterControls.SetSpeedDefault();
+		characterControls.TakeSpeed();
 	}
 }

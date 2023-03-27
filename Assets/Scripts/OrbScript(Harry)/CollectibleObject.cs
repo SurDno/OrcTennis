@@ -9,7 +9,8 @@ public class CollectibleObject : MonoBehaviour {
 		new Telekinesis(),
 		new EarthSlam(),
 		new ElectricShield(),
-		new Dash()
+		new Dash(),
+		new FreezingField()
 	};
 
 	private void OnTriggerEnter(Collider other) {

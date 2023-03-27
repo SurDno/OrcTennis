@@ -18,6 +18,7 @@ public class CharacterControls : MonoBehaviour {
 	
 	[Header("Current Values")]
 	[SerializeField]private bool moving;
+	private int effects;
 	private float currentSpeed;
 	private Vector3 initPosition;
 	private Vector2 knockbackVelocity;
@@ -35,6 +36,9 @@ public class CharacterControls : MonoBehaviour {
     void FixedUpdate() {
         if(characterOwner.GetOwner() == null)
 			return;
+		
+		// Determine speed from effects.
+		currentSpeed = (effects == 0) ? defaultSpeed : (effects > 0) ? hasteSpeed : hinderedSpeed;
 		
 		// Use left stick input for either movement or rotation, depending on whether we're charging or not. 
 		Vector2 leftStickInput = GamepadInput.GetLeftStick(characterOwner.GetOwner().GetGamepad()).normalized;
@@ -101,15 +105,11 @@ public class CharacterControls : MonoBehaviour {
 		knockbackVelocity = Vector2.zero;
 	}
 	
-	public void SetSpeedDefault() {
-		currentSpeed = defaultSpeed;
+	public void GiveSpeed() {
+		effects += 1;
 	}
 	
-	public void SetSpeedHindered() {
-		currentSpeed = hinderedSpeed;
-	}
-	
-	public void SetSpeedHaste() {
-		currentSpeed = hasteSpeed;
+	public void TakeSpeed() {
+		effects -= 1;
 	}
 }

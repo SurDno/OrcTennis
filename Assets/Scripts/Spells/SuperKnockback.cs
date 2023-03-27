@@ -11,7 +11,7 @@ public class SuperKnockback : Spell {
 	public override float minBallSpeed => 1f;
 	public override float maxBallSpeed => 4f;
 	public override float chargeMaxTime => 0.33f;
-	public override float knockbackValue => 100;
+	public override float knockbackValue => 80;
 	
 	// As there's no need to apply any effects or anything, the coroutine stays empty.
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
