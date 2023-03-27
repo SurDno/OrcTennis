@@ -9,7 +9,7 @@ public class ElectricShield : Spell {
 	protected override bool singleUse => true;
 	
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
-		GameObject.Find("Environment").transform.
+		GameObject.Find("Boundaries").transform.
 		Find("BallWall").gameObject.SetActive(true);
 		
 		SoundManager.PlaySound("ElectricShieldAppear");

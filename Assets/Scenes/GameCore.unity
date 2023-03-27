@@ -6697,7 +6697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 834618406}
   m_Layer: 0
-  m_Name: Environment
+  m_Name: Boundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12330,7 +12330,7 @@ Transform:
   m_GameObject: {fileID: 1623213304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18, y: 7.5, z: -9}
-  m_LocalScale: {x: 14.5, y: 0.5, z: 14.5}
+  m_LocalScale: {x: 12, y: 0.5, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1810483325}
@@ -14887,7 +14887,7 @@ Transform:
   m_GameObject: {fileID: 1968188851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.5, y: 7.5, z: -9}
-  m_LocalScale: {x: 14.5, y: 0.5, z: 14.5}
+  m_LocalScale: {x: 12, y: 0.5, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1810483325}
