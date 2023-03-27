@@ -34530,7 +34530,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.3254902, g: 0.5254902, b: 1, a: 1}
+  m_Color: {r: 0.008899963, g: 0.11815221, b: 0.3773585, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -48538,7 +48538,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.51699895, g: 0.6359485, b: 0.6981132, a: 0.5686275}
+      maxColor: {r: 0.51699895, g: 0.6359485, b: 0.6981132, a: 0.8509804}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -48984,7 +48984,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 90, y: 0, z: 0}
-    m_Scale: {x: 100, y: 100, z: 100}
+    m_Scale: {x: 400, y: 250, z: 100}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -53076,7 +53076,7 @@ Transform:
   m_GameObject: {fileID: 3288148624218542258}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.56, y: 39.67, z: -34.65}
-  m_LocalScale: {x: 0.6921956, y: 0.044788, z: 0.45537573}
+  m_LocalScale: {x: 0.10000001, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 270599460}
