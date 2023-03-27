@@ -14,7 +14,7 @@ public class Dash : Spell {
 		float forwardAngle = casterRef.transform.eulerAngles.y - 90;
 		Vector2 knockbackDirection = new Vector2(Mathf.Cos(forwardAngle * Mathf.Deg2Rad), -Mathf.Sin(forwardAngle * Mathf.Deg2Rad));
 		Vector2 knockbackVector = 15 * knockbackDirection;
-		characterControls.SetKnockback(knockbackVector);
+		characterControls.SetKnockback(knockbackVector, true);
 		
 		SoundManager.PlaySound("Dash");
 		

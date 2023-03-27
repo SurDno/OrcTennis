@@ -125,7 +125,7 @@ public class CharacterHit : MonoBehaviour {
 		// Apply knockback to the player.
 		Vector2 knockbackDirection = new Vector2(Mathf.Cos((transform.eulerAngles.y - 270) * Mathf.Deg2Rad), -Mathf.Sin((transform.eulerAngles.y - 270) * Mathf.Deg2Rad));
 		Vector2 knockbackVector = ball.GetKnockbackForce() * knockbackDirection;
-		characterControls.SetKnockback(knockbackVector);
+		characterControls.SetKnockback(knockbackVector, false);
 		
         // Hit the ball, apply the new knockback settings, "cast" the hit.
         ball.SetSpeed(chargeValue);

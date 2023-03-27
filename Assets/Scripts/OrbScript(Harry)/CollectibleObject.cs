@@ -10,7 +10,8 @@ public class CollectibleObject : MonoBehaviour {
 		new EarthSlam(),
 		new ElectricShield(),
 		new Dash(),
-		new FreezingField()
+		new FreezingField(),
+		new KnockbackImmunity()
 	};
 
 	private void OnTriggerEnter(Collider other) {
