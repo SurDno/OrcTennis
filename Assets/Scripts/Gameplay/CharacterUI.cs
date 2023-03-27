@@ -7,8 +7,9 @@ public class CharacterUI : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private Image[] abilityImages;
 	[SerializeField]private Image abilityBackground;
-	[SerializeField]private Image playerColorIndicator;
+	[SerializeField]private Image[] playerColorIndicators;
 	[SerializeField]private Text abilityText;
+	[SerializeField]private Image healthbar;
 	private CharacterAbilities characterAbilities;
 	private CharacterOwner characterOwner;
 	
@@ -17,8 +18,9 @@ public class CharacterUI : MonoBehaviour {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterAbilities = GetComponent<CharacterAbilities>();
 		
-		// Color ability background into player color.
-		playerColorIndicator.color = characterOwner.GetOwner().GetColor(); 
+		// Color small circles representing players into player color.
+		foreach(Image playerColorIndicator in playerColorIndicators)
+			playerColorIndicator.color = characterOwner.GetOwner().GetColor(); 
 		
 		// Subscribe onto ability related events.
 		characterAbilities.OnAbilityChanged += UpdateAbilityNames;
@@ -39,19 +41,24 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityHighlight;
 	}
 	
+	void Update() {
+		UpdateHealthbarPosition();
+	}
+	
 	// Called once when an ability is acquired or lost.
 	void UpdateAbilityIcons() {
-		// Grey out all the other abilities.
-		for(int i = 0; i < abilityImages.Length; i++)
+		// Give images to the abilities we have, stop rendering those we don't.
+		for(int i = 0; i < abilityImages.Length; i++) {
 			abilityImages[i].sprite = characterAbilities.CheckAbilitySlot(i) ? characterAbilities.GetAbilityByIndex(i).GetIcon() : null;
-		
+			abilityImages[i].gameObject.transform.parent.gameObject.SetActive(characterAbilities.CheckAbilitySlot(i));
+		}
 	}
 	
 	// Called once when the selected ability changes.
 	void UpdateAbilityHighlight() {
 		// Grey out the inactive abilities 
 		for(int i = 0; i < abilityImages.Length; i++)
-			abilityImages[i].color = characterAbilities.CheckAbilitySlot(i) ? new Color32(90, 90, 90, 255): new Color32(41, 41, 41, 255);
+			abilityImages[i].color = new Color32(90, 90, 90, 255);
 		
 		// Light the one we have selected.
 		abilityImages[characterAbilities.GetSelectedAbilityIndex()].color = Color.white;	
@@ -78,7 +85,18 @@ public class CharacterUI : MonoBehaviour {
 		}
 	}
 	
-	public void DisableAbilityShowing() {
+	public void DisablePlayerSpecificUI() {
 		abilityBackground.gameObject.SetActive(false);
+		healthbar.gameObject.transform.parent.gameObject.SetActive(false);
+	}
+	
+	void UpdateHealthbarPosition()  {
+		// Get new healthbar position from player position.
+		Vector3 newHealthbarPos = Camera.main.WorldToScreenPoint(transform.position);
+		//newHealthbarPos.z = 0;
+		newHealthbarPos.y += 60;
+		
+		// Move the healthbar.
+		healthbar.gameObject.transform.parent.gameObject.transform.position = newHealthbarPos;
 	}
 }

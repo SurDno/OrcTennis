@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour {
 	const float minPos = -6.5f;
 	const float maxPos = 6.5f;
 	
-    void LateUpdate() {
+    void Update() {
 		Vector3 center = GetCentralPointBetweenGameObjects(objectsToFollow);
 
         // Calculate the distance from the center to the farthest object.

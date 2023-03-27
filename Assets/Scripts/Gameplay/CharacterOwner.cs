@@ -15,9 +15,9 @@ public class CharacterOwner : MonoBehaviour {
 	void Awake() {
 		FindNewOwner(true);
 		
-		// If we haven't found a potential owner, disable ability UI and destroy gameobject.
+		// If we haven't found a potential owner, disable player UI and destroy gameobject.
 		if(owner == null) {
-			GetComponent<CharacterUI>().DisableAbilityShowing();
+			GetComponent<CharacterUI>().DisablePlayerSpecificUI();
 			Destroy(this.gameObject);
 			
 		}

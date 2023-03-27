@@ -52,7 +52,7 @@ public class CharacterControls : MonoBehaviour {
 				transform.LookAt(targetPos);
 				transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 				
-				transform.position = targetPos;
+				rb.MovePosition(targetPos);
 			} else {
 				// Otherwise, it is used for rotation.
 				float rotationAngle = Mathf.Atan2(leftStickInput.x, leftStickInput.y) * Mathf.Rad2Deg;

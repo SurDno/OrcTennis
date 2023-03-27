@@ -11,7 +11,7 @@ public static class GameController {
 	private static GameState currentState = GameState.Setup;
 	
 	// Settings
-	private static GameMap map = GameMap.Forest;
+	private static GameMap map = GameMap.Graveyard;
 	private static GameMode mode = GameMode.Classic;
 	private static float timeInSeconds = 300;
 	private static int goalsTillVictory;
