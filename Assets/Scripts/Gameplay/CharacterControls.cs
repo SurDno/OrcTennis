@@ -60,11 +60,10 @@ public class CharacterControls : MonoBehaviour {
 			}
 		}
 		
-		moving = GamepadExtensions.InputMoreThanDeadzone(leftStickInput);
+		moving = GamepadExtensions.InputMoreThanDeadzone(leftStickInput) && !characterHit.GetCharging();
 		
 		ApplyKnockback();
 		
-						
 		//Set max position values.
 		Vector3 temp = transform.position;
 		temp.x = Mathf.Min(temp.x, 14f);
@@ -120,6 +119,13 @@ public class CharacterControls : MonoBehaviour {
 		}
 	}
 	
+	public bool GetMoving() {
+		return moving;
+	}
+	
+	public int GetEffects() {
+		return effects;
+	}
 	
 	public void Respawn() {
 		transform.position = initPosition;

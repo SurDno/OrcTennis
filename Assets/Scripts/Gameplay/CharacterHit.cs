@@ -153,15 +153,7 @@ public class CharacterHit : MonoBehaviour {
 		return charging;
 	}
 	
-	public GameObject GegChargingObj() {
-		return chargingObj;
-	}
-	
-	public GameObject GegChargingObjHead() {
-		return chargingObjHead;
-	}
-	
-	public SpriteRenderer[] GetChargingSprites() {
-		return chargingSprites;
+	public float GetChargeMaxTime() {
+		return chargeMaxTime;
 	}
 }
