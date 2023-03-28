@@ -13,6 +13,9 @@ public static class CoroutinePlayer {
 	}
 	
 	public static void StopCoroutine(Coroutine givenCoroutine) {
+		if(givenCoroutine == null)
+			return; 
+		
 		if(!player)
 			CreatePlayer();
 		
