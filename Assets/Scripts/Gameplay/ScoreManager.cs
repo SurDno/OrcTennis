@@ -12,7 +12,6 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Text timerText;
 
     [Header("Game Settings")]
-    [SerializeField] private int goalsTillVictory = 30;
     [SerializeField] private int matchDurationSeconds = 300;
 
     [Header("Current Values")]
@@ -34,7 +33,7 @@ public class ScoreManager : MonoBehaviour
         leftTeamScoreText.text = leftTeamScore.ToString();
         rightTeamScoreText.text = rightTeamScore.ToString();
 
-        if (leftTeamScore >= goalsTillVictory || rightTeamScore >= goalsTillVictory || remainingTime <= 0f)
+        if (remainingTime <= 0f)
         {
             EndMatch();
         }
