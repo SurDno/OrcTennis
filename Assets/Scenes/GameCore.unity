@@ -1357,6 +1357,7 @@ GameObject:
   - component: {fileID: 142782410}
   - component: {fileID: 142782411}
   - component: {fileID: 142782414}
+  - component: {fileID: 142782415}
   m_Layer: 8
   m_Name: Capsule (3)
   m_TagString: Untagged
@@ -1512,6 +1513,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1782504368}
+--- !u!114 &142782415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142782401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &153475298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,6 +2193,7 @@ GameObject:
   - component: {fileID: 236460063}
   - component: {fileID: 236460064}
   - component: {fileID: 236460067}
+  - component: {fileID: 236460068}
   m_Layer: 8
   m_Name: Capsule (4)
   m_TagString: Untagged
@@ -2331,6 +2349,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1176949315}
+--- !u!114 &236460068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236460054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &242681573
 GameObject:
   m_ObjectHideFlags: 0
@@ -6117,6 +6151,7 @@ GameObject:
   - component: {fileID: 768066093}
   - component: {fileID: 768066094}
   - component: {fileID: 768066097}
+  - component: {fileID: 768066098}
   m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
@@ -6272,6 +6307,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1794428450}
+--- !u!114 &768066098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768066084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &773367478
 GameObject:
   m_ObjectHideFlags: 0
@@ -8284,6 +8335,7 @@ GameObject:
   - component: {fileID: 1021935578}
   - component: {fileID: 1021935579}
   - component: {fileID: 1021935582}
+  - component: {fileID: 1021935583}
   m_Layer: 8
   m_Name: Capsule (5)
   m_TagString: Untagged
@@ -8439,6 +8491,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 542072332}
+--- !u!114 &1021935583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021935569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &1022721356
 GameObject:
   m_ObjectHideFlags: 0
@@ -11560,6 +11628,7 @@ GameObject:
   - component: {fileID: 1520904543}
   - component: {fileID: 1520904544}
   - component: {fileID: 1520904547}
+  - component: {fileID: 1520904548}
   m_Layer: 8
   m_Name: Capsule (2)
   m_TagString: Untagged
@@ -11715,6 +11784,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 538395535}
+--- !u!114 &1520904548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520904534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &1525745390
 GameObject:
   m_ObjectHideFlags: 0
@@ -13027,6 +13112,7 @@ GameObject:
   - component: {fileID: 1652874983}
   - component: {fileID: 1652874984}
   - component: {fileID: 1652874987}
+  - component: {fileID: 1652874988}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
@@ -13182,6 +13268,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 814838362}
+--- !u!114 &1652874988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652874974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170fa489be39cd4ca0f023cd503d0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageOffset: 1
+  periodicalDamage: 4
+  damagePeriod: 0.5
 --- !u!1 &1686501765
 GameObject:
   m_ObjectHideFlags: 0

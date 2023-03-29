@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using System.Collections;
 
 // Controls the behaviour of individual UI elements related to each particular character.
+[RequireComponent(typeof(CharacterOwner))]
+[RequireComponent(typeof(CharacterAbilities))]
+[RequireComponent(typeof(CharacterHealth))]
 public class CharacterUI : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private Image[] abilityImages;
@@ -11,12 +14,14 @@ public class CharacterUI : MonoBehaviour {
 	[SerializeField]private Text abilityText;
 	[SerializeField]private Image healthbar;
 	private CharacterAbilities characterAbilities;
+	private CharacterHealth characterHealth;
 	private CharacterOwner characterOwner;
 	
 	// Initializing cached GameObjects and Components.
     void Start() {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterAbilities = GetComponent<CharacterAbilities>();
+		characterHealth = GetComponent<CharacterHealth>();
 		
 		// Color small circles representing players into player color.
 		foreach(Image playerColorIndicator in playerColorIndicators)
@@ -27,6 +32,9 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityChanged += UpdateAbilityHighlight;
 		characterAbilities.OnAbilityAddedOrRemoved += UpdateAbilityIcons;
 		characterAbilities.OnAbilityAddedOrRemoved += UpdateAbilityHighlight;
+		
+		// Subscribe onto health event.
+		characterHealth.OnHealthChanged += UpdateHealthbarFill;
 		
 		// Call functions once before events are called.
 		UpdateAbilityIcons();
@@ -39,6 +47,9 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityChanged -= UpdateAbilityHighlight;
 		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityIcons;
 		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityHighlight;
+		
+		// Unsubscribe from health event.
+		characterHealth.OnHealthChanged += UpdateHealthbarFill;
 	}
 	
 	void Update() {
@@ -98,5 +109,9 @@ public class CharacterUI : MonoBehaviour {
 		
 		// Move the healthbar.
 		healthbar.gameObject.transform.parent.gameObject.transform.position = newHealthbarPos;
+	}
+	
+	void UpdateHealthbarFill() {
+		healthbar.fillAmount = characterHealth.GetHealthPercentage();
 	}
 }
