@@ -1,31 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Hold core information about the game independent of all gameobjects and scenes.
+// Hold core methods for switching between scenes and accesing information about current game state.
 public static class GameController {
     public enum GameState {Setup, Match};
-	public enum GameMode {Classic, TimeAttack};
-	public enum GameMap {Forest, Graveyard};
 	
 	// Info
 	private static GameState currentState = GameState.Setup;
 	
-	// Settings
-	private static GameMap map = GameMap.Graveyard;
-	private static GameMode mode = GameMode.Classic;
-	private static float timeInSeconds = 300;
-	private static int goalsTillVictory;
-	
 	public static void LoadMatch() {
 		// Load specific level environment first to apply lighting correctly.
 		currentState = GameState.Match;
-		SceneManager.LoadScene(map.ToString(),  LoadSceneMode.Single);
+		SceneManager.LoadScene(MatchSettings.GetMap().ToString(),  LoadSceneMode.Single);
 		
 		// Load core scene for gameplay additively.
 		SceneManager.LoadScene("GameCore",  LoadSceneMode.Additive);
+		MatchController.Start();
 		
 		// Start music.
-		SoundManager.PlayMusic("Match", 0.3f);
+		SoundManager.PlayMusic("Match", 0.3f, true);
 	}
 	
 	// Resets all game info and goes back to game menu.
@@ -35,17 +28,17 @@ public static class GameController {
             player.ResetPlayerData();
 		}
 
-        ScoreManager.ResetScoreData();
+        MatchController.ResetScoreData();
         PlayerSetup.ResetSetupData();
 
 		currentState = GameState.Setup;
         SceneManager.LoadScene("Setup");
-		
+		Debug.Log("Test");
 		// Stop music.
 		SoundManager.StopMusic();
 	}
 	
-	private static GameState GetGameState() {
+	public static GameState GetGameState() {
 		return currentState;
 	}
 }

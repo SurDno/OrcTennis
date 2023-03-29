@@ -22,9 +22,9 @@ public class Ball : MonoBehaviour{
 		int walls = LayerMask.NameToLayer("Walls");
 		if(col.gameObject.layer == walls && Mathf.Abs(col.contacts[0].normal.x) > Mathf.Abs(col.contacts[0].normal.z)) {
 			if(col.contacts[0].normal.x > 0)
-				ScoreManager.GoalLeft();
+				MatchController.GoalLeft();
 			else
-				ScoreManager.GoalRight();
+				MatchController.GoalRight();
 		}
 	}
 	

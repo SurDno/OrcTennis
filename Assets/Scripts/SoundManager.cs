@@ -50,7 +50,7 @@ public static class SoundManager {
 		CoroutinePlayer.StopCoroutine(coroutineBySoundName[soundName]);
 	}
 	
-	public static void PlayMusic(string soundName, float volume) {
+	public static void PlayMusic(string soundName, float volume, bool loop) {
 		if(!musicPlayer)
 			musicPlayer = CreatePlayer(true);
 		
@@ -59,6 +59,7 @@ public static class SoundManager {
 		musicPlayer.Stop();
 		musicPlayer.volume = volume;
 		musicPlayer.clip = clip;
+		musicPlayer.loop = loop;
 		musicPlayer.Play();
 	}
 	
@@ -82,6 +83,12 @@ public static class SoundManager {
 			yield return new WaitForSeconds(clip.length);
 			yield return new WaitForSeconds(delay);
 		}
+	}
+	
+	public static float GetClipLength(string soundName) {
+		AudioClip clip = GetClipByName(soundName);
+		
+		return clip.length;
 	}
 	
 	static AudioClip GetClipByName(string soundName) {
