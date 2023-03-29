@@ -44,21 +44,21 @@ public class UISetup : MonoBehaviour {
 			teamColorBlocks[i].color = PlayerSetup.GetPlayerByTeamBlockIndex()[i] == null ? Color.white : PlayerSetup.GetPlayerByTeamBlockIndex()[i].GetColor();
 		
 		// Display a warning if teams are unbalanced.
-		warningBalance.enabled = PlayerSetup.GetAmountOfPlayersInLeftTeam() != PlayerSetup.GetAmountOfPlayersInRightTeam();
+		warningBalance.gameObject.transform.parent.gameObject.SetActive(PlayerSetup.GetAmountOfPlayersInLeftTeam() != PlayerSetup.GetAmountOfPlayersInRightTeam());
 
 		// Display a warning if someone has not yet chosen team.
-		warningChoose.enabled = false;
+		warningChoose.gameObject.transform.parent.gameObject.SetActive(false);
 		for(int i = 0; i < players.Length; i++)
 			if(players[i].GetTeam() == Player.Team.Unselected) {
-				warningChoose.enabled = true;
+				warningChoose.gameObject.transform.parent.gameObject.SetActive(true);
 				break;
 			}
 		
 		// Display a warning if someone is not yet ready.
-		warningReady.enabled = false;
+		warningReady.gameObject.transform.parent.gameObject.SetActive(false);
 		for(int i = 0; i < players.Length; i++)
 			if(players[i].GetReady() == false) {
-				warningReady.enabled = true;
+				warningReady.gameObject.transform.parent.gameObject.SetActive(true);
 				break;
 			}
 	}
