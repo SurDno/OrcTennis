@@ -46,10 +46,17 @@ public static class MatchController {
 		// Play whistle sound.
 		SoundManager.PlaySound("Goal");
 		
+		// Activate goal cam.
+		//CameraControl cam = Camera.main.GetComponent<CameraControl>();
+		//Vector3 goalPos = ((Ball)Object.FindObjectOfType(typeof(Ball))).gameObject.transform.position;
+		//goalPos.y = 8f;
+		//float goalAngle = 70f;
+		//cam.OverwritePosition(goalPos, goalAngle, 2);
+		
 		// Stop ball wherever it is.
         ((Ball)Object.FindObjectOfType(typeof(Ball))).SetVelocity(Vector2.zero);
 		
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(3f);
 		
 		// If we're in Classic mode, declare victory whenever either team reaches needed amount of goals.
 		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Classic) {
@@ -70,6 +77,11 @@ public static class MatchController {
 	}
 
     private static void Restart() {
+		
+		// Deactivate goal cam.
+		//CameraControl cam = Camera.main.GetComponent<CameraControl>();
+		//cam.ContinueFollowing();
+		
         // Get all players to get back to their spawn points.
         foreach (Object player in Object.FindObjectsOfType(typeof(CharacterControls)))
             ((CharacterControls)player).Respawn();
@@ -83,13 +95,36 @@ public static class MatchController {
 		state = MatchState.Play;
     }
 	
-	private static IEnumerator Victory(Player.Team team) {
-		
-		//SoundManager.StopMusic();
-		SoundManager.PlayMusic("Victory", 0.5f, false);
-		
+	private static IEnumerator Victory(Player.Team winningTeam) {
 		state = MatchState.Victory;
 		
+		// Stop ball wherever it is.
+        ((Ball)Object.FindObjectOfType(typeof(Ball))).SetVelocity(Vector2.zero);
+		
+		// Activate victory cam.
+		CameraControl cam = Camera.main.GetComponent<CameraControl>();
+		Vector3 victoryPos = new Vector3(0, 6, -14.5f);
+		float victoryAngle = 20f;
+		cam.OverwritePosition(victoryPos, victoryAngle, 1);
+		
+		// Play victory or defeat animations for each player depending on if they're on winning team.
+		// Create confetti on top of winning players.
+        foreach (CharacterAnimation player in (CharacterAnimation[])Object.FindObjectsOfType(typeof(CharacterAnimation))) {
+			Player.Team characterTeam = player.GetComponent<CharacterOwner>().GetOwner().GetTeam();
+			if(characterTeam == winningTeam) {
+				player.StartVictoryAnimations();
+				
+				// Create confetti.
+				GameObject prefab = Resources.Load<GameObject>("Prefabs/Magic/VictoryConfetti");
+				Vector3 effectPosition = player.gameObject.transform.position;
+				effectPosition.y += 12f;
+				Object.Instantiate(prefab, effectPosition, Quaternion.identity);
+			} else
+				player.StartDefeatAnimations();
+		}
+		
+		// Start victory theme and wait for it to end.
+		SoundManager.PlayMusic("Victory", 0.5f, false);
 		yield return new WaitForSeconds(SoundManager.GetClipLength("Victory"));
 		
 		GameController.ReturnToMenu();

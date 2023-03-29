@@ -46,4 +46,13 @@ public class CharacterAnimation : MonoBehaviour {
 		anim.SetBool("StartCharge", startCharge);
 		anim.SetBool("Hit", hit);
 	}
+	
+	public void StartVictoryAnimations() {
+		anim.SetTrigger("Win" + Random.Range(1, 4));
+		
+	}
+	
+	public void StartDefeatAnimations() {
+		anim.SetTrigger("Lose");
+	}
 }
