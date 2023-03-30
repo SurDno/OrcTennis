@@ -11,7 +11,8 @@ public class CollectibleObject : MonoBehaviour {
 		new ElectricShield(),
 		new Dash(),
 		new FreezingField(),
-		new KnockbackImmunity()
+		new KnockbackImmunity(),
+		new Heal()
 	};
 
 	private void OnTriggerEnter(Collider other) {
