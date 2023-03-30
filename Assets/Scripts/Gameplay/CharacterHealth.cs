@@ -21,7 +21,8 @@ public class CharacterHealth : MonoBehaviour {
 	
 	void Start() {
 		team = GetComponent<CharacterOwner>().GetOwner().GetTeam();
-		StartCoroutine(CheckForPeriodicalDamage());
+		if(MatchSettings.GetPeriodicalDamageEnabled())
+			StartCoroutine(CheckForPeriodicalDamage());
 		
 		curHealth = maxHealth;
 	}

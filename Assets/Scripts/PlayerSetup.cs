@@ -16,6 +16,7 @@ public class PlayerSetup : MonoBehaviour {
 	private Image moreTimeButton;
 	private Image lessGoalsButton;
 	private Image moreGoalsButton;
+	private Image periodicalDamageSwitch;
 	
 	[Header("Current Settings")]
 	private static Player[] playerByTeamBlockIndex = new Player[6];
@@ -25,6 +26,7 @@ public class PlayerSetup : MonoBehaviour {
 	private static int gameModeIndex = 0;
 	private static int goalsNeeded = 15;
 	private static int timerLength = 180;
+	private static bool periodicalDamageEnabled = true;
 
 	// Get references from UI Setup.
 	void Start() {
@@ -41,6 +43,7 @@ public class PlayerSetup : MonoBehaviour {
 		moreTimeButton = setup.GetMoreTimeButton();
 		lessGoalsButton = setup.GetLessGoalsButton();
 		moreGoalsButton = setup.GetMoreGoalsButton();
+		periodicalDamageSwitch = setup.GetPeriodicalDamageSwitch();
 	}
 	
     void Update() {
@@ -153,6 +156,12 @@ public class PlayerSetup : MonoBehaviour {
 						goalsNeeded = 99;
 					MatchSettings.SetGoalsTillVictory(goalsNeeded);
 				}
+				
+				// Change needed amount of goals to 1 more if the player presses on more goals button.
+				if(player.GetCursor().CursorOverUI(periodicalDamageSwitch.gameObject)) {
+					periodicalDamageEnabled = !periodicalDamageEnabled;
+					MatchSettings.SetPeriodicalDamageValue(periodicalDamageEnabled);
+				}
 			}
 		}
 	}
@@ -219,6 +228,10 @@ public class PlayerSetup : MonoBehaviour {
 	
 	public static int GetTimerLength() {
 		return timerLength;
+	}
+	
+	public static bool GetPeriodicalDamageEnabled() {
+		return periodicalDamageEnabled;
 	}
 	
 	public static void ResetSetupData() {

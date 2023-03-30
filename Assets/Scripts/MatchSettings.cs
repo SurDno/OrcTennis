@@ -9,6 +9,7 @@ public static class MatchSettings {
 	private static GameMode mode = GameMode.Classic;
 	private static float timeInSeconds = 180;
 	private static int goalsTillVictory = 15;
+	private static bool periodicalDamage = true;
 	
 	// Methods for setting settings.
 	
@@ -28,6 +29,11 @@ public static class MatchSettings {
 		goalsTillVictory = newGoals;
 	}
 	
+
+	public static void SetPeriodicalDamageValue(bool newValue) {
+		periodicalDamage = newValue;
+	}
+	
 	// Methods for getting settings.
 	
 	public static GameMap GetMap() {
@@ -44,5 +50,9 @@ public static class MatchSettings {
 	
 	public static int GetGoalsTillVictory() {
 		return goalsTillVictory;
+	}
+	
+	public static bool GetPeriodicalDamageEnabled() {
+		return periodicalDamage;
 	}
 }

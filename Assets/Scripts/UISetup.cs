@@ -29,6 +29,8 @@ public class UISetup : MonoBehaviour {
 	[SerializeField]private Image lessGoalsButton;
 	[SerializeField]private Image moreGoalsButton;
 	[SerializeField]private Text goalsText;
+	[SerializeField]private Image periodicalDamageSwitch;
+	[SerializeField]private Sprite[] switchStates;
 	
 	void Update() {
 		UpdateUI();
@@ -90,6 +92,8 @@ public class UISetup : MonoBehaviour {
 		timeText.text = PlayerSetup.GetTimerLength().ToString();
 		goalsText.text = PlayerSetup.GetGoalsNeeded().ToString();
 		
+		periodicalDamageSwitch.sprite = switchStates[PlayerSetup.GetPeriodicalDamageEnabled() ? 1 : 0];
+		
 	}
 	
 	public Image[] GetTeamColorBlocks() {
@@ -134,5 +138,9 @@ public class UISetup : MonoBehaviour {
 	
 	public Image GetMoreGoalsButton() {
 		return moreGoalsButton;
+	}
+	
+	public Image GetPeriodicalDamageSwitch() {
+		return periodicalDamageSwitch;
 	}
 }

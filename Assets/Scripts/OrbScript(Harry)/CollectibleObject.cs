@@ -35,7 +35,11 @@ public class CollectibleObject : MonoBehaviour {
 	}
 	
 	Spell GenerateSpell() {
-		return abilities[Random.Range(0, abilities.Length)];
+		// Don't give Heal ability if periodical damage is disabled.
+		if(MatchSettings.GetPeriodicalDamageEnabled())
+			return abilities[Random.Range(0, abilities.Length)];
+		else 
+			return abilities[Random.Range(0, abilities.Length - 1)];
 	}
 	
 	public void AssignSpawner(Spawner newSpawner) {
