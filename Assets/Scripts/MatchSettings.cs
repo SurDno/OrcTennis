@@ -5,10 +5,28 @@ public static class MatchSettings {
 	public enum GameMap {Forest, Graveyard, Desert};
 	
 	// Settings
-	private static GameMap map = GameMap.Desert;
-	private static GameMode mode = GameMode.TimeAttack;
+	private static GameMap map = GameMap.Forest;
+	private static GameMode mode = GameMode.Classic;
 	private static float timeInSeconds = 180;
-	private static int goalsTillVictory = 10;
+	private static int goalsTillVictory = 15;
+	
+	// Methods for setting settings.
+	
+	public static void SetMap(GameMap newMap) {
+		map = newMap;
+	}
+
+	public static void SetGameMode(GameMode newMode) {
+		mode = newMode;
+	}
+
+	public static void SetMatchTime(float newTime) {
+		timeInSeconds = newTime;
+	}
+
+	public static void SetGoalsTillVictory(int newGoals) {
+		goalsTillVictory = newGoals;
+	}
 	
 	// Methods for getting settings.
 	

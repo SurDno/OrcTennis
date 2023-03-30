@@ -8,11 +8,23 @@ public class PlayerSetup : MonoBehaviour {
 	private Image[] teamColorBlocks;
 	private Image leaveTeamButton;
 	private Image readyButton;
+	private Image previousMapButton;
+	private Image nextMapButton;
+	private Image previousGameModeButton;
+	private Image nextGameModeButton;
+	private Image lessTimeButton;
+	private Image moreTimeButton;
+	private Image lessGoalsButton;
+	private Image moreGoalsButton;
 	
 	[Header("Current Settings")]
 	private static Player[] playerByTeamBlockIndex = new Player[6];
 	private static int amountOfPlayersInLeftTeam;
 	private static int amountOfPlayersInRightTeam;
+	private static int selectedMapIndex = 0;
+	private static int gameModeIndex = 0;
+	private static int goalsNeeded = 15;
+	private static int timerLength = 180;
 
 	// Get references from UI Setup.
 	void Start() {
@@ -21,6 +33,14 @@ public class PlayerSetup : MonoBehaviour {
 		teamColorBlocks = setup.GetTeamColorBlocks();
 		leaveTeamButton = setup.GetLeaveTeamButton();
 		readyButton = setup.GetReadyButton();
+		previousMapButton = setup.GetPreviousMapButton();
+		nextMapButton = setup.GetNextMapButton();
+		previousGameModeButton = setup.GetPreviousGameModeButton();
+		nextGameModeButton = setup.GetNextGameModeButton();
+		lessTimeButton = setup.GetLessTimeButton();
+		moreTimeButton = setup.GetMoreTimeButton();
+		lessGoalsButton = setup.GetLessGoalsButton();
+		moreGoalsButton = setup.GetMoreGoalsButton();
 	}
 	
     void Update() {
@@ -51,25 +71,90 @@ public class PlayerSetup : MonoBehaviour {
 		// Get active players for current frame.
 		Player[] players = PlayerHolder.GetPlayers();
 		
-		foreach(Player player in players)
-			for(int i = 0; i < teamColorBlocks.Length; i++) {
-				if(player.GetCursor().IsCursorPressed()) {
+		foreach(Player player in players) {
+			if(player.GetCursor().IsCursorPressed()) {
 					
+				for(int i = 0; i < teamColorBlocks.Length; i++) {
 					// Assign new team if a player clicks on an empty square.
 					if(player.GetCursor().CursorOverUI(teamColorBlocks[i].gameObject))
 						if(playerByTeamBlockIndex[i] == null)
 							OccupyNewBlock(player, i);
+				}
+							
+				// Leave any team when the player clicks on that button.
+				if(player.GetCursor().CursorOverUI(leaveTeamButton.gameObject))
+					DeoccupyBlocks(player);
 						
-					// Leave any team when the player clicks on that button.
-					if(player.GetCursor().CursorOverUI(leaveTeamButton.gameObject))
-						DeoccupyBlocks(player);
+				// Ready up if a player is currently in a team.
+				if(player.GetCursor().CursorOverUI(readyButton.gameObject))
+					if(player.GetTeam() != Player.Team.Unselected)
+						player.SetReady(true);
 						
-					// Ready up if a player is currently in a team.
-					if(player.GetCursor().CursorOverUI(readyButton.gameObject))
-						if(player.GetTeam() != Player.Team.Unselected)
-							player.SetReady(true);
+				// Change map to the previous one if the player presses on previous map button.
+				if(player.GetCursor().CursorOverUI(previousMapButton.gameObject)) {
+					selectedMapIndex--;
+					if(selectedMapIndex == -1)
+						selectedMapIndex = 2;
+					MatchSettings.SetMap((MatchSettings.GameMap)selectedMapIndex);
+				}
+				
+				// Change map to the next one if the player presses on next map button.
+				if(player.GetCursor().CursorOverUI(nextMapButton.gameObject)) {
+					selectedMapIndex++;
+					if(selectedMapIndex == 3)
+						selectedMapIndex = 0;
+					MatchSettings.SetMap((MatchSettings.GameMap)selectedMapIndex);
+				}
+				
+				// Change game mode to the previous one if the player presses on previous game mode button.
+				if(player.GetCursor().CursorOverUI(previousGameModeButton.gameObject)) {
+					gameModeIndex--;
+					if(gameModeIndex == -1)
+						gameModeIndex = 1;
+					MatchSettings.SetGameMode((MatchSettings.GameMode)gameModeIndex);
+				}
+				
+				// Change game mode to the next one if the player presses on next game mode button.
+				if(player.GetCursor().CursorOverUI(nextGameModeButton.gameObject)) {
+					gameModeIndex++;
+					if(gameModeIndex == 2)
+						gameModeIndex = 0;
+					MatchSettings.SetGameMode((MatchSettings.GameMode)gameModeIndex);
+				}
+				
+				// Change timer to 10 secs less if the player presses on less time button.
+				if(player.GetCursor().CursorOverUI(lessTimeButton.gameObject)) {
+					timerLength -= 10;
+					if(timerLength == 0)
+						timerLength = 10;
+					MatchSettings.SetMatchTime(timerLength);
+				}
+				
+				// Change timer to 10 secs more if the player presses on more time button.
+				if(player.GetCursor().CursorOverUI(moreTimeButton.gameObject)) {
+					timerLength += 10;
+					if(timerLength == 610)
+						timerLength = 600;
+					MatchSettings.SetMatchTime(timerLength);
+				}
+				
+				// Change needed amount of goals to 1 less if the player presses on less goals button.
+				if(player.GetCursor().CursorOverUI(lessGoalsButton.gameObject)) {
+					goalsNeeded -= 1;
+					if(goalsNeeded == 0)
+						goalsNeeded = 1;
+					MatchSettings.SetGoalsTillVictory(goalsNeeded);
+				}
+				
+				// Change needed amount of goals to 1 more if the player presses on more goals button.
+				if(player.GetCursor().CursorOverUI(moreGoalsButton.gameObject)) {
+					goalsNeeded += 1;
+					if(goalsNeeded == 100)
+						goalsNeeded = 99;
+					MatchSettings.SetGoalsTillVictory(goalsNeeded);
 				}
 			}
+		}
 	}
 	
 	void OccupyNewBlock(Player newOwner, int selectedBlockIndex) {
@@ -118,6 +203,22 @@ public class PlayerSetup : MonoBehaviour {
 	
 	public static Player[] GetPlayerByTeamBlockIndex() {
 		return playerByTeamBlockIndex;
+	}
+	
+	public static int GetSelectedMapIndex() {
+		return selectedMapIndex;
+	}
+	
+	public static int GetGameModeIndex() {
+		return gameModeIndex;
+	}
+	
+	public static int GetGoalsNeeded() {
+		return goalsNeeded;
+	}
+	
+	public static int GetTimerLength() {
+		return timerLength;
 	}
 	
 	public static void ResetSetupData() {

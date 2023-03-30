@@ -14,6 +14,21 @@ public class UISetup : MonoBehaviour {
 	[SerializeField]private Text warningReady;
 	[SerializeField]private Image leaveTeamButton;
 	[SerializeField]private Image readyButton;
+	[SerializeField]private Image previousMapButton;
+	[SerializeField]private Image nextMapButton;
+	[SerializeField]private Image mapImage;
+	[SerializeField]private Image previousGameModeButton;
+	[SerializeField]private Image nextGameModeButton;
+	[SerializeField]private Text gameModeText;
+	[SerializeField]private Sprite[] mapImages;
+	[SerializeField]private GameObject goalsSettings;
+	[SerializeField]private GameObject timeSettings;
+	[SerializeField]private Image lessTimeButton;
+	[SerializeField]private Image moreTimeButton;
+	[SerializeField]private Text timeText;
+	[SerializeField]private Image lessGoalsButton;
+	[SerializeField]private Image moreGoalsButton;
+	[SerializeField]private Text goalsText;
 	
 	void Update() {
 		UpdateUI();
@@ -29,7 +44,7 @@ public class UISetup : MonoBehaviour {
 		// Activate UI elements for players that are present.
 		for(int i = 0; i < playerNumbers.Length; i++) {
 			playerNumbers[i].enabled = i < players.Length;
-			playerColorBlocks[i].enabled = i < players.Length;
+			playerColorBlocks[i].gameObject.SetActive(i < players.Length);
 			playerReadyStatuses[i].enabled = i < players.Length;
 		}
 		
@@ -61,6 +76,20 @@ public class UISetup : MonoBehaviour {
 				warningReady.gameObject.transform.parent.gameObject.SetActive(true);
 				break;
 			}
+			
+		// Display the map image for the currently selected map.
+		mapImage.sprite = mapImages[PlayerSetup.GetSelectedMapIndex()];
+		
+		// Display the game mode name for currently selected game mode.
+		gameModeText.text = PlayerSetup.GetGameModeIndex() == 0 ? "Classic" : "Time Attack";
+		
+		// Display the other setting according to selected game mode.
+		goalsSettings.SetActive(PlayerSetup.GetGameModeIndex() == 0);
+		timeSettings.SetActive(PlayerSetup.GetGameModeIndex() == 1);
+		
+		timeText.text = PlayerSetup.GetTimerLength().ToString();
+		goalsText.text = PlayerSetup.GetGoalsNeeded().ToString();
+		
 	}
 	
 	public Image[] GetTeamColorBlocks() {
@@ -73,5 +102,37 @@ public class UISetup : MonoBehaviour {
 	
 	public Image GetReadyButton() {
 		return readyButton;
+	}
+	
+	public Image GetPreviousMapButton() {
+		return previousMapButton;
+	}
+	
+	public Image GetNextMapButton() {
+		return nextMapButton;
+	}
+	
+	public Image GetPreviousGameModeButton() {
+		return previousGameModeButton;
+	}
+	
+	public Image GetNextGameModeButton() {
+		return nextGameModeButton;
+	}
+	
+	public Image GetLessTimeButton() {
+		return lessTimeButton;
+	}
+
+	public Image GetMoreTimeButton() {
+		return moreTimeButton;
+	}
+	
+	public Image GetLessGoalsButton() {
+		return lessGoalsButton;
+	}
+	
+	public Image GetMoreGoalsButton() {
+		return moreGoalsButton;
 	}
 }
