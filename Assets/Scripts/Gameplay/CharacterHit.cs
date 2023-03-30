@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterOwner))]
 [RequireComponent(typeof(CharacterControls))]
 [RequireComponent(typeof(CharacterAbilities))]
+[RequireComponent(typeof(CharacterHealth))]
 public class CharacterHit : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private GameObject chargingObj;
@@ -14,6 +15,7 @@ public class CharacterHit : MonoBehaviour {
 	private CharacterOwner characterOwner;
 	private CharacterControls characterControls;
 	private CharacterAbilities characterAbilities;
+	private CharacterHealth characterHealth;
 	private Ball ball;
 	
 	[Header("Settings")]
@@ -34,6 +36,7 @@ public class CharacterHit : MonoBehaviour {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterControls = GetComponent<CharacterControls>();
 		characterAbilities = GetComponent<CharacterAbilities>();
+		characterHealth = GetComponent<CharacterHealth>();
 		
 		ball = FindObjectOfType(typeof(Ball)) as Ball;
     }
@@ -41,6 +44,17 @@ public class CharacterHit : MonoBehaviour {
     void Update() {
         if(characterOwner.GetOwner() == null)
 			return;
+		
+		Debug.Log(charging);
+
+		// Don't allow any hits if we're dead or the game is in a Goal / Victory state. If any are ongoing, hit immediately.
+		if(characterHealth.IsDead() ||
+			MatchController.GetMatchState() == MatchController.MatchState.Goal ||
+			MatchController.GetMatchState() == MatchController.MatchState.Victory) {
+			if(charging)
+				EndCharge();
+			return;
+		}
 		
 		// If we press right trigger..
 		if(GamepadInput.GetRightTriggerDown(characterOwner.GetOwner().GetGamepad())) {

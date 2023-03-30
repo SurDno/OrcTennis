@@ -1,12 +1,17 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 [RequireComponent(typeof(CharacterOwner))]
 [RequireComponent(typeof(CharacterHit))]
+[RequireComponent(typeof(CharacterAnimation))]
+[RequireComponent(typeof(CharacterHealth))]
 public class CharacterControls : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	private CharacterOwner characterOwner;
 	private CharacterHit characterHit;
+	private CharacterAnimation characterAnimation;
+	private CharacterHealth characterHealth;
 	private Camera sharedCamera;
 	private Rigidbody rb;
 	
@@ -21,6 +26,7 @@ public class CharacterControls : MonoBehaviour {
 	private int effects;
 	private float currentSpeed;
 	private Vector3 initPosition;
+	private Vector3 initEuler;
 	private Vector2 knockbackVelocity;
 	private Vector2 dashVelocity;
 	
@@ -29,8 +35,12 @@ public class CharacterControls : MonoBehaviour {
         sharedCamera = Camera.main;
 		characterOwner = GetComponent<CharacterOwner>();
 		characterHit = GetComponent<CharacterHit>();
+		characterAnimation = GetComponent<CharacterAnimation>();
+		characterHealth = GetComponent<CharacterHealth>();
+		
 		rb = GetComponent<Rigidbody>();
 		initPosition = transform.position;
+		initEuler = transform.eulerAngles;
 		currentSpeed = defaultSpeed;
     }
 	
@@ -41,26 +51,30 @@ public class CharacterControls : MonoBehaviour {
 		// Determine speed from effects.
 		currentSpeed = (effects == 0) ? defaultSpeed : (effects > 0) ? hasteSpeed : hinderedSpeed;
 		
-		// Use left stick input for either movement or rotation, depending on whether we're charging or not. 
 		Vector2 leftStickInput = GamepadInput.GetLeftStick(characterOwner.GetOwner().GetGamepad()).normalized;
-		if(characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput)) {
-			if(!characterHit.GetCharging()) {
-				// If we're not charging, left stick is used for movement.
-				Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (currentSpeed * Time.fixedDeltaTime);
+		// We cannot move in victory scene or if we're dead, so check for that first.
+		if(MatchController.GetMatchState() != MatchController.MatchState.Victory && !characterHealth.IsDead()) {
+			// Use left stick input for either movement or rotation, depending on whether we're charging or not. 
+			if(characterOwner.GetOwner().GetCursor().GetCursorHidden() && GamepadExtensions.InputMoreThanDeadzone(leftStickInput)) {
+				if(!characterHit.GetCharging()) {
+					// If we're not charging, left stick is used for movement.
+					Vector3 targetPos = transform.position + new Vector3(leftStickInput.x, 0, leftStickInput.y) * (currentSpeed * Time.fixedDeltaTime);
 
-				// Face a direction we're going.
-				transform.LookAt(targetPos);
-				transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-				
-				rb.MovePosition(targetPos);
-			} else {
-				// Otherwise, it is used for rotation.
-				float rotationAngle = Mathf.Atan2(leftStickInput.x, leftStickInput.y) * Mathf.Rad2Deg;
-				transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
+					// Face a direction we're going.
+					transform.LookAt(targetPos);
+					transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+					
+					rb.MovePosition(targetPos);
+				} else {
+					// Otherwise, it is used for rotation.
+					float rotationAngle = Mathf.Atan2(leftStickInput.x, leftStickInput.y) * Mathf.Rad2Deg;
+					transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAngle, transform.eulerAngles.z);
+				}
 			}
 		}
 		
-		moving = GamepadExtensions.InputMoreThanDeadzone(leftStickInput) && !characterHit.GetCharging();
+		moving = MatchController.GetMatchState() != MatchController.MatchState.Victory && !characterHealth.IsDead() && 
+			GamepadExtensions.InputMoreThanDeadzone(leftStickInput) && !characterHit.GetCharging();
 		
 		ApplyKnockback();
 		
@@ -71,9 +85,6 @@ public class CharacterControls : MonoBehaviour {
 		temp.z = Mathf.Min(temp.z, 6.5f);
 		temp.z = Mathf.Max(temp.z, -6.5f);
 		transform.position = temp;
-		
-		// TODO: Move that to player start.
-		characterOwner.GetOwner().GetCursor().HideCursor();
 		
     }
 	
@@ -129,7 +140,14 @@ public class CharacterControls : MonoBehaviour {
 	
 	public void Respawn() {
 		transform.position = initPosition;
+		transform.eulerAngles = initEuler;
 		ResetKnockback(false);
+		
+		// Reset animation.
+		characterAnimation.ResetAnimation();
+		
+		// Heal to full HP.
+		characterHealth.Heal();
 	}
 	
 	public void GiveSpeed() {

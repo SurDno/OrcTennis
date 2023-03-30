@@ -1527,8 +1527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &153475298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2363,8 +2363,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &242681573
 GameObject:
   m_ObjectHideFlags: 0
@@ -6321,8 +6321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &773367478
 GameObject:
   m_ObjectHideFlags: 0
@@ -8505,8 +8505,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &1022721356
 GameObject:
   m_ObjectHideFlags: 0
@@ -11798,8 +11798,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &1525745390
 GameObject:
   m_ObjectHideFlags: 0
@@ -13282,8 +13282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageOffset: 1
-  periodicalDamage: 4
-  damagePeriod: 0.5
+  periodicalDamage: 3
+  damagePeriod: 0.25
 --- !u!1 &1686501765
 GameObject:
   m_ObjectHideFlags: 0

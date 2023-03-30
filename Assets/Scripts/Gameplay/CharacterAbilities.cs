@@ -11,6 +11,7 @@ public class CharacterAbilities : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	private CharacterOwner characterOwner;
 	private CharacterHit characterHit;
+	private CharacterHealth characterHealth;
 	
 	[Header("Current Values")]
 	private int selectedAbilityIndex;
@@ -21,6 +22,7 @@ public class CharacterAbilities : MonoBehaviour {
     void Start() {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterHit = GetComponent<CharacterHit>();
+		characterHealth = GetComponent<CharacterHealth>();
 		
 		// Give initial abilities.
 		abilities[2] = new Knockback();
@@ -35,11 +37,6 @@ public class CharacterAbilities : MonoBehaviour {
         if(characterOwner.GetOwner() == null)
 			return;
 		
-		// Only cast the ability from here if it's an instant cast and not a hit type.
-		if(GamepadInput.GetRightTriggerDown(characterOwner.GetOwner().GetGamepad()))
-			if(GetSelectedAbility().GetCastType() == Spell.CastType.Instant)
-					CastSelectedAbility();
-		
 		// If we're not charging right now, switch between abilities using ABXY gamepad buttons.
 		if(!characterHit.GetCharging()) {
 			if(GamepadInput.GetNorthButtonDown(characterOwner.GetOwner().GetGamepad()))
@@ -51,6 +48,17 @@ public class CharacterAbilities : MonoBehaviour {
 			else if(GamepadInput.GetEastButtonDown(characterOwner.GetOwner().GetGamepad()))
 				SelectAbilitySafe(3);
 		}
+		
+		// Don't allow any casts if we're dead or the game is in a Goal / Victory state.
+		if(characterHealth.IsDead() ||
+			MatchController.GetMatchState() == MatchController.MatchState.Goal ||
+			MatchController.GetMatchState() == MatchController.MatchState.Victory)
+			return;
+		
+		// Only cast the ability from here if it's an instant cast and not a hit type.
+		if(GamepadInput.GetRightTriggerDown(characterOwner.GetOwner().GetGamepad()))
+			if(GetSelectedAbility().GetCastType() == Spell.CastType.Instant)
+					CastSelectedAbility();
     }
 	
 	void SelectAbilitySafe(int abilityIndex) {

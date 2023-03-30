@@ -49,7 +49,7 @@ public class CharacterUI : MonoBehaviour {
 		characterAbilities.OnAbilityAddedOrRemoved -= UpdateAbilityHighlight;
 		
 		// Unsubscribe from health event.
-		characterHealth.OnHealthChanged += UpdateHealthbarFill;
+		characterHealth.OnHealthChanged -= UpdateHealthbarFill;
 	}
 	
 	void Update() {
@@ -101,6 +101,7 @@ public class CharacterUI : MonoBehaviour {
 		healthbar.gameObject.transform.parent.gameObject.SetActive(false);
 	}
 	
+	// Called from Update() every frame.
 	void UpdateHealthbarPosition()  {
 		// Get new healthbar position from player position.
 		Vector3 newHealthbarPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -111,7 +112,16 @@ public class CharacterUI : MonoBehaviour {
 		healthbar.gameObject.transform.parent.gameObject.transform.position = newHealthbarPos;
 	}
 	
+	// Called once when HP value changes.
 	void UpdateHealthbarFill() {
 		healthbar.fillAmount = characterHealth.GetHealthPercentage();
+	}
+	
+	public void HideHealthbar() {
+		healthbar.gameObject.transform.parent.gameObject.SetActive(false);
+	}
+	
+	public void ShowHealthbar() {
+		healthbar.gameObject.transform.parent.gameObject.SetActive(true);
 	}
 }

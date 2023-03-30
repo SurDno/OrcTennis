@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO: This is a clear example of god object anti-pattern. It HAS to be separated into at least two scripts. Though I am not yet sure how...
 // Controls the general flow of the match. Handles restarting, scoring, winning conditions, etc.
 public static class MatchController {
     public enum MatchState {Play, Goal, ExtraTime, Victory};
@@ -10,11 +11,16 @@ public static class MatchController {
 	private static MatchState state = MatchState.Play;
     private static int leftTeamScore = 0;
     private static int rightTeamScore = 0;
+	private static int totalPlayers;
+	private static int livingPlayers;
 	private static Coroutine countdownCoroutine;
+	private static Coroutine restartCoroutine;
 	
 	public static void Start() {
 		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.TimeAttack)
 			countdownCoroutine = CoroutinePlayer.StartCoroutine(Countdown());
+		totalPlayers = PlayerHolder.GetPlayers().Length;
+		livingPlayers = totalPlayers;
 	}
 	
 	private static IEnumerator Countdown() {
@@ -75,16 +81,35 @@ public static class MatchController {
 				CoroutinePlayer.StartCoroutine(Victory(rightTeamScore > leftTeamScore ? Player.Team.Red : Player.Team.Green));
 		}
 	}
+	
+	// Prevents softlock if all players are dead. 
+	public static void RegisterDeath() {
+		livingPlayers--;
+		
+		// If there are no alive players, check ball horizontal velocity. If it's too low, restart. Else we can wait for the collision.
+		if(livingPlayers == 0) {
+			float ballHorizontalVelocity = ((Ball)Object.FindObjectOfType(typeof(Ball))).GetVelocity().x;
+			if(Mathf.Abs(ballHorizontalVelocity) < 1f)
+				restartCoroutine = CoroutinePlayer.StartCoroutine(RestartAfterDelay());
+		}
+	}
+	
+	static IEnumerator RestartAfterDelay() {
+		yield return new WaitForSeconds(2.0f);
+		
+		Restart();
+	}
 
     private static void Restart() {
-		
 		// Deactivate goal cam.
 		//CameraControl cam = Camera.main.GetComponent<CameraControl>();
 		//cam.ContinueFollowing();
+		CoroutinePlayer.StopCoroutine(restartCoroutine);
 		
-        // Get all players to get back to their spawn points.
+        // Get all players to get back to their spawn points, resurrect and heal them.
         foreach (Object player in Object.FindObjectsOfType(typeof(CharacterControls)))
             ((CharacterControls)player).Respawn();
+		livingPlayers = totalPlayers;
 
         // Remove electric shield if it's present.
         GameObject.Find("BallWall")?.gameObject.SetActive(false);
@@ -96,6 +121,7 @@ public static class MatchController {
     }
 	
 	private static IEnumerator Victory(Player.Team winningTeam) {
+		CoroutinePlayer.StopCoroutine(restartCoroutine);
 		state = MatchState.Victory;
 		
 		// Stop ball wherever it is.
@@ -106,6 +132,11 @@ public static class MatchController {
 		Vector3 victoryPos = new Vector3(0, 6, -14.5f);
 		float victoryAngle = 20f;
 		cam.OverwritePosition(victoryPos, victoryAngle, 1);
+		
+		// Hide all healthbars and abilities.
+        foreach (CharacterUI player in (CharacterUI[])Object.FindObjectsOfType(typeof(CharacterUI))) {
+			player.DisablePlayerSpecificUI();
+		}
 		
 		// Play victory or defeat animations for each player depending on if they're on winning team.
 		// Create confetti on top of winning players.

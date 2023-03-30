@@ -9,6 +9,7 @@ public class CharacterAnimation : MonoBehaviour {
 	private CharacterOwner characterOwner;
 	private CharacterControls characterControls;
 	private CharacterHit characterHit;
+	private CharacterHealth characterHealth;
 	
 	[Header("Settings")]
 	private float defaultChargeTime;
@@ -18,13 +19,24 @@ public class CharacterAnimation : MonoBehaviour {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterControls = GetComponent<CharacterControls>();
 		characterHit = GetComponent<CharacterHit>();
+		characterHealth = GetComponent<CharacterHealth>();
 		
 		// Get default charge speed.
         AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
 		foreach(AnimationClip clip in clips)
 			if(clip.name == "Orc_rig|HitCharge")
 				defaultChargeTime = clip.length; 
+		
+		
+		// Subscribe on death event.
+		characterHealth.OnDeath += StartDeathAnimation;
     }
+	
+	void OnDisable() {
+		// Unsubscribe from death event.
+		characterHealth.OnDeath -= StartDeathAnimation;
+	}
+	
 	
 	void Update() {
 		// Adjust walking animation speed depending on the speed of the character.
@@ -54,5 +66,14 @@ public class CharacterAnimation : MonoBehaviour {
 	
 	public void StartDefeatAnimations() {
 		anim.SetTrigger("Lose");
+	}
+	
+	void StartDeathAnimation() {
+		anim.SetTrigger("Death");
+	}
+	
+	public void ResetAnimation() {
+		anim.Rebind();
+		anim.Update(0f);
 	}
 }

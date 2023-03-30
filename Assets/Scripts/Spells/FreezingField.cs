@@ -54,6 +54,7 @@ public class FreezingField : Spell {
 			// Slow each target and create an effect on it, play a sound.
 			foreach(CharacterControls playerToSlow in affectedPlayers) {
 				playerToSlow.TakeSpeed();
+				playerToSlow.GetComponent<CharacterHealth>().DealDamage(1);
 				
 				GameObject magicHitEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/FreezingFieldHit");
 				Vector3 effectHitPosition = playerToSlow.gameObject.transform.position;

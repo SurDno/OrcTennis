@@ -9,6 +9,9 @@ public static class GameController {
 	private static GameState currentState = GameState.Setup;
 	
 	public static void LoadMatch() {
+		foreach (Player player in PlayerHolder.GetPlayers())
+            player.GetCursor().HideCursor();
+		
 		// Load specific level environment first to apply lighting correctly.
 		currentState = GameState.Match;
 		SceneManager.LoadScene(MatchSettings.GetMap().ToString(),  LoadSceneMode.Single);
@@ -33,7 +36,6 @@ public static class GameController {
 
 		currentState = GameState.Setup;
         SceneManager.LoadScene("Setup");
-		Debug.Log("Test");
 		// Stop music.
 		SoundManager.StopMusic();
 	}

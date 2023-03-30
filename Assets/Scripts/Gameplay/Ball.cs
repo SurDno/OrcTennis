@@ -68,6 +68,10 @@ public class Ball : MonoBehaviour{
 		velocity = velocity.normalized * (velocity.magnitude + speed);
 	}
 	
+	public Vector2 GetVelocity() {
+		return velocity;
+	}
+	
 	public void SetKnockbackForce(float newValue) {
 		knockbackForce = newValue;
 	}
