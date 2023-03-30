@@ -122,6 +122,7 @@ public static class MatchController {
 	
 	private static IEnumerator Victory(Player.Team winningTeam) {
 		CoroutinePlayer.StopCoroutine(restartCoroutine);
+		Coroutine fireworks = CoroutinePlayer.StartCoroutine(CreateFireworks());
 		state = MatchState.Victory;
 		
 		// Stop ball wherever it is.
@@ -158,7 +159,19 @@ public static class MatchController {
 		SoundManager.PlayMusic("Victory", 0.5f, false);
 		yield return new WaitForSeconds(SoundManager.GetClipLength("Victory"));
 		
+		CoroutinePlayer.StopCoroutine(fireworks);
 		GameController.ReturnToMenu();
+	}
+	
+	private static IEnumerator CreateFireworks() {
+		// Preload the effect.
+		GameObject prefab = Resources.Load<GameObject>("Prefabs/Magic/VictoryFireworks");
+		
+		while(true) {
+			Vector3 effectPosition = new Vector3(Random.Range(-50f, 50f), -5f, Random.Range(-10, 50));
+			Object.Instantiate(prefab, effectPosition, Quaternion.identity);
+			yield return new WaitForSeconds(0.1f);
+		}
 	}
 	
     public static void ResetScoreData() {

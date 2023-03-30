@@ -44,8 +44,6 @@ public class CharacterHit : MonoBehaviour {
     void Update() {
         if(characterOwner.GetOwner() == null)
 			return;
-		
-		Debug.Log(charging);
 
 		// Don't allow any hits if we're dead or the game is in a Goal / Victory state. If any are ongoing, hit immediately.
 		if(characterHealth.IsDead() ||
