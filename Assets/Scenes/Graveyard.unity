@@ -14,9 +14,9 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2566471, g: 0.247554, b: 0.341599, a: 1}
+  m_IndirectSpecularColor: {r: 0.25623417, g: 0.24754933, b: 0.34157115, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7314,12 +7314,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 211444503}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &216625697 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 560f1caa2c38a3244b43e6e52d7b52cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 655587059}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &224785028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8461,12 +8455,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f5c8b048970ac0b4595deee7550aea2f,
     type: 3}
   m_PrefabInstance: {fileID: 295823389}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &300245381 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: fd2181bb73ea8824bb12c11a7d60e62e,
-    type: 3}
-  m_PrefabInstance: {fileID: 666944745}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &300864685
 PrefabInstance:
@@ -14027,6 +14015,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: floor_segment
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 560f1caa2c38a3244b43e6e52d7b52cb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 560f1caa2c38a3244b43e6e52d7b52cb, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -14318,22 +14310,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 666944745}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &666944747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300245381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d790d4b9445e1246baa9affae12bf46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fogColor: {r: 0.15686275, g: 0.11764706, b: 0.3764706, a: 1}
-  density: 0.001
-  startDistance: 4
-  endDistance: 70
 --- !u!1001 &671159060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31297,22 +31273,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 655587059}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1690748947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 216625697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d790d4b9445e1246baa9affae12bf46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fogColor: {r: 0.15579097, g: 0.115699545, b: 0.3773585, a: 1}
-  density: 0.001
-  startDistance: 4
-  endDistance: 30
 --- !u!1001 &1697891025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32067,6 +32027,55 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1718911324}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1723903288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1723903290}
+  - component: {fileID: 1723903289}
+  m_Layer: 0
+  m_Name: Fog Settings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1723903289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723903288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d790d4b9445e1246baa9affae12bf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogColor: {r: 0.15686275, g: 0.11764706, b: 0.3764706, a: 1}
+  density: 0.001
+  startDistance: 40
+  endDistance: 70
+  fogMode: 1
+--- !u!4 &1723903290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723903288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.284294, y: 3.856088, z: 32.269104}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724047340
 GameObject:
   m_ObjectHideFlags: 0
@@ -48391,7 +48400,7 @@ GameObject:
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!198 &3288148624218542256
 ParticleSystem:
   m_ObjectHideFlags: 0
