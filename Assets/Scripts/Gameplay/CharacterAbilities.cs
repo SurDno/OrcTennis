@@ -37,15 +37,19 @@ public class CharacterAbilities : MonoBehaviour {
         if(characterOwner.GetOwner() == null)
 			return;
 		
-		// If we're not charging right now, switch between abilities using ABXY gamepad buttons.
+		// If we're not charging right now, switch between abilities using ABXY gamepad buttons or D-Pad.
 		if(!characterHit.GetCharging()) {
-			if(GamepadInput.GetNorthButtonDown(characterOwner.GetOwner().GetGamepad()))
+			if(GamepadInput.GetNorthButtonDown(characterOwner.GetOwner().GetGamepad()) ||
+				GamepadInput.GetDPad(characterOwner.GetOwner().GetGamepad()).y > 0)
 				SelectAbilitySafe(0);
-			else if(GamepadInput.GetWestButtonDown(characterOwner.GetOwner().GetGamepad()))
+			else if(GamepadInput.GetWestButtonDown(characterOwner.GetOwner().GetGamepad()) ||
+				GamepadInput.GetDPad(characterOwner.GetOwner().GetGamepad()).x < 0)
 				SelectAbilitySafe(1);
-			else if(GamepadInput.GetSouthButtonDown(characterOwner.GetOwner().GetGamepad()))
+			else if(GamepadInput.GetSouthButtonDown(characterOwner.GetOwner().GetGamepad()) ||
+				GamepadInput.GetDPad(characterOwner.GetOwner().GetGamepad()).y < 0)
 				SelectAbilitySafe(2);
-			else if(GamepadInput.GetEastButtonDown(characterOwner.GetOwner().GetGamepad()))
+			else if(GamepadInput.GetEastButtonDown(characterOwner.GetOwner().GetGamepad()) ||
+				GamepadInput.GetDPad(characterOwner.GetOwner().GetGamepad()).x > 0)
 				SelectAbilitySafe(3);
 		}
 		
