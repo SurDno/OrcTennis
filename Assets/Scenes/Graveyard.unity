@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.25623417, g: 0.24754933, b: 0.34157115, a: 1}
+  m_IndirectSpecularColor: {r: 0.2566471, g: 0.247554, b: 0.341599, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7314,6 +7314,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 211444503}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &216625697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 560f1caa2c38a3244b43e6e52d7b52cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 655587059}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &224785028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8455,6 +8461,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f5c8b048970ac0b4595deee7550aea2f,
     type: 3}
   m_PrefabInstance: {fileID: 295823389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &300245381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: fd2181bb73ea8824bb12c11a7d60e62e,
+    type: 3}
+  m_PrefabInstance: {fileID: 666944745}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &300864685
 PrefabInstance:
@@ -14306,6 +14318,22 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 666944745}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &666944747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300245381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d790d4b9445e1246baa9affae12bf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogColor: {r: 0.15686275, g: 0.11764706, b: 0.3764706, a: 1}
+  density: 0.001
+  startDistance: 4
+  endDistance: 70
 --- !u!1001 &671159060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31269,6 +31297,22 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 655587059}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1690748947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216625697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d790d4b9445e1246baa9affae12bf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogColor: {r: 0.15579097, g: 0.115699545, b: 0.3773585, a: 1}
+  density: 0.001
+  startDistance: 4
+  endDistance: 30
 --- !u!1001 &1697891025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38646,7 +38690,7 @@ Transform:
   m_GameObject: {fileID: 1698670175312672}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0.64108825, y: 17.498947, z: 9.025166}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.4412, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 270599460}
@@ -38842,7 +38886,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.6198825, g: 0.6531188, b: 0.6603774, a: 0.916}
+      maxColor: {r: 0.1780953, g: 0.11347453, b: 0.4716981, a: 0.916}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
