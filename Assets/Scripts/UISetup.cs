@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UISetup : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private Text tip;
-	[SerializeField]private Text[] playerNumbers;
+	[SerializeField]private Image[] playerNumbers;
 	[SerializeField]private Image[] playerColorBlocks;
 	[SerializeField]private Text[] playerReadyStatuses;
 	[SerializeField]private Image[] teamColorBlocks;
