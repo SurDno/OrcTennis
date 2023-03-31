@@ -7,7 +7,7 @@ public class GroundFog : MonoBehaviour
     public float startDistance = 0.1f; // Set the start distance of the fog
     public float endDistance = 20f; // Set the end distance of the fog
 
-    private void Start()
+    private void Update()
     {
         RenderSettings.fog = true; // Enable fog
         RenderSettings.fogColor = fogColor; // Set fog color
