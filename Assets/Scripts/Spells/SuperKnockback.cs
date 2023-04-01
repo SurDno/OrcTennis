@@ -18,6 +18,15 @@ public class SuperKnockback : Spell {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(100, 0, 0, 255);
 		
+		// Disable all previous effects.
+		ball.gameObject.transform.Find("BallEffectKnockback").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectFast").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperKnockback").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperFast").gameObject.SetActive(false);
+		
+		// Enable the one we'd like the ball to have.
+		ball.gameObject.transform.Find("BallEffectSuperKnockback").gameObject.SetActive(true);
+		
 		// Create an effect on top of the hit point.
 		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/ImpactRed");
 		Vector3 effectPosition = ball.gameObject.transform.position;

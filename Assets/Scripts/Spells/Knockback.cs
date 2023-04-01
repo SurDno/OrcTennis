@@ -16,6 +16,10 @@ public class Knockback : Spell {
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(50, 0, 0, 255);
+		ball.gameObject.transform.Find("BallEffectKnockback").gameObject.SetActive(true);
+		ball.gameObject.transform.Find("BallEffectFast").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperKnockback").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperFast").gameObject.SetActive(false);
 		
 		SoundManager.PlaySound("Knockback", 0.2f);
 		

@@ -17,6 +17,15 @@ public class Fast : Spell {
 		Ball ball = Object.FindObjectOfType(typeof(Ball)) as Ball;
 		ball.gameObject.GetComponent<ColorObject>().objColor = new Color32(0, 50, 0, 255);
 		
+		// Disable all previous effects.
+		ball.gameObject.transform.Find("BallEffectKnockback").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectFast").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperKnockback").gameObject.SetActive(false);
+		ball.gameObject.transform.Find("BallEffectSuperFast").gameObject.SetActive(false);
+		
+		// Enable the one we'd like the ball to have.
+		ball.gameObject.transform.Find("BallEffectFast").gameObject.SetActive(true);
+		
 		// TODO: Replace with unique sound.
 		SoundManager.PlaySound("Knockback", 0.2f);
 		

@@ -32,6 +32,13 @@ public class Ball : MonoBehaviour{
 		SetVelocity(Vector2.zero);
 		SetKnockbackForce(0);
 		GetComponent<ColorObject>().objColor = Color.black;
+		
+		// Disable all previous effects.
+		transform.Find("BallEffectKnockback").gameObject.SetActive(false);
+		transform.Find("BallEffectFast").gameObject.SetActive(false);
+		transform.Find("BallEffectSuperKnockback").gameObject.SetActive(false);
+		transform.Find("BallEffectSuperFast").gameObject.SetActive(false);
+		
 		transform.position = new Vector3(0, -2.5f, 0);
 	}
 	
