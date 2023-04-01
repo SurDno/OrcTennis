@@ -50,7 +50,7 @@ public class CharacterHit : MonoBehaviour {
 			MatchController.GetMatchState() == MatchController.MatchState.Goal ||
 			MatchController.GetMatchState() == MatchController.MatchState.Victory) {
 			if(charging)
-				EndCharge();
+				EndCharge(false);
 			return;
 		}
 		
@@ -64,7 +64,7 @@ public class CharacterHit : MonoBehaviour {
 		if(GamepadInput.GetRightTriggerUp(characterOwner.GetOwner().GetGamepad())) {
 			// Check if we can stop charging right now.
 			if(charging) 
-				EndCharge();
+				EndCharge(true);
 		}
     }
 	
@@ -105,9 +105,12 @@ public class CharacterHit : MonoBehaviour {
 		}
 	}
 	
-	void EndCharge() {
+	void EndCharge(bool success) {
 		charging = false;
 		chargingObj.SetActive(false);
+		
+		if(!success)
+			return;
 		
 		// Start hit cooldown.
 		StartCoroutine(Cooldown());
