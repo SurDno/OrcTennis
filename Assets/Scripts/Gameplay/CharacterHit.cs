@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterAbilities))]
 [RequireComponent(typeof(CharacterHealth))]
 public class CharacterHit : MonoBehaviour {
+	// Events
+	public event Action OnCharge;
+	public event Action OnHit;
+	public event Action OnCancel;
+	
 	[Header("Prefabs and Cached Objects")]
 	[SerializeField]private GameObject chargingObj;
 	[SerializeField]private GameObject chargingObjHead;
@@ -45,7 +51,7 @@ public class CharacterHit : MonoBehaviour {
         if(characterOwner.GetOwner() == null)
 			return;
 
-		// Don't allow any hits if we're dead or the game is in a Goal / Victory state. If any are ongoing, hit immediately.
+		// Don't allow any hits if we're dead or the game is in a Goal / Victory state. If any are ongoing, cancel immediately.
 		if(characterHealth.IsDead() ||
 			MatchController.GetMatchState() == MatchController.MatchState.Goal ||
 			MatchController.GetMatchState() == MatchController.MatchState.Victory) {
@@ -81,6 +87,8 @@ public class CharacterHit : MonoBehaviour {
 		chargeMaxTime = characterAbilities.GetSelectedAbility().chargeMaxTime;
 		knockbackValue = characterAbilities.GetSelectedAbility().knockbackValue;
 		
+		OnCharge?.Invoke();
+		
 		StartCoroutine(Charge());
 	}
 	
@@ -109,8 +117,11 @@ public class CharacterHit : MonoBehaviour {
 		charging = false;
 		chargingObj.SetActive(false);
 		
-		if(!success)
+		if(!success) {
+			OnCancel?.Invoke();
 			return;
+		} else 
+			OnHit?.Invoke();
 		
 		// Start hit cooldown.
 		StartCoroutine(Cooldown());
@@ -151,7 +162,7 @@ public class CharacterHit : MonoBehaviour {
 		// Create an effect on top of the hit point.
 		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/ImpactWhite");
 		Vector3 effectPosition = ball.gameObject.transform.position;
-		GameObject instance = Object.Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
+		GameObject instance = Instantiate(magicEffectPrefab, effectPosition, Quaternion.identity);
 		
 		characterAbilities.DestroySelectedAbility();
 	}

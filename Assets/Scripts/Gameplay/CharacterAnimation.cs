@@ -30,11 +30,17 @@ public class CharacterAnimation : MonoBehaviour {
 		
 		// Subscribe on death event.
 		characterHealth.OnDeath += StartDeathAnimation;
+		characterHit.OnCharge += StartChargeAnimation;
+		characterHit.OnHit += StartHitAnimation;
+		characterHit.OnCancel += CancelChargeAnimation;
     }
 	
 	void OnDisable() {
 		// Unsubscribe from death event.
 		characterHealth.OnDeath -= StartDeathAnimation;
+		characterHit.OnCharge -= StartChargeAnimation;
+		characterHit.OnHit -= StartHitAnimation;
+		characterHit.OnCancel -= CancelChargeAnimation;
 	}
 	
 	
@@ -48,15 +54,8 @@ public class CharacterAnimation : MonoBehaviour {
 		float chargeSpeed = defaultChargeTime / characterHit.GetChargeMaxTime();
 		anim.SetFloat("ChargeSpeed", chargeSpeed);
 		
-		// we need to get all necessary values from other scripts firts
-		bool moving = characterControls.GetMoving();
-		bool startCharge = GamepadInput.GetRightTrigger(characterOwner.GetOwner().GetGamepad());
-		bool hit = !GamepadInput.GetRightTrigger(characterOwner.GetOwner().GetGamepad());
-		
-		// And then use it for animation data
-		anim.SetBool("Moving", moving);
-		anim.SetBool("StartCharge", startCharge);
-		anim.SetBool("Hit", hit);
+		// Check if we're moving every frame.
+		anim.SetBool("Moving", characterControls.GetMoving());
 	}
 	
 	public void StartVictoryAnimations() {
@@ -70,6 +69,18 @@ public class CharacterAnimation : MonoBehaviour {
 	
 	void StartDeathAnimation() {
 		anim.SetTrigger("Death");
+	}
+	
+	void StartChargeAnimation() {
+		anim.SetTrigger("StartCharge");
+	}
+	
+	void CancelChargeAnimation() {
+		anim.SetTrigger("CancelCharge");
+	}
+	
+	void StartHitAnimation() {
+		anim.SetTrigger("Hit");
 	}
 	
 	public void ResetAnimation() {
