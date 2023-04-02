@@ -4,15 +4,7 @@ using UnityEngine;
 public class CollectibleObject : MonoBehaviour {
 	private Spawner spawner;
 	private Spell[] abilities = {
-		new SuperKnockback(),
-		new BeastHaste(),
-		new Telekinesis(),
-		new EarthSlam(),
-		new ElectricShield(),
-		new Dash(),
-		new FreezingField(),
-		new KnockbackImmunity(),
-		new MassHeal()
+		new RaiseUndead()
 	};
 
 	private void OnTriggerEnter(Collider other) {

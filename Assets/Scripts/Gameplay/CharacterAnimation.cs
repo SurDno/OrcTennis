@@ -83,6 +83,10 @@ public class CharacterAnimation : MonoBehaviour {
 		anim.SetTrigger("Hit");
 	}
 	
+	public void StartResurrectAnimation() {
+		anim.SetTrigger("Resurrect");
+	}
+	
 	public void ResetAnimation() {
 		anim.Rebind();
 		anim.Update(0f);

@@ -94,6 +94,10 @@ public static class MatchController {
 		}
 	}
 	
+	public static void UnregisterDeath() {
+		livingPlayers++;
+	}
+	
 	static IEnumerator RestartAfterDelay() {
 		yield return new WaitForSeconds(2.0f);
 		
