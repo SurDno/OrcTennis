@@ -121,7 +121,8 @@ public static class MatchController {
         // Reset the ball.
         ((Ball)Object.FindObjectOfType(typeof(Ball))).ResetBall();
 		
-		state = MatchState.Play;
+		if(state == MatchState.Goal)
+			state = MatchState.Play;
     }
 	
 	private static IEnumerator Victory(Player.Team winningTeam) {
