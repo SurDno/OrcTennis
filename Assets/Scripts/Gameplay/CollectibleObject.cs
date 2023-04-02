@@ -13,7 +13,8 @@ public class CollectibleObject : MonoBehaviour {
 		new FreezingField(),
 		new KnockbackImmunity(),
 		new MassHeal(),
-		new RaiseUndead()
+		new RaiseUndead(),
+		new FireShield()
 	};
 
 	private void OnTriggerEnter(Collider other) {
@@ -36,11 +37,11 @@ public class CollectibleObject : MonoBehaviour {
 	}
 	
 	Spell GenerateSpell() {
-		// Don't give Heal ability if periodical damage is disabled.
+		// Don't give Mass Heal, Raise Undead and Fire Shield abilities if periodic damage is disabled.
 		if(MatchSettings.GetPeriodicalDamageEnabled())
 			return abilities[Random.Range(0, abilities.Length)];
 		else 
-			return abilities[Random.Range(0, abilities.Length - 1)];
+			return abilities[Random.Range(0, abilities.Length - 3)];
 	}
 	
 	public void AssignSpawner(Spawner newSpawner) {

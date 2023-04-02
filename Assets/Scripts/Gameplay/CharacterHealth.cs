@@ -18,6 +18,8 @@ public class CharacterHealth : MonoBehaviour {
     private Player.Team team;
 	private int curHealth;
 	private bool dead;
+	private int effects;
+	private bool invulnerability;
 	
 	void Start() {
 		team = GetComponent<CharacterOwner>().GetOwner().GetTeam();
@@ -29,7 +31,8 @@ public class CharacterHealth : MonoBehaviour {
 	
 	IEnumerator CheckForPeriodicalDamage() {
 		while(true) {
-			if(MatchController.GetMatchState() !=  MatchController.MatchState.Victory && !dead) {
+			invulnerability = effects > 0;
+			if(MatchController.GetMatchState() !=  MatchController.MatchState.Victory && !dead && !invulnerability) {
 				switch(team) {
 					case Player.Team.Red:
 						if(transform.position.x < -damageOffset)
@@ -77,6 +80,12 @@ public class CharacterHealth : MonoBehaviour {
 	// If no value is parsed, heal to full HP.
 	public void Heal() {
 		Heal(maxHealth);
+	}
+	
+	
+	// Makes character invulnerable to periodic damage.
+	public void SetInvulnerability(bool invulnerabilityGiven) {
+		effects += invulnerabilityGiven ? 1 : -1;
 	}
 	
 	void Die() {
