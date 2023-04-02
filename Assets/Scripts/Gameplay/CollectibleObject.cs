@@ -12,7 +12,7 @@ public class CollectibleObject : MonoBehaviour {
 		new Dash(),
 		new FreezingField(),
 		new KnockbackImmunity(),
-		new Heal()
+		new MassHeal()
 	};
 
 	private void OnTriggerEnter(Collider other) {
