@@ -18,6 +18,12 @@ public class Ball : MonoBehaviour{
 		else
 			velocity.x = -velocity.x;
 		
+		// Create an effect on top of the hit point.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/BallWallHit");
+		float effectAngle = (Mathf.Abs(col.contacts[0].normal.x) > Mathf.Abs(col.contacts[0].normal.z)) ? (col.contacts[0].normal.x > 0) ? -90f : 90f : (col.contacts[0].normal.z > 0) ? 180f : 0f;
+		Quaternion effectRotation = Quaternion.Euler(0, effectAngle, 0);
+		GameObject instance = Instantiate(magicEffectPrefab, col.contacts[0].point, effectRotation);
+		
 		// If we hit actual wall of the other team, register a goal.
 		int walls = LayerMask.NameToLayer("Walls");
 		if(col.gameObject.layer == walls && Mathf.Abs(col.contacts[0].normal.x) > Mathf.Abs(col.contacts[0].normal.z)) {

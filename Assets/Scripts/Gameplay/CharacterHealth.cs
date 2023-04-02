@@ -29,15 +29,15 @@ public class CharacterHealth : MonoBehaviour {
 	
 	IEnumerator CheckForPeriodicalDamage() {
 		while(true) {
-			if(MatchController.GetMatchState() !=  MatchController.MatchState.Victory) {
+			if(MatchController.GetMatchState() !=  MatchController.MatchState.Victory && !dead) {
 				switch(team) {
 					case Player.Team.Red:
 						if(transform.position.x < -damageOffset)
-							DealDamage(periodicalDamage);
+							DealPeriodicalDamage();
 						break;
 					case Player.Team.Green:
 						if(transform.position.x > damageOffset)
-							DealDamage(periodicalDamage);
+							DealPeriodicalDamage();
 						break;
 				}
 			}
@@ -45,7 +45,20 @@ public class CharacterHealth : MonoBehaviour {
 		}
 	}
 	
+	public void DealPeriodicalDamage() {
+		// Create an effect on top of the hit point.
+		GameObject magicEffectPrefab = Resources.Load<GameObject>("Prefabs/Magic/FireHit");
+		GameObject instance = Instantiate(magicEffectPrefab, transform.position, Quaternion.identity);
+		
+		// Play sound.	
+		SoundManager.PlaySound(new string[] {"FireHit4", "FireHit5"}, 0.3f);
+		
+		// Deal damage.
+		DealDamage(periodicalDamage);
+	}
+	
 	public void DealDamage(int damage) {
+		
 		curHealth -= damage;
 		curHealth = Mathf.Max(curHealth, 0);
 		OnHealthChanged?.Invoke();
