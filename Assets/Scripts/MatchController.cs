@@ -173,7 +173,7 @@ public static class MatchController {
 		yield return new WaitForSeconds(SoundManager.GetClipLength("Victory"));
 		
 		CoroutinePlayer.StopCoroutine(fireworks);
-		GameController.ReturnToMenu();
+		CoroutinePlayer.StartCoroutine(GameController.ReturnToMenu());
 	}
 	
 	private static IEnumerator CreateFireworks() {

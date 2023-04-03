@@ -27,6 +27,7 @@ public class PlayerSetup : MonoBehaviour {
 	private static int goalsNeeded = 15;
 	private static int timerLength = 180;
 	private static bool periodicalDamageEnabled = true;
+	private bool gameStarted;
 
 	// Get references from UI Setup.
 	void Start() {
@@ -60,7 +61,7 @@ public class PlayerSetup : MonoBehaviour {
 				readyPlayers++;
 
 		// If all players are ready and there are more than one in the game, start.
-		if (readyPlayers == players.Length && players.Length > 0)
+		if (readyPlayers == players.Length && players.Length > 0 && !gameStarted)
 			StartMatch();
     }
 	
@@ -199,7 +200,8 @@ public class PlayerSetup : MonoBehaviour {
 	}
 	
 	void StartMatch() {
-		GameController.LoadMatch();
+		gameStarted = true;
+		StartCoroutine(GameController.LoadMatch());
 	}
 	
 	public static int GetAmountOfPlayersInLeftTeam() {

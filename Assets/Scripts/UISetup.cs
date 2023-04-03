@@ -143,4 +143,5 @@ public class UISetup : MonoBehaviour {
 	public Image GetPeriodicalDamageSwitch() {
 		return periodicalDamageSwitch;
 	}
+
 }
