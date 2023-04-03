@@ -21,6 +21,10 @@ public class ScoreManager : MonoBehaviour {
 			remainingTime = MatchSettings.GetMatchTime();
 		else
 			timerText.gameObject.SetActive(false);
+		
+		// See if we need to display score depending on the game mode.
+		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Sandbox)
+			leftTeamScoreText.gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     void Update() {

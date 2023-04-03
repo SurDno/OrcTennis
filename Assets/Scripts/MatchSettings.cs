@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public static class MatchSettings {
-	public enum GameMode {Classic, TimeAttack};
+	public enum GameMode {Classic, TimeAttack, Sandbox};
 	public enum GameMap {Forest, Graveyard, Desert};
 	
 	// Settings

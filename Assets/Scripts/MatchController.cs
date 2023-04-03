@@ -84,6 +84,10 @@ public static class MatchController {
 			else if(goalDuringExtraTime) 
 				CoroutinePlayer.StartCoroutine(Victory(rightTeamScore > leftTeamScore ? Player.Team.Red : Player.Team.Green));
 		}
+		// If we're in Sandbox mode, never declare victory.
+		else if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Sandbox) {
+			Restart();
+		}
 	}
 	
 	// Prevents softlock if all players are dead. 

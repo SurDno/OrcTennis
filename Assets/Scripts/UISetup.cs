@@ -83,7 +83,7 @@ public class UISetup : MonoBehaviour {
 		mapImage.sprite = mapImages[PlayerSetup.GetSelectedMapIndex()];
 		
 		// Display the game mode name for currently selected game mode.
-		gameModeText.text = PlayerSetup.GetGameModeIndex() == 0 ? "Classic" : "Time Attack";
+		gameModeText.text = PlayerSetup.GetGameModeIndex() == 0 ? "Classic" : PlayerSetup.GetGameModeIndex() == 1 ? "Time Attack" : "Sandbox";
 		
 		// Display the other setting according to selected game mode.
 		goalsSettings.SetActive(PlayerSetup.GetGameModeIndex() == 0);

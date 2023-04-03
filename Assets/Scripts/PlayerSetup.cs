@@ -113,14 +113,14 @@ public class PlayerSetup : MonoBehaviour {
 				if(player.GetCursor().CursorOverUI(previousGameModeButton.gameObject)) {
 					gameModeIndex--;
 					if(gameModeIndex == -1)
-						gameModeIndex = 1;
+						gameModeIndex = 2;
 					MatchSettings.SetGameMode((MatchSettings.GameMode)gameModeIndex);
 				}
 				
 				// Change game mode to the next one if the player presses on next game mode button.
 				if(player.GetCursor().CursorOverUI(nextGameModeButton.gameObject)) {
 					gameModeIndex++;
-					if(gameModeIndex == 2)
+					if(gameModeIndex == 3)
 						gameModeIndex = 0;
 					MatchSettings.SetGameMode((MatchSettings.GameMode)gameModeIndex);
 				}
