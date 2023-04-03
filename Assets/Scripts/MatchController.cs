@@ -64,6 +64,10 @@ public static class MatchController {
 		
 		yield return new WaitForSeconds(3f);
 		
+		// If victory due to time was declared while we were waiting, don't restart.
+		if(state == MatchState.Victory)
+			yield break;
+		
 		// If we're in Classic mode, declare victory whenever either team reaches needed amount of goals.
 		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Classic) {
 			if(leftTeamScore >= MatchSettings.GetGoalsTillVictory())
