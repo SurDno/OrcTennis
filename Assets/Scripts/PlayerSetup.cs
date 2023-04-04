@@ -201,7 +201,7 @@ public class PlayerSetup : MonoBehaviour {
 	
 	void StartMatch() {
 		gameStarted = true;
-		StartCoroutine(GameController.LoadMatch());
+		CoroutinePlayer.StartCoroutine(GameController.LoadMatch());
 	}
 	
 	public static int GetAmountOfPlayersInLeftTeam() {

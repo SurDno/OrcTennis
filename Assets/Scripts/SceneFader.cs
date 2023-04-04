@@ -9,8 +9,6 @@ public static class SceneFader {
     private static FadeInStatus status = FadeInStatus.None;
 
     public static IEnumerator FadeIn(float duration) {
-        Debug.Log("called");
-
         if (!fadeInObject)
             CreateFadeInObject();
 
@@ -18,9 +16,7 @@ public static class SceneFader {
         status = FadeInStatus.Fading;
         while (alpha > 0) {
             alpha -= Time.deltaTime / duration;
-            Color c = fadeInObject.color;
-            c.a = alpha;
-            fadeInObject.color = c;
+            fadeInObject.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
         status = FadeInStatus.None;
@@ -34,9 +30,7 @@ public static class SceneFader {
         status = FadeInStatus.Fading;
         while (alpha < 1) {
             alpha += Time.deltaTime / duration;
-            Color c = fadeInObject.color;
-            c.a = alpha;
-            fadeInObject.color = c;
+            fadeInObject.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
         status = FadeInStatus.Faded;
@@ -48,7 +42,6 @@ public static class SceneFader {
         img.color = new Color32(0, 0, 0, 0);
         instance.transform.localScale = new Vector3(100, 100, 100);
         instance.transform.parent = GameObject.Find("CursorCanvas").transform;
-
 
         fadeInObject = img;
     }

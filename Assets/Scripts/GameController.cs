@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 
 // Hold core methods for switching between scenes and accesing information about current game state.
 public static class GameController {
@@ -17,14 +15,10 @@ public static class GameController {
 
 		while(SceneFader.GetFadeInStatus() != SceneFader.FadeInStatus.Faded)
 			yield return null;
-
-        UnityEngine.Debug.Log("faded");
-
+		
 		foreach (Player player in PlayerHolder.GetPlayers())
             player.GetCursor().HideCursor();
 
-
-		
 		// Load specific level environment first to apply lighting correctly.
 		currentState = GameState.Match;
         UnityEngine.AsyncOperation asyncLoadOne = SceneManager.LoadSceneAsync(MatchSettings.GetMap().ToString(),  LoadSceneMode.Single);
@@ -32,12 +26,10 @@ public static class GameController {
         // Load core scene for gameplay additively.
         UnityEngine.AsyncOperation asyncLoadTwo = SceneManager.LoadSceneAsync("GameCore",  LoadSceneMode.Additive);
 
-        while (asyncLoadOne.progress < 0.9f) {
-            UnityEngine.Debug.Log(asyncLoadOne.progress);
+        while (asyncLoadOne.progress < 0.9f || asyncLoadTwo.progress < 0.9f)
             yield return null;
-        }
 
-        // Wait more after the scene is loaded.
+        // Wait more after the scene is loaded for nicer transition on better PCs.
         yield return new WaitForSeconds(0.5f);
 
 		MatchController.Start();
@@ -45,13 +37,13 @@ public static class GameController {
         // Start music.
         SoundManager.PlayMusic("Match", 0.3f, true);
 
-        CoroutinePlayer.StartCoroutine(SceneFader.FadeIn(0.2f));
+        CoroutinePlayer.StartCoroutine(SceneFader.FadeIn(0.5f));
 
     }
 
     // Resets all game info and goes back to game menu.
     public static IEnumerator ReturnToMenu() {
-        CoroutinePlayer.StartCoroutine(SceneFader.FadeIn(0.5f));
+		CoroutinePlayer.StartCoroutine(SceneFader.FadeOut(0.5f));
 
         while (SceneFader.GetFadeInStatus() != SceneFader.FadeInStatus.Faded)
             yield return null;
@@ -67,19 +59,16 @@ public static class GameController {
         currentState = GameState.Setup;
         UnityEngine.AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Setup", LoadSceneMode.Single);
 
-        while (asyncLoad.progress < 0.9f) {
-            UnityEngine.Debug.Log(asyncLoad.progress);
+        while (asyncLoad.progress < 0.9f)
             yield return null;
-        }
 
-        // Wait more after the scene is loaded.
+        // Wait more after the scene is loaded for nicer transition on better PCs.
         yield return new WaitForSeconds(0.5f);
-
 
         // Stop music.
         SoundManager.StopMusic();
 
-        CoroutinePlayer.StartCoroutine(SceneFader.FadeOut(0.2f));
+        CoroutinePlayer.StartCoroutine(SceneFader.FadeIn(0.5f));
     }
 	
 	public static GameState GetGameState() {
