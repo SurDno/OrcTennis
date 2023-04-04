@@ -67,6 +67,20 @@ public static class SoundManager {
 		musicPlayer?.Stop();
 	}
 	
+	public static IEnumerator FadeOutMusic(float duration) {
+		if(!musicPlayer)
+			musicPlayer = CreatePlayer(true);
+		
+		float volumeMultiplier = musicPlayer.volume;
+		float volumePercentage = 1.0f;
+
+        while (volumePercentage > 0) {
+            volumePercentage -= Time.deltaTime / duration;
+			musicPlayer.volume = volumePercentage * volumeMultiplier;
+            yield return null;
+        }
+	}
+	
 	static void PrepareForPlay(AudioClip clip, float volume) {
 		if(!soundPlayer)
 			soundPlayer = CreatePlayer(false);

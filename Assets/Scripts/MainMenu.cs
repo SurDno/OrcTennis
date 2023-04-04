@@ -11,9 +11,8 @@ public class MainMenu : MonoBehaviour {
 	public GameObject SetupGameObject;
 	public GameObject MainMenuGameObject;
 	
-    void Start()
-    {
-		
+    void Start() {
+        SoundManager.PlayMusic("Menu", 0.3f, true);
     }
 
     // Update is called once per frame

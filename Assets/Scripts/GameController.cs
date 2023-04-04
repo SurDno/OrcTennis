@@ -12,6 +12,7 @@ public static class GameController {
 	
 	public static IEnumerator LoadMatch() {
 		CoroutinePlayer.StartCoroutine(SceneFader.FadeOut(0.5f));
+		CoroutinePlayer.StartCoroutine(SoundManager.FadeOutMusic(0.5f));
 
 		while(SceneFader.GetFadeInStatus() != SceneFader.FadeInStatus.Faded)
 			yield return null;
@@ -52,8 +53,6 @@ public static class GameController {
             player.GetCursor().ShowCursor();
             player.ResetPlayerData();
         }
-
-        MatchController.ResetScoreData();
         PlayerSetup.ResetSetupData();
 
         currentState = GameState.Setup;
@@ -65,8 +64,7 @@ public static class GameController {
         // Wait more after the scene is loaded for nicer transition on better PCs.
         yield return new WaitForSeconds(0.5f);
 
-        // Stop music.
-        SoundManager.StopMusic();
+        MatchController.ResetScoreData();
 
         CoroutinePlayer.StartCoroutine(SceneFader.FadeIn(0.5f));
     }
