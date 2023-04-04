@@ -54,7 +54,7 @@ public class CharacterHealth : MonoBehaviour {
 		GameObject instance = Instantiate(magicEffectPrefab, transform.position, Quaternion.identity);
 		
 		// Play sound.	
-		SoundManager.PlaySound(new string[] {"FireHit4", "FireHit5"}, 0.3f);
+		SoundManager.PlaySound("FireDamage", 0.3f);
 		
 		// Deal damage.
 		DealDamage(periodicalDamage);
