@@ -96,6 +96,9 @@ public static class MatchController {
 		
 		// If there are no alive players, check ball horizontal velocity. If it's too low, restart. Else we can wait for the collision.
 		if(livingPlayers == 0) {
+			if(state == MatchState.Goal)
+				return;
+			
 			float ballHorizontalVelocity = ((Ball)Object.FindObjectOfType(typeof(Ball))).GetVelocity().x;
 			if(Mathf.Abs(ballHorizontalVelocity) < 1f)
 				restartCoroutine = CoroutinePlayer.StartCoroutine(RestartAfterDelay());
