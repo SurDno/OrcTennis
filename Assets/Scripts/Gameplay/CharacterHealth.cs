@@ -54,7 +54,7 @@ public class CharacterHealth : MonoBehaviour {
 		GameObject instance = Instantiate(magicEffectPrefab, transform.position, Quaternion.identity);
 		
 		// Play sound.	
-		SoundManager.PlaySound("FireDamage", 0.3f);
+		SoundManager.PlaySound("FireDamage", 0.5f);
 		
 		// Deal damage.
 		DealDamage(periodicalDamage);
@@ -91,7 +91,7 @@ public class CharacterHealth : MonoBehaviour {
 	void Die() {
 		dead = true;
 		OnDeath?.Invoke();
-		MatchController.RegisterDeath();
+		MatchController.RegisterDeath(this);
 	}
 	
 	public float GetHealthPercentage() {

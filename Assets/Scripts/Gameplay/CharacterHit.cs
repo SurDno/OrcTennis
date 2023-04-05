@@ -131,7 +131,7 @@ public class CharacterHit : MonoBehaviour {
 			
 		// If we're too far, ignore hit.
 		if(dist > maxHitDistance) {
-			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.2f);
+			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.35f);
 			characterAbilities.DestroySelectedAbility();
 			return;
 		}
@@ -143,7 +143,7 @@ public class CharacterHit : MonoBehaviour {
         // If we're not facing the ball, ignore hit.
 		// With 1 for same direction and -1 for opposite direction, 0.5f value effectively gives us a 120 degree window (cos 60 = 0.5)
         if (dot < 0.5f) {
-			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.2f);
+			SoundManager.PlaySound(new string[] {"HitMiss1", "HitMiss2", "HitMiss3"}, 0.35f);
 			characterAbilities.DestroySelectedAbility();
 			return;
 		}
