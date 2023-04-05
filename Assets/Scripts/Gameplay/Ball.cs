@@ -24,6 +24,10 @@ public class Ball : MonoBehaviour{
 		Quaternion effectRotation = Quaternion.Euler(0, effectAngle, 0);
 		GameObject instance = Instantiate(magicEffectPrefab, col.contacts[0].point, effectRotation);
 		
+		// If we're in Sandbox mode, don't do anything else cause there is no scoring.
+		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Sandbox)
+			return;
+		
 		// If we hit actual wall of the other team, register a goal.
 		int walls = LayerMask.NameToLayer("Walls");
 		if(col.gameObject.layer == walls && Mathf.Abs(col.contacts[0].normal.x) > Mathf.Abs(col.contacts[0].normal.z)) {

@@ -90,8 +90,14 @@ public static class MatchController {
 		}
 	}
 	
-	// Prevents softlock if all players are dead. 
-	public static void RegisterDeath() {
+	public static void RegisterDeath(CharacterHealth deadPlayer) {
+		// In Sandbox mode, dont track deaths and just respawn players.
+		if(MatchSettings.GetGameMode() == MatchSettings.GameMode.Sandbox) {
+			CoroutinePlayer.StartCoroutine(ResurrectAfterDelay(deadPlayer));
+			return;
+		}
+		
+		// In other modes, prevents softlock if all players are dead.
 		livingPlayers--;
 		
 		// If there are no alive players, check ball horizontal velocity. If it's too low, restart. Else we can wait for the collision.
@@ -103,6 +109,12 @@ public static class MatchController {
 			if(Mathf.Abs(ballHorizontalVelocity) < 1f)
 				restartCoroutine = CoroutinePlayer.StartCoroutine(RestartAfterDelay());
 		}
+	}
+	
+	public static IEnumerator ResurrectAfterDelay(CharacterHealth deadPlayer) {
+		yield return new WaitForSeconds(3.0f);
+		
+		deadPlayer.GetComponent<CharacterControls>().Respawn();
 	}
 	
 	public static void UnregisterDeath() {
