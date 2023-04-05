@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class MainMenu : MonoBehaviour {
@@ -11,6 +12,11 @@ public class MainMenu : MonoBehaviour {
 	public GameObject MainMenuGameObject;
 	public GameObject ControlsGameObject;
 	public GameObject CreditsGameObject;
+	[SerializeField]private Image[] backButtons;
+	[SerializeField]private Image quitButton;
+	[SerializeField]private Image creditsButton;
+	[SerializeField]private Image controlsButton;
+	[SerializeField]private Image setupButton;
 	private static PlayerCursor mainMenuCursor;
 	
 	[Header("Settings")]
@@ -45,12 +51,32 @@ public class MainMenu : MonoBehaviour {
 		
 		if(Input.GetKey(KeyCode.Escape))
 			GoBackToMainMenu();
+		
+		// Virtual cursor support for menu buttons.
+		if(mainMenuCursor.IsCursorPressed()) {
+			foreach(Image button in backButtons)
+				if(mainMenuCursor.CursorOverUI(button.gameObject))
+					GoBackToMainMenu();
+				
+			if(mainMenuCursor.CursorOverUI(quitButton.gameObject))
+				Quit();
+				
+			if(mainMenuCursor.CursorOverUI(setupButton.gameObject))
+				GoToSetup();
+				
+			if(mainMenuCursor.CursorOverUI(creditsButton.gameObject))
+				GoToCredits();
+				
+			if(mainMenuCursor.CursorOverUI(controlsButton.gameObject))
+				GoToControls();
+		}
     }
 	
 	public void GoToSetup() {
 		setupMenuEnabled = true;
 		MainMenuGameObject.SetActive(false);
 		SetupGameObject.SetActive(true);
+		Cursor.visible = false;
 		
 		// Hide main cursor, display player cursors.
 		SwitchCursors();
@@ -62,6 +88,7 @@ public class MainMenu : MonoBehaviour {
 		SetupGameObject.SetActive(false);
 		ControlsGameObject.SetActive(false);
 		CreditsGameObject.SetActive(false);
+		Cursor.visible = true;
 		
 		PlayerSetup.ResetSetupData();
 		

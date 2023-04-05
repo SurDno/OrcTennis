@@ -4523,6 +4523,13 @@ MonoBehaviour:
   MainMenuGameObject: {fileID: 553004177}
   ControlsGameObject: {fileID: 1151260096}
   CreditsGameObject: {fileID: 1618032369}
+  backButtons:
+  - {fileID: 2092722789}
+  - {fileID: 1529396721}
+  quitButton: {fileID: 477197623}
+  creditsButton: {fileID: 642079179}
+  controlsButton: {fileID: 1452150236}
+  setupButton: {fileID: 1479995744}
 --- !u!4 &413692694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 6cb92e17cbb6f1d4eac10b628a2bea0f,
@@ -6642,7 +6649,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 401441167}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: GoToSetup
+        m_MethodName: GoToCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -100,7 +100,7 @@ public class PlayerCursor {
 	// Checks if this fake cursor is currently on given UI object.
 	public bool CursorOverUI(GameObject obj) {
 		//If we're disconnected, always return false.
-		if(owner.GetDisconnected())
+		if(owner != null && owner.GetDisconnected())
 			return false;
 		
 		// Check if we need to recache references.
