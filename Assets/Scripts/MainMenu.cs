@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
 	public GameObject SetupGameObject;
 	public GameObject MainMenuGameObject;
 	public GameObject ControlsGameObject;
+	public GameObject CreditsGameObject;
 	private static PlayerCursor mainMenuCursor;
 	
 	[Header("Settings")]
@@ -60,6 +61,7 @@ public class MainMenu : MonoBehaviour {
 		MainMenuGameObject.SetActive(true);
 		SetupGameObject.SetActive(false);
 		ControlsGameObject.SetActive(false);
+		CreditsGameObject.SetActive(false);
 		
 		PlayerSetup.ResetSetupData();
 		
@@ -70,6 +72,11 @@ public class MainMenu : MonoBehaviour {
 	public void GoToControls() {
 		MainMenuGameObject.SetActive(false);
 		ControlsGameObject.SetActive(true);
+	}
+	
+	public void GoToCredits() {
+		MainMenuGameObject.SetActive(false);
+		CreditsGameObject.SetActive(true);
 	}
 	
 	public void Quit() {
