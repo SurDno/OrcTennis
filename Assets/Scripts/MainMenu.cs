@@ -3,49 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
-    public GameObject Camera1;
-	public GameObject Camera2;
+	[Header("Prefabs and Cached Objects")]
 	public GameObject cameraMoving;
-	public float cameraLerpValue;
-	public bool setupMenuEnabled;
 	public GameObject SetupGameObject;
 	public GameObject MainMenuGameObject;
+	private static PlayerCursor mainMenuCursor;
+	
+	[Header("Settings")]
+	private Vector3 setupCameraPos = new Vector3(63.45f, 2.45f, 25.25f);
+	private Vector3 setupCameraRot = new Vector3(85, -108, 0);
+	private Vector3 mainMenuCameraPos = new Vector3(66.5f, 5.5f, 17);
+	private Vector3 mainMenuCameraRot = new Vector3(11, -2, 5);
+	
+	[Header("Current Values")]
+	private bool setupMenuEnabled;
+	private float cameraLerpValue;
 	
     void Start() {
         SoundManager.PlayMusic("Menu", 0.3f, true);
+		
+		// If we don't have a cursor saved from previous time we opened main menu, create a new one.
+		if(mainMenuCursor == null)
+			mainMenuCursor = new PlayerCursor(Resources.Load<GameObject>("Prefabs/Cursor"), 0.7f, null);
+		
+		GoBackToMainMenu();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-		// lerp camera between two positions
-        if(cameraLerpValue < 1 && setupMenuEnabled) 
-		{
-			cameraLerpValue += Time.deltaTime;
-		}
+    void Update() {
+		// Lerp camera between two positions
+		cameraLerpValue += setupMenuEnabled ? Time.deltaTime : -Time.deltaTime;
+		cameraLerpValue = Mathf.Clamp(cameraLerpValue, 0f, 1f);
+		cameraMoving.transform.position = Vector3.Lerp(mainMenuCameraPos, setupCameraPos, cameraLerpValue);
+		cameraMoving.transform.eulerAngles = Vector3.Lerp(mainMenuCameraRot, setupCameraRot, cameraLerpValue);
 		
-		if(cameraLerpValue > 0 && ! setupMenuEnabled)
-		{
-			cameraLerpValue -= Time.deltaTime;
-		}
-		
-		if(cameraLerpValue > 1) {
-			cameraLerpValue = 1;
-		}
-		
-		if(cameraLerpValue < 0) {
-			cameraLerpValue = 0;
-		}
-		
-		Vector3 positionOfCamera = Vector3.Lerp(Camera1.transform.position, Camera2.transform.position, cameraLerpValue);
-		Vector3 rotationOfCamera = Vector3.Lerp(Camera1.transform.eulerAngles, Camera2.transform.eulerAngles, cameraLerpValue);
-		
-		cameraMoving.transform.position = positionOfCamera;
-		cameraMoving.transform.eulerAngles = rotationOfCamera;
-		
-		// enable menu we need
-		SetupGameObject.SetActive(setupMenuEnabled);
-		MainMenuGameObject.SetActive(!setupMenuEnabled);
+		mainMenuCursor.UpdateCursorPosition();
 		
 		if(setupMenuEnabled && Input.GetKey(KeyCode.Escape))
 			GoBackToMainMenu();
@@ -53,9 +45,23 @@ public class MainMenu : MonoBehaviour {
 	
 	public void GoToSetup() {
 		setupMenuEnabled = true;
+		MainMenuGameObject.SetActive(false);
+		SetupGameObject.SetActive(true);
+		
+		// Display main cursor, hide player cursors.
+		mainMenuCursor.HideCursor();
+        foreach (Player player in PlayerHolder.GetPlayers())
+            player.GetCursor().ShowCursor();
 	}
 	
 	public void GoBackToMainMenu() {
 		setupMenuEnabled = false;
+		MainMenuGameObject.SetActive(true);
+		SetupGameObject.SetActive(false);
+		
+		// Hide main cursor, display player cursors.
+		mainMenuCursor.ShowCursor();
+        foreach (Player player in PlayerHolder.GetPlayers())
+            player.GetCursor().HideCursor();
 	}
 }

@@ -45,7 +45,7 @@ public class PlayerCursor {
 		Object.DontDestroyOnLoad(newInst.transform.root.gameObject);
 		
 		Image newInstImage = newInst.GetComponent<Image>();
-		newInstImage.color = owner.GetColor();
+		newInstImage.color = (owner != null) ? owner.GetColor() : Color.white;
 		
 		return newInstImage;
 	}
@@ -62,7 +62,8 @@ public class PlayerCursor {
 		Vector3 tempPos = cursorImage.gameObject.transform.position;
 		
 		// Calculate position change from gamepad input and cursor sensitivity value. Make it FPS and screen width independent.
-		Vector3 positionChange = (Vector3)GamepadInput.GetLeftStick(owner.GetGamepad()) * Time.deltaTime * cursorSensitivity * Screen.width;
+		InputDevice gamepad = (owner != null) ? owner.GetGamepad() : Gamepad.current;
+		Vector3 positionChange = (Vector3)GamepadInput.GetLeftStick(gamepad) * Time.deltaTime * cursorSensitivity * Screen.width;
 		tempPos += positionChange;
 			
 		// Limit cursor position within screen boundaries.
@@ -73,7 +74,8 @@ public class PlayerCursor {
 	
 	// Returns whether cursor is currently pressed.
 	public bool IsCursorPressed() {
-		return GamepadInput.GetSouthButtonDown(owner.GetGamepad()) && !GetCursorHidden();
+		InputDevice gamepad = (owner != null) ? owner.GetGamepad() : Gamepad.current;
+		return GamepadInput.GetSouthButtonDown(gamepad) && !GetCursorHidden();
 	}
 	
 	// Returns the current position of cursor in pixels.
@@ -84,7 +86,7 @@ public class PlayerCursor {
 	// Checks if this fake cursor is currently on given 3D mesh.
 	public bool CursorOverObject(GameObject obj) {
 		//If we're disconnected, always return false.
-		if(owner.GetDisconnected())
+		if(owner != null && owner.GetDisconnected())
 			return false;
 		
 		// Shoot a raycast from cursor position.
