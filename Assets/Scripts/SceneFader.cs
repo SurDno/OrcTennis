@@ -40,9 +40,10 @@ public static class SceneFader {
         GameObject instance = new GameObject();
         Image img = instance.AddComponent<Image>();
         img.color = new Color32(0, 0, 0, 0);
+		img.raycastTarget = false;
         instance.transform.localScale = new Vector3(100, 100, 100);
-        instance.transform.parent = GameObject.Find("CursorCanvas").transform;
-
+        instance.transform.parent = GameObject.Find("FadeOutCanvas").transform;
+		Object.DontDestroyOnLoad(img.transform.root);
         fadeInObject = img;
     }
 
