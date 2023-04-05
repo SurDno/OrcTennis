@@ -31,6 +31,7 @@ public class UISetup : MonoBehaviour {
 	[SerializeField]private Text goalsText;
 	[SerializeField]private Image periodicalDamageSwitch;
 	[SerializeField]private Sprite[] switchStates;
+	[SerializeField]private Image backButton;
 	
 	void Update() {
 		UpdateUI();
@@ -142,6 +143,10 @@ public class UISetup : MonoBehaviour {
 	
 	public Image GetPeriodicalDamageSwitch() {
 		return periodicalDamageSwitch;
+	}
+	
+	public Image GetBackButton() {
+		return backButton;
 	}
 
 }

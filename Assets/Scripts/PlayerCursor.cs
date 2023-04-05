@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class PlayerCursor {
 	[Header("Prefabs and Cached Objects")]
 	private EventSystem eventSystem;
-	private GraphicRaycaster graphicRaycaster;
 	
 	[Header("Unique Properties")]
 	private Player owner;
@@ -23,7 +22,7 @@ public class PlayerCursor {
 		this.cursorImage = InstantiateCursor(cursorPrefab);
 		SetCursorToTheCenterOfTheScreen();
 		
-		// Cash references we're gonna use latter.
+		// Cache references we're gonna use latter.
 		CacheReferences();
 	}
 	
@@ -32,10 +31,6 @@ public class PlayerCursor {
 		GameObject eventSystemGO = GameObject.Find("EventSystem");
 		if(eventSystemGO != null)
 			eventSystem = eventSystemGO.GetComponent<EventSystem>();
-		
-		GameObject graphicRaycasterGO = GameObject.Find("UICanvas");
-		if(graphicRaycasterGO != null)
-			graphicRaycaster = graphicRaycasterGO.GetComponent<GraphicRaycaster>();
 	}
 	
 	// Spawns a new cursor instance from the given prefab, and gets it to the center of the screen.
@@ -109,8 +104,10 @@ public class PlayerCursor {
 			return false;
 		
 		// Check if we need to recache references.
-		if(graphicRaycaster == null || eventSystem == null)
+		if(eventSystem == null)
 			CacheReferences();
+		
+		GraphicRaycaster graphicRaycaster = obj.transform.root.GetComponent<GraphicRaycaster>();
 		
 		// Shoot a UI raycast from cursor position.
 		PointerEventData cursorData = new PointerEventData(eventSystem);

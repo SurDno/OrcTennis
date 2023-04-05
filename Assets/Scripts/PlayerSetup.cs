@@ -17,6 +17,8 @@ public class PlayerSetup : MonoBehaviour {
 	private Image lessGoalsButton;
 	private Image moreGoalsButton;
 	private Image periodicalDamageSwitch;
+	private Image backButton;
+	private MainMenu menuScript;
 	
 	[Header("Current Settings")]
 	private static Player[] playerByTeamBlockIndex = new Player[6];
@@ -32,6 +34,7 @@ public class PlayerSetup : MonoBehaviour {
 	// Get references from UI Setup.
 	void Start() {
 		UISetup setup = GetComponent<UISetup>();
+		menuScript = GetComponent<MainMenu>();
 		
 		teamColorBlocks = setup.GetTeamColorBlocks();
 		leaveTeamButton = setup.GetLeaveTeamButton();
@@ -45,6 +48,7 @@ public class PlayerSetup : MonoBehaviour {
 		lessGoalsButton = setup.GetLessGoalsButton();
 		moreGoalsButton = setup.GetMoreGoalsButton();
 		periodicalDamageSwitch = setup.GetPeriodicalDamageSwitch();
+		backButton = setup.GetBackButton();
 	}
 	
     void Update() {
@@ -162,6 +166,11 @@ public class PlayerSetup : MonoBehaviour {
 				if(player.GetCursor().CursorOverUI(periodicalDamageSwitch.gameObject)) {
 					periodicalDamageEnabled = !periodicalDamageEnabled;
 					MatchSettings.SetPeriodicalDamageValue(periodicalDamageEnabled);
+				}
+				
+				// Exit local multiplayer menu if the player presses on back.
+				if(player.GetCursor().CursorOverUI(backButton.gameObject)) {
+					menuScript.GoBackToMainMenu();
 				}
 			}
 		}

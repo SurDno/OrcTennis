@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MainMenu : MonoBehaviour {
 	[Header("Prefabs and Cached Objects")]
@@ -48,10 +50,8 @@ public class MainMenu : MonoBehaviour {
 		MainMenuGameObject.SetActive(false);
 		SetupGameObject.SetActive(true);
 		
-		// Display main cursor, hide player cursors.
-		mainMenuCursor.HideCursor();
-        foreach (Player player in PlayerHolder.GetPlayers())
-            player.GetCursor().ShowCursor();
+		// Hide main cursor, display player cursors.
+		SwitchCursors();
 	}
 	
 	public void GoBackToMainMenu() {
@@ -59,9 +59,40 @@ public class MainMenu : MonoBehaviour {
 		MainMenuGameObject.SetActive(true);
 		SetupGameObject.SetActive(false);
 		
-		// Hide main cursor, display player cursors.
-		mainMenuCursor.ShowCursor();
-        foreach (Player player in PlayerHolder.GetPlayers())
-            player.GetCursor().HideCursor();
+		PlayerSetup.ResetSetupData();
+		
+		// Display main cursor if we've got connected gamepads, hide player cursors.
+		SwitchCursors();
+	}
+	
+	// Call the function to see if we need to show gamepad cursor upon any device connection and disconnection.
+	void OnEnable() {
+		InputSystem.onDeviceChange += SwitchCursors;
+	}
+
+	void OnDisable() {
+		InputSystem.onDeviceChange -= SwitchCursors;
+	}
+	
+	// Overload needed for proper OnDeviceChange subscription.
+	void SwitchCursors(InputDevice device, InputDeviceChange change) {
+		SwitchCursors();
+	}
+	
+	void SwitchCursors() {
+		if(setupMenuEnabled) {
+			foreach (Player player in PlayerHolder.GetPlayers())
+				player.GetCursor().ShowCursor();
+				
+			mainMenuCursor.HideCursor();
+		} else {
+			foreach (Player player in PlayerHolder.GetPlayers())
+				player.GetCursor().HideCursor();
+				
+			if(InputSystem.devices.Any(device => device is Gamepad))
+				mainMenuCursor.ShowCursor();
+			else
+				mainMenuCursor.HideCursor();
+		}
 	}
 }
