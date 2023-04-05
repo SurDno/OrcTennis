@@ -14,13 +14,16 @@ public class ResourcePreloader : MonoBehaviour {
     void Start() {
 		UnityEngine.Object.DontDestroyOnLoad(this.gameObject);
         StartCoroutine(LoadResources());
+        StartCoroutine(PlayLoadingAnimation());
     }
-	
-	void Update() {
-		if(loadingImage != null)
-			loadingImage.transform.eulerAngles = new Vector3(0, 0, loadingImage.transform.eulerAngles.z - Time.deltaTime * 5);
-	}
 
+	IEnumerator PlayLoadingAnimation() {
+		while(loadingImage != null) {
+			loadingImage.transform.eulerAngles = new Vector3(0, 0, loadingImage.transform.eulerAngles.z - 30);
+			for(int i = 0; i < 5; i++)
+				yield return new WaitForFixedUpdate();
+		}
+	}
 	IEnumerator LoadResources() {
 		loadingText.text = "Preloading Audio...";
 		yield return null;
