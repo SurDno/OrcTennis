@@ -9,7 +9,7 @@ public class MassHeal : Spell {
 	protected override bool singleUse => true;
 	
 	public override IEnumerator Cast(CharacterAbilities casterRef) {
-		SoundManager.PlaySound("Heal", 0.5f);
+		SoundManager.PlaySound("Heal", 0.8f);
 		
         foreach (CharacterHealth player in (CharacterHealth[])Object.FindObjectsOfType(typeof(CharacterHealth))) {
 			// Ignore all hostile players.
