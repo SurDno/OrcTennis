@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour {
 	public GameObject cameraMoving;
 	public GameObject SetupGameObject;
 	public GameObject MainMenuGameObject;
+	public GameObject ControlsGameObject;
 	private static PlayerCursor mainMenuCursor;
 	
 	[Header("Settings")]
@@ -41,7 +42,7 @@ public class MainMenu : MonoBehaviour {
 		
 		mainMenuCursor.UpdateCursorPosition();
 		
-		if(setupMenuEnabled && Input.GetKey(KeyCode.Escape))
+		if(Input.GetKey(KeyCode.Escape))
 			GoBackToMainMenu();
     }
 	
@@ -58,11 +59,21 @@ public class MainMenu : MonoBehaviour {
 		setupMenuEnabled = false;
 		MainMenuGameObject.SetActive(true);
 		SetupGameObject.SetActive(false);
+		ControlsGameObject.SetActive(false);
 		
 		PlayerSetup.ResetSetupData();
 		
 		// Display main cursor if we've got connected gamepads, hide player cursors.
 		SwitchCursors();
+	}
+	
+	public void GoToControls() {
+		MainMenuGameObject.SetActive(false);
+		ControlsGameObject.SetActive(true);
+	}
+	
+	public void Quit() {
+		Application.Quit();
 	}
 	
 	// Call the function to see if we need to show gamepad cursor upon any device connection and disconnection.
