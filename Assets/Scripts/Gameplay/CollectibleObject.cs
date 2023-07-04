@@ -12,9 +12,9 @@ public class CollectibleObject : MonoBehaviour {
 		new Dash(),
 		new FreezingField(),
 		new KnockbackImmunity(),
+		new FireShield(),
 		new MassHeal(),
-		new RaiseUndead(),
-		new FireShield()
+		new RaiseUndead()
 	};
 
 	private void OnTriggerEnter(Collider other) {
@@ -38,10 +38,13 @@ public class CollectibleObject : MonoBehaviour {
 	
 	Spell GenerateSpell() {
 		// Don't give Mass Heal, Raise Undead and Fire Shield abilities if periodic damage is disabled.
-		if(MatchSettings.GetPeriodicalDamageEnabled())
-			return abilities[Random.Range(0, abilities.Length)];
-		else 
+		if(!MatchSettings.GetPeriodicalDamageEnabled())
 			return abilities[Random.Range(0, abilities.Length - 3)];
+		// Don't give Mass Heal and Raise Undead if playing 1v1. TODO: Actually check if the team has allies because 2v1 is still possible.
+		else if(PlayerHolder.GetPlayers().Length <= 2)
+			return abilities[Random.Range(0, abilities.Length - 2)];
+		else
+			return abilities[Random.Range(0, abilities.Length)];
 	}
 	
 	public void AssignSpawner(Spawner newSpawner) {
