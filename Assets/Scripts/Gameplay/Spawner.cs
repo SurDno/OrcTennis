@@ -4,7 +4,7 @@ using System.Collections;
 public class Spawner : MonoBehaviour {
 	[Header("Settings")]
 	[SerializeField] private GameObject objectToSpawn;
-    [SerializeField] private float spawnDelay = 1f;
+    private float defaultSpawnDelay = 10f;
 	
     void Start () {
         SpawnObject();
@@ -24,8 +24,12 @@ public class Spawner : MonoBehaviour {
     }
 	
 	public IEnumerator RespawnAfterDelay() {
-		yield return new WaitForSeconds(spawnDelay);
+		yield return new WaitForSeconds(CalculateSpawnDelay());
 		
 		SpawnObject();
+	}
+	
+	public float CalculateSpawnDelay() {
+		return defaultSpawnDelay * 2 / PlayerHolder.GetPlayers().Length;
 	}
 }
