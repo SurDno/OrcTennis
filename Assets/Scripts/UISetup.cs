@@ -33,9 +33,7 @@ public class UISetup : MonoBehaviour {
 	[SerializeField]private Sprite[] switchStates;
 	[SerializeField]private Image backButton;
 	
-	void Update() {
-		UpdateUI();
-	}
+	void Update() => UpdateUI();
 	
 	void UpdateUI() {
 		// Get active players for current frame.
@@ -97,56 +95,18 @@ public class UISetup : MonoBehaviour {
 		
 	}
 	
-	public Image[] GetTeamColorBlocks() {
-		return teamColorBlocks;
-	}
-	
-	public Image GetLeaveTeamButton() {
-		return leaveTeamButton;
-	}
-	
-	public Image GetReadyButton() {
-		return readyButton;
-	}
-	
-	public Image GetPreviousMapButton() {
-		return previousMapButton;
-	}
-	
-	public Image GetNextMapButton() {
-		return nextMapButton;
-	}
-	
-	public Image GetPreviousGameModeButton() {
-		return previousGameModeButton;
-	}
-	
-	public Image GetNextGameModeButton() {
-		return nextGameModeButton;
-	}
-	
-	public Image GetLessTimeButton() {
-		return lessTimeButton;
-	}
-
-	public Image GetMoreTimeButton() {
-		return moreTimeButton;
-	}
-	
-	public Image GetLessGoalsButton() {
-		return lessGoalsButton;
-	}
-	
-	public Image GetMoreGoalsButton() {
-		return moreGoalsButton;
-	}
-	
-	public Image GetPeriodicalDamageSwitch() {
-		return periodicalDamageSwitch;
-	}
-	
-	public Image GetBackButton() {
-		return backButton;
-	}
+	public Image[] GetTeamColorBlocks() => teamColorBlocks;
+	public Image GetLeaveTeamButton() => leaveTeamButton;
+	public Image GetReadyButton() => readyButton;
+	public Image GetPreviousMapButton() => previousMapButton;
+	public Image GetNextMapButton() => nextMapButton;
+	public Image GetPreviousGameModeButton() => previousGameModeButton;
+	public Image GetNextGameModeButton() => nextGameModeButton;
+	public Image GetLessTimeButton() => lessTimeButton;
+	public Image GetMoreTimeButton() => moreTimeButton;
+	public Image GetLessGoalsButton() => lessGoalsButton;
+	public Image GetMoreGoalsButton() => moreGoalsButton;
+	public Image GetPeriodicalDamageSwitch() => periodicalDamageSwitch;
+	public Image GetBackButton() => backButton;
 
 }

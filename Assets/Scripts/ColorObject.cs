@@ -4,7 +4,5 @@ using UnityEngine;
 public class ColorObject : MonoBehaviour {
 	public Color objColor;
 	
-    void Update() {
-        GetComponent<Renderer>().material.color = objColor;
-    }
+    void Update() => GetComponent<Renderer>().material.color = objColor;
 }

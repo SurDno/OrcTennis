@@ -34,6 +34,10 @@ public class PlayerHolder : MonoBehaviour {
 				CreateNewPlayer(device);
 				lowestAvailablePlayerIndex++;
 			}
+		CreateNewPlayer(Keyboard.current);
+		players[lowestAvailablePlayerIndex].SetReady(true);
+		lowestAvailablePlayerIndex++;
+		
     }
 
 	void Update() {

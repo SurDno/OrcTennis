@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(CharacterOwner))]
 [RequireComponent(typeof(CharacterControls))]
@@ -15,19 +16,15 @@ public class CharacterAnimation : MonoBehaviour {
 	private float defaultChargeTime;
 
 	// Initializing cached GameObjects and Components.
-    void Start() {
+    private void Start() {
 		characterOwner = GetComponent<CharacterOwner>();
 		characterControls = GetComponent<CharacterControls>();
 		characterHit = GetComponent<CharacterHit>();
 		characterHealth = GetComponent<CharacterHealth>();
 		
 		// Get default charge speed.
-        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
-		foreach(AnimationClip clip in clips)
-			if(clip.name == "Orc_rig|HitCharge")
-				defaultChargeTime = clip.length; 
-		
-		
+		defaultChargeTime = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Orc_rig|HitCharge").length;
+
 		// Subscribe on death event.
 		characterHealth.OnDeath += StartDeathAnimation;
 		characterHit.OnCharge += StartChargeAnimation;
@@ -35,7 +32,7 @@ public class CharacterAnimation : MonoBehaviour {
 		characterHit.OnCancel += CancelChargeAnimation;
     }
 	
-	void OnDisable() {
+	private void OnDisable() {
 		// Unsubscribe from death event.
 		characterHealth.OnDeath -= StartDeathAnimation;
 		characterHit.OnCharge -= StartChargeAnimation;
@@ -43,49 +40,26 @@ public class CharacterAnimation : MonoBehaviour {
 		characterHit.OnCancel -= CancelChargeAnimation;
 	}
 	
-	
-	void Update() {
+	private void Update() {
 		// Adjust walking animation speed depending on the speed of the character.
 		int effects = characterControls.GetEffects();
 		float walkSpeed = (effects == 0) ? 1f : (effects > 0) ? 2.0f : 0.5f;
 		anim.SetFloat("WalkSpeed", walkSpeed);
 		
 		// Adjust charging speed animation so that it gets covered in maxChargeTime seconds.
-		float chargeSpeed = defaultChargeTime / characterHit.GetChargeMaxTime();
-		anim.SetFloat("ChargeSpeed", chargeSpeed);
+		anim.SetFloat("ChargeSpeed", defaultChargeTime / characterHit.GetChargeMaxTime());
 		
 		// Check if we're moving every frame.
 		anim.SetBool("Moving", characterControls.GetMoving());
 	}
 	
-	public void StartVictoryAnimations() {
-		anim.SetTrigger("Win" + Random.Range(1, 4));
-		
-	}
-	
-	public void StartDefeatAnimations() {
-		anim.SetTrigger("Lose");
-	}
-	
-	void StartDeathAnimation() {
-		anim.SetTrigger("Death");
-	}
-	
-	void StartChargeAnimation() {
-		anim.SetTrigger("StartCharge");
-	}
-	
-	void CancelChargeAnimation() {
-		anim.SetTrigger("CancelCharge");
-	}
-	
-	void StartHitAnimation() {
-		anim.SetTrigger("Hit");
-	}
-	
-	public void StartResurrectAnimation() {
-		anim.SetTrigger("Resurrect");
-	}
+	public void StartVictoryAnimations() => anim.SetTrigger("Win" + Random.Range(1, 4));
+	public void StartDefeatAnimations() => anim.SetTrigger("Lose");
+	private void StartDeathAnimation() => anim.SetTrigger("Death");
+	private void StartChargeAnimation() => anim.SetTrigger("StartCharge");
+	private void CancelChargeAnimation() => anim.SetTrigger("CancelCharge");
+	private void StartHitAnimation() => anim.SetTrigger("Hit");
+	public void StartResurrectAnimation() => anim.SetTrigger("Resurrect");
 	
 	public void ResetAnimation() {
 		anim.Rebind();

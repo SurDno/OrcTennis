@@ -27,22 +27,8 @@ public abstract class Spell {
 	public virtual float chargeMaxTime {get; }
 	public virtual float knockbackValue {get; }
 	
-	public virtual IEnumerator Charge(CharacterAbilities casterRef) { yield break; }
-	public virtual void EndCharge(CharacterAbilities casterRef) { return; }
-
-	public Sprite GetIcon() {
-		return Resources.Load<Sprite>(pathToIcon);
-	}
-	
-	public string GetName() {
-		return name;
-	}
-
-	public CastType GetCastType() {
-		return type;
-	}
-	
-	public bool GetSingleUse() {
-		return singleUse;
-	}
+	public Sprite GetIcon() => Resources.Load<Sprite>(pathToIcon);
+	public string GetName() => name;
+	public CastType GetCastType() => type;
+	public bool GetSingleUse() => singleUse;
 }

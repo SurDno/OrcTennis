@@ -26,51 +26,20 @@ public class Player {
 		this.controlledCursor = new PlayerCursor(cursorPrefab, cursorSensitivity, this);
 	}
 	
-	// Returns the controlled gamepad.
-	public InputDevice GetGamepad() {
-		return controlledGamepad;
-	}
+	// Getter methods
+	public bool GetUsingGamepad() => usingGamepad;
+	public InputDevice GetGamepad() => controlledGamepad;
+	public PlayerCursor GetCursor() => controlledCursor;
+	public CharacterOwner GetCharacter() => controlledCharacter;
+	public Color GetColor() => color;
+	public bool GetDisconnected() => disconnected;
+	public bool GetReady() => ready;
+	public Team GetTeam() => chosenTeam;
 	
-	// Returns the controlled cursor.
-	public PlayerCursor GetCursor() {
-		return controlledCursor;
-	}
-	
-	public CharacterOwner GetCharacter() {
-		return controlledCharacter;
-	}
-	
-	public void SetCharacter(CharacterOwner newValue) {
-		controlledCharacter = newValue;
-	}
-	
-	// Returns the player cursor.
-	public Color GetColor() {
-		return color;
-	}
-	
-	// Returns if the player is disconnected.
-	public bool GetDisconnected() {
-		return disconnected;
-	}
-	
-	// Returns if the player is ready.
-	public bool GetReady() {
-		return ready;
-	}
-	
-	public void SetReady(bool newValue) {
-		ready = newValue;
-	}
-	
-	// Returns what team the player is in.
-	public Team GetTeam() {
-		return chosenTeam;
-	}
-	
-	public void SetTeam(Team newValue) {
-		chosenTeam = newValue;
-	}
+	// Setter methods
+	public void SetCharacter(CharacterOwner newValue) => controlledCharacter = newValue;
+	public void SetReady(bool newValue) => ready = newValue;
+	public void SetTeam(Team newValue) => chosenTeam = newValue;
 	
 	public void Disconnect() {
 		controlledCursor.HideCursor();
