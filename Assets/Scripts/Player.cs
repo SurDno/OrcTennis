@@ -27,7 +27,6 @@ public class Player {
 	}
 	
 	// Getter methods
-	public bool GetUsingGamepad() => usingGamepad;
 	public InputDevice GetGamepad() => controlledGamepad;
 	public PlayerCursor GetCursor() => controlledCursor;
 	public CharacterOwner GetCharacter() => controlledCharacter;

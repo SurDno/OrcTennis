@@ -188,7 +188,7 @@ public static class MatchController {
 		yield return new WaitForSeconds(SoundManager.GetClipLength("Victory"));
 		
 		CoroutinePlayer.StopCoroutine(fireworks);
-		if(GameController.GetGameState() != GameState.Setup)
+		if(GameController.GetGameState() != GameController.GameState.Setup)
 			CoroutinePlayer.StartCoroutine(GameController.ReturnToMenu());
 	}
 	
